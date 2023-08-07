@@ -54,6 +54,7 @@ import { provider } from "../firebase";
  
          localStorage.setItem("user", JSON.stringify(user)); 
          localStorage.setItem("isAuth", true); 
+         localStorage.setItem("roleId", 2); 
  
         setIsAuth(true);
         navigate("/");
