@@ -7,7 +7,7 @@ export const permissions = [
   },
   {
     roleId: 2,
-    permission: ["dashboard", "zone", "depot", "territory","dealer","dashscheduleboard"],
+    permission: ["dashboard",'national', "zone", "depot", "territory","dealer","dashscheduleboard"],
   },
 ];
 export function hasPermission(roleId, permissionToCheck) {

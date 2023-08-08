@@ -22,8 +22,8 @@ const Sidebar = ({ isAuth, rolId }) => {
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "dashboard") && isAuth && (
-        <Link className="" to="dashboard">
+      {hasPermission(rolId, "national") && isAuth && (
+        <Link className="" to="national">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
             <i className="fa fa-bar-chart "></i>
             <p className="w3-small h6">National</p>
