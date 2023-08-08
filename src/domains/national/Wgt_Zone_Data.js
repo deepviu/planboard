@@ -30,7 +30,7 @@ export const Wgt_Zone_Data = [
       achieved: "40",
       achieved_percentage: "12",
     },{
-      id: 3,
+      id: 4,
       title: "West",
       bg: "w3-orange",
       ly: "130",
