@@ -11,6 +11,8 @@ import { rolePermission, zoneData } from "../../auth/middleware";
 const Zone = () => {
   const [selectedZone, setSelectedZone] = useState(0);
   const [filteredZones, setFilteredZones] = useState([]);
+  const [selectedDepot, setSelectedDepot] = useState(0);
+  const [filteredDepots, setFilteredDepots] = useState([]);
 
   useEffect(() => {
     const permissions = rolePermission()?.permissions;
@@ -24,7 +26,16 @@ const Zone = () => {
   }, []);
 
   const handleZoneChange = (e) => {
-    setSelectedZone(parseInt(e.target.value, 10));
+    const Id=parseInt(e.target.value, 10);
+    setSelectedZone(Id);
+    const filteredDepots = Wgt_Depotwise_Data.filter((item) =>
+         item.zoneId==Id
+      );
+      setFilteredDepots(filteredDepots)
+  };
+
+  const handleDepotChange = (e) => {
+    setSelectedDepot(parseInt(e.target.value, 10));    
   };
   return (
     <div className=" main ">
@@ -114,7 +125,7 @@ const Zone = () => {
             <th> YTD (%) </th>
           </tr>
 
-          {Wgt_Depotwise_Data.map((data) => (
+          {filteredDepots?.map((data) => (
             <Wgt_Depotwise_Ui key={data.id} data={data} />
           ))}
         </table>
@@ -145,10 +156,10 @@ const Zone = () => {
 
         <div class="w3-col l3 m3 s6 ">
           <form>
-            <select className="form-control ">
-              <option value="">-Selec Depot -- </option>
-              <option value="All">Depot : Ambala</option>
-              <option value="All">Depot : Delhi-Naraina </option>
+            <select className="form-control">              
+              <option value="All" selected>Depot : All</option>
+              <option value="Ambala">Depot : Ambala</option>
+              <option value="Delhi-Naraina">Depot : Delhi-Naraina </option>
               <option value="Jalandhar">Depot : Jalandhar</option>
             </select>
           </form>

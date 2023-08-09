@@ -39,4 +39,14 @@ export const Wgt_Zone_Data = [
       achieved: "80",
       achieved_percentage: "12",
     },
+    ,{
+      id: 5,
+      title: "Other",
+      bg: "w3-orange",
+      ly: "130",
+      target: "160",
+      target_percentage: "26",
+      achieved: "80",
+      achieved_percentage: "12",
+    },
   ];

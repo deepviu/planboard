@@ -1,6 +1,7 @@
 export const Wgt_Depotwise_Data = [
     {
       id: 1,
+      zoneId:1,
       depot: "Delhi-Naraina",
       territorys: "6", 
       dealers: "116", 
@@ -12,6 +13,7 @@ export const Wgt_Depotwise_Data = [
     },  
     {
       id: 2,
+      zoneId:1,
       depot: "Ambala",
       territorys: "5", 
       dealers: "146", 
@@ -24,6 +26,7 @@ export const Wgt_Depotwise_Data = [
 
     {
       id: 3,
+      zoneId:2,
       depot: "Gurgaon",
       territorys: "5", 
       dealers: "146", 
@@ -36,6 +39,7 @@ export const Wgt_Depotwise_Data = [
 
     {
       id: 4,
+      zoneId:3,
       depot: "Jalandhar",
       territorys: "5", 
       dealers: "146", 
@@ -49,6 +53,7 @@ export const Wgt_Depotwise_Data = [
 
     {
       id: 5,
+      zoneId:1,
       depot: "Jammu",
       territorys: "5", 
       dealers: "146", 
@@ -62,6 +67,7 @@ export const Wgt_Depotwise_Data = [
 
     {
       id: 6,
+      zoneId:4,
       depot: "Ludhiana",
       territorys: "5", 
       dealers: "146", 
@@ -75,6 +81,7 @@ export const Wgt_Depotwise_Data = [
 
     {
       id: 7,
+      zoneId:2,
       depot: "Nebsarai",
       territorys: "5", 
       dealers: "146", 
@@ -88,6 +95,7 @@ export const Wgt_Depotwise_Data = [
 
     {
       id: 8,
+      zoneId:3,
       depot: "Zirakpur [Himachal]",
       territorys: "5", 
       dealers: "146", 
@@ -101,6 +109,7 @@ export const Wgt_Depotwise_Data = [
 
     {
       id: 9,
+      zoneId:1,
       depot: "Zirakpur",
       territorys: "5", 
       dealers: "146", 

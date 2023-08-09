@@ -26,7 +26,7 @@ const zonepermision = [
   },
   {
     roleId: 2,
-    permissions: [1, 2,4],
+    permissions: [1, 2,4,5],
   },
 ];
 export function hasPermission(roleId, permissionToCheck) {
@@ -64,5 +64,9 @@ export const zoneData = [
   {
     id: 4,
     name: "West",
+  },
+  {
+    id: 5,
+    name: "Other",
   },
 ];
