@@ -10,9 +10,13 @@ import { rolePermission, zoneData } from "../../auth/middleware";
 
 const Zone = () => {
   const [selectedZone, setSelectedZone] = useState(0);
+  const [selectedZones, setSelectedZones] = useState("all");
   const [filteredZones, setFilteredZones] = useState([]);
+  const [filteredZone, setFilteredZone] = useState([]);
   const [selectedDepot, setSelectedDepot] = useState(0);
   const [filteredDepots, setFilteredDepots] = useState([]);
+  const [filteredDepot, setFilteredDepot] = useState([]);
+
 
   useEffect(() => {
     const permissions = rolePermission()?.permissions;
@@ -20,19 +24,50 @@ const Zone = () => {
       const filteredZoness = zoneData.filter((item) =>
         permissions.includes(item.id)
       );
+      const filteredDepots = Wgt_Depotwise_Data.filter((item) =>
+      item.zoneId==(permissions.length > 0 ? permissions[0] : 0)
+   );
+      setFilteredDepots(filteredDepots)
       setFilteredZones(filteredZoness);
       setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
     }
   }, []);
-
+  useEffect(() => {
+    if (selectedZones === "all") {
+      const filteredDepots = Wgt_Territory_Data.filter((item) =>
+      item.zoneId==selectedZone
+   );
+   setFilteredDepot(filteredDepots)
+    }
+  },[selectedZones, selectedZone]);
   const handleZoneChange = (e) => {
     const Id=parseInt(e.target.value, 10);
     setSelectedZone(Id);
+    setFilteredDepot([])
     const filteredDepots = Wgt_Depotwise_Data.filter((item) =>
          item.zoneId==Id
       );
       setFilteredDepots(filteredDepots)
   };
+  const handleTerriChange = (e) => {
+    const selectedValue = e.target.value;
+    if (selectedValue === "all") {
+      setFilteredDepot([])
+      const filteredDepots = Wgt_Territory_Data.filter((item) =>
+      item.zoneId==selectedZone
+   );
+   setFilteredDepot(filteredDepots)
+   setSelectedZones('all');
+    } else {
+    const Id=parseInt(e.target.value, 10);
+    setSelectedZones(Id);
+    const filteredDepots = Wgt_Territory_Data.filter((item) =>
+         item.depotId==Id
+      );
+      setFilteredDepot(filteredDepots)
+    }
+  };
+
 
   const handleDepotChange = (e) => {
     setSelectedDepot(parseInt(e.target.value, 10));    
@@ -43,7 +78,7 @@ const Zone = () => {
         <div class="w3-col l3 m3 s6 w3-right">
           <form>
             <select className="form-control" value={selectedZone}  onChange={handleZoneChange}>
-              <option value=""> Select Zone </option>
+              <option value="" selected> Select Zone </option>
               {filteredZones.map((item) => (
                 <option
                   value={item?.id}
@@ -156,11 +191,20 @@ const Zone = () => {
 
         <div class="w3-col l3 m3 s6 ">
           <form>
-            <select className="form-control">              
-              <option value="All" selected>Depot : All</option>
+            <select className="form-control"  value={selectedZones} onChange={handleTerriChange}> 
+            <option value="all" >All Territories</option>
+            {filteredDepots.map((item) => (
+                <option
+                  value={item?.id}
+                  key={item?.id}
+                >
+                  {item.depot}
+                </option>
+              ))}             
+              {/* <option value="All" selected>Depot : All</option>
               <option value="Ambala">Depot : Ambala</option>
               <option value="Delhi-Naraina">Depot : Delhi-Naraina </option>
-              <option value="Jalandhar">Depot : Jalandhar</option>
+              <option value="Jalandhar">Depot : Jalandhar</option> */}
             </select>
           </form>
         </div>
@@ -182,7 +226,7 @@ const Zone = () => {
             <th> YTD (%) </th>
           </tr>
 
-          {Wgt_Territory_Data.map((data) => (
+          {filteredDepot.map((data) => (
             <Wgt_Territory_Ui key={data.id} data={data} />
           ))}
         </table>

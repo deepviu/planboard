@@ -70,3 +70,21 @@ export const zoneData = [
     name: "Other",
   },
 ];
+export const Territoty = [
+  {
+    id: 1,
+    name: "All",
+  },
+  {
+    id: 2,
+    name: "Ambala",
+  },
+  {
+    id: 3,
+    name: "Delhi-Naraina",
+  },
+  {
+    id: 4,
+    name: "Jalandhar",
+  },
+];
