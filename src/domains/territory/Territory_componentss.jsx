@@ -4,7 +4,7 @@ import { Wgt_Territory_Data } from "./Wgt_Territory_Data";
 import Wgt_Territory_Table_Data from "./Wgt_Territory_Table_Data";
 import Wgt_Territory_OSODCP_Table_Data from "./Wgt_Territory_OSODCP_Table_Data";
 
-const Territory_Componentss = ({ depotsData, selectedDepot = "all" }) => {
+const Territory_Componentss = ({ depotsData, selectedDepot = "all"  }) => {
   const [filtereTerretory, setFiltereTerretory] = useState([]);
   const [filtereDepot, setFiltereDepot] = useState([]);
   const [selectedDepots, setSelectedDepots] = useState("all");
@@ -35,12 +35,14 @@ const Territory_Componentss = ({ depotsData, selectedDepot = "all" }) => {
         };
       });
       setFiltereDepot(idAndDepotArray);
+      setSelectedDepots(selectedValue);
     } else {
       const Id = parseInt(e.target.value, 10);
       const filteredDepots = Wgt_Territory_Data.filter(
         (item) => item.depotId == Id
       );
       setFiltereTerretory(filteredDepots);
+      setSelectedDepots(Id);
     }
   };
 
