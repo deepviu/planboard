@@ -6,84 +6,46 @@ import { Wgt_Depotwise_Data } from "./Wgt_Depotwise_Data";
 
 import Wgt_Territory_Ui from "./Wgt_Territory_Ui";
 import { Wgt_Territory_Data } from "./Wgt_Territory_Data";
-import { rolePermission, zoneData } from "../../auth/middleware";
+import { Territoty, rolePermission, zoneData } from "../../auth/middleware";
+import Territory_Componentss from "../territory/Territory_componentss";
+import Depot_componentss from "../depot/Depot_componentss";
 
 const Zone = () => {
   const [selectedZone, setSelectedZone] = useState(0);
-  const [selectedZones, setSelectedZones] = useState("all");
   const [filteredZones, setFilteredZones] = useState([]);
-  const [filteredZone, setFilteredZone] = useState([]);
-  const [selectedDepot, setSelectedDepot] = useState(0);
   const [filteredDepots, setFilteredDepots] = useState([]);
-  const [filteredDepot, setFilteredDepot] = useState([]);
-
 
   useEffect(() => {
     const permissions = rolePermission()?.permissions;
     if (permissions) {
       const filteredZoness = zoneData.filter((item) =>
         permissions.includes(item.id)
-      );
-      const filteredDepots = Wgt_Depotwise_Data.filter((item) =>
-        item.zoneId == (permissions.length > 0 ? permissions[0] : 0)
-      );
-      setFilteredDepots(filteredDepots)
+      );      
       setFilteredZones(filteredZoness);
       setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
     }
   }, []);
-  useEffect(() => {
-    if (selectedZones === "all") {
-      const filteredDepots = Wgt_Territory_Data.filter((item) =>
-        item.zoneId == selectedZone
-      );
-      setFilteredDepot(filteredDepots)
-    }
-  }, [selectedZones, selectedZone]);
+   
   const handleZoneChange = (e) => {
     const Id = parseInt(e.target.value, 10);
-    setSelectedZone(Id);
-    setFilteredDepot([])
-    const filteredDepots = Wgt_Depotwise_Data.filter((item) =>
-      item.zoneId == Id
-    );
-    setFilteredDepots(filteredDepots)
-  };
-  const handleTerriChange = (e) => {
-    const selectedValue = e.target.value;
-    if (selectedValue === "all") {
-      setFilteredDepot([])
-      const filteredDepots = Wgt_Territory_Data.filter((item) =>
-        item.zoneId == selectedZone
-      );
-      setFilteredDepot(filteredDepots)
-      setSelectedZones('all');
-    } else {
-      const Id = parseInt(e.target.value, 10);
-      setSelectedZones(Id);
-      const filteredDepots = Wgt_Territory_Data.filter((item) =>
-        item.depotId == Id
-      );
-      setFilteredDepot(filteredDepots)
-    }
-  };
-
-
-  const handleDepotChange = (e) => {
-    setSelectedDepot(parseInt(e.target.value, 10));
+    setSelectedZone(Id);     
   };
   return (
     <div className=" main ">
       <div class="w3-row w3-padding-16">
         <div class="w3-col l3 m3 s6 w3-right">
           <form>
-            <select className="form-control" value={selectedZone} onChange={handleZoneChange}>
-              <option value="" selected> Select Zone </option>
+            <select
+              className="form-control"
+              value={selectedZone}
+              onChange={handleZoneChange}
+            >
+              <option value="" selected>
+                {" "}
+                Select Zone{" "}
+              </option>
               {filteredZones.map((item) => (
-                <option
-                  value={item?.id}
-                  key={item?.id}
-                >
+                <option value={item?.id} key={item?.id}>
                   {item.name}
                 </option>
               ))}
@@ -123,114 +85,13 @@ const Zone = () => {
           <i className="w3-text-gray"> (12%) </i>
         </div>
       </div>
-
-      <div class="w3-row w3-row-padding w3-padding-16 w3-margin-top  w3-margin-bottom w3-white ">
-        <div class="w3-col l6 m6 s6 ">
-          <span className="w3-xlarge">
-            Depot
-            <span className=" w3-text-gray w3-opacity">[Sales Plan ]</span>
-          </span>
-          <br />
-          <span className=" w3-text-red w3-small">
-            <i className="fa fa-lock"></i> Locked
-          </span>
-          <span className=" w3-text-gray  w3-small w3-opacity">
-            <i className="fa fa-pencil"></i> Update
-          </span>
-        </div>
-
-        <div class="w3-col l3 m3 s6 w3-right">
-          <form>
-            <select className="form-control ">
-              <option value=""> Sales Plan </option>
-              <option value="All"> OS / OD / Collection Plan </option>
-              <option value="All"> Other </option>
-            </select>
-          </form>
-        </div>
-
-        <table class="w3-table table-stripped w3-white table-bordered ">
-          <tr>
-            <th>
-              Depot <br />
-              <i className="w3-text-gray"> T.(6) , Dlrs.(234) </i>
-            </th>
-            <th> LY-22-23 </th>
-            <th> Target (%) </th>
-            <th> YTD (%) </th>
-          </tr>
-
-          {filteredDepots?.map((data) => (
-            <Wgt_Depotwise_Ui key={data.id} data={data} />
-          ))}
-        </table>
-      </div>
+      <Depot_componentss selectedZone={selectedZone}  setFilteredDepots={setFilteredDepots}/>
 
       <div class="w3-row w3-padding-16"></div>
-
-      <div class="w3-row w3-row-padding w3-padding-16 w3-margin-top  w3-margin-bottom w3-white ">
-        <div class="w3-col l6 m6 s6 ">
-          <span className="w3-xlarge">
-            {" "}
-            Territory{" "}
-            <span className=" w3-text-gray w3-opacity">
-              {" "}
-              [Sales Plan ]
-            </span>{" "}
-          </span>
-          <br />
-          <span className=" w3-text-red w3-small">
-            {" "}
-            <i className="fa fa-lock"></i> Locked{" "}
-          </span>
-          <span className=" w3-text-gray  w3-small w3-opacity">
-            {" "}
-            <i className="fa fa-pencil"></i> Update{" "}
-          </span>
-        </div>
-
-        <div class="w3-col l3 m3 s6 ">
-          <form>
-            <select className="form-control" value={selectedZones} onChange={handleTerriChange}>
-              <option value="all" >All Territories</option>
-              {filteredDepots.map((item) => (
-                <option
-                  value={item?.id}
-                  key={item?.id}
-                >
-                  {item.depot}
-                </option>
-              ))}
-              {/* <option value="All" selected>Depot : All</option>
-              <option value="Ambala">Depot : Ambala</option>
-              <option value="Delhi-Naraina">Depot : Delhi-Naraina </option>
-              <option value="Jalandhar">Depot : Jalandhar</option> */}
-            </select>
-          </form>
-        </div>
-
-        <div class="w3-col l3 m3 s6 w3-right">
-          <form>
-            <select className="form-control " >
-              <option value=""> Sales Plan </option>
-              <option value="cp"> OS / OD / Collection Plan </option>
-              <option value="ap"> Activity Plan </option>
-            </select>
-          </form>
-        </div>
-        <table class="w3-table table-stripped w3-white table-bordered ">
-          <tr>
-            <th> Territory</th>
-            <th> LY-22-23 </th>
-            <th> Target (%) </th>
-            <th> YTD (%) </th>
-          </tr>
-
-          {filteredDepot.map((data) => (
-            <Wgt_Territory_Ui key={data.id} data={data} />
-          ))}
-        </table>
-      </div>
+      <Territory_Componentss
+        depotsData={filteredDepots}
+        selectedDepot={"all"}
+      />
 
       <div class="w3-row w3-padding-16"></div>
     </div>
