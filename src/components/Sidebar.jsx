@@ -2,12 +2,11 @@ import { Link } from "react-router-dom";
 
 import icon from "../images/icon.png";
 import { hasPermission } from "../auth/middleware";
-import { useEffect } from "react";
 
 const Sidebar = ({ isAuth, rolId }) => {
   return (
     <div className="w3-sidebar w3-bar-block w3-hide-small  ">
-      {hasPermission(rolId, "dashboard") && isAuth && (
+      {hasPermission(rolId, "dashboard")  && (
         <Link className="" to="dashboard">
           <button className="w3-bar-item w3-button w3-center w3-hover-none">
             <img src={icon} alt="" className="" style={{ width: "38px" }} />
@@ -15,14 +14,14 @@ const Sidebar = ({ isAuth, rolId }) => {
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "dashboard") && isAuth && (
+      {hasPermission(rolId, "dashboard")  && (
         <Link className="" to="dashboard">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center w3-hover-none">
             <p className=" w3-small h6">FY-23-24 </p>
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "national") && isAuth && (
+      {hasPermission(rolId, "national")  && (
         <Link className="" to="national">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
             <i className="fa fa-bar-chart "></i>
@@ -30,7 +29,7 @@ const Sidebar = ({ isAuth, rolId }) => {
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "zone") && isAuth && (
+      {hasPermission(rolId, "zone")  && (
         <Link className="" to="zone">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
             <i className="fa fa-bar-chart "></i>
@@ -38,7 +37,7 @@ const Sidebar = ({ isAuth, rolId }) => {
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "depot") && isAuth && (
+      {hasPermission(rolId, "depot")  && (
         <Link className="" to="depot">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
             <i className="fa fa-bar-chart "></i>
@@ -46,7 +45,7 @@ const Sidebar = ({ isAuth, rolId }) => {
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "territory") && isAuth && (
+      {hasPermission(rolId, "territory")  && (
         <Link className="" to="territory">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
             <i className="fa  fa-bar-chart "></i>
@@ -54,7 +53,7 @@ const Sidebar = ({ isAuth, rolId }) => {
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "dealer") && isAuth && (
+      {hasPermission(rolId, "dealer")  && (
         <Link className="" to="dealer">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
             <i className="fa fa-bar-chart "></i>
@@ -62,7 +61,7 @@ const Sidebar = ({ isAuth, rolId }) => {
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "dashscheduleboard") && isAuth && (
+      {hasPermission(rolId, "dashscheduleboard")  && (
         <Link className="" to="schedule">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
             <i className="fa fa-bar-chart "></i>

@@ -1,17 +1,33 @@
-import React from "react";
-
 export const permissions = [
   {
-    roleId: 1,
-    permission: ["dashboard", "zone"],
-  },
-  {
-    roleId: 2,
+    roleId: "ZM",
     permission: [
-      "dashboard",
-      "national",
       "zone",
       "depot",
+      "territory",
+      "dealer",
+      "dashscheduleboard",
+    ],
+  },
+  {
+    roleId:"DM",
+    permission: [       
+      "depot",
+      "territory",
+      "dealer",
+      "dashscheduleboard",
+    ],
+  },
+  {
+    roleId:"TM",
+    permission: [             
+      "territory",
+      "dealer",
+      "dashscheduleboard",
+    ],
+  },{
+    roleId:"AM",
+    permission: [             
       "territory",
       "dealer",
       "dashscheduleboard",
@@ -24,12 +40,10 @@ const zonepermision = [
     roleId: 1,
     permissions: [1, 2, 3, 4],
   },
-  {
-    roleId: 2,
-    permissions: [1, 2,4,5],
-  },
+  
 ];
 export function hasPermission(roleId, permissionToCheck) {
+
   const role = permissions.find((role) => {
     return role.roleId === roleId;
   });
@@ -43,7 +57,7 @@ export function rolePermission() {
   const roleId = parseInt(localStorage.getItem("roleId"));
 
   const role = zonepermision.find((role) => {
-    return role.roleId === roleId;
+    return role.roleId === 1;
   });
   return role;
 }
