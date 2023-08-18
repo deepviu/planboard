@@ -24,6 +24,9 @@ const National = () => {
   const [selectedZone, setSelectedZone] = useState(0);
   const [filteredZones, setFilteredZones] = useState([]);
   const [filteredZonesData, setFilteredZonesData] = useState([]);
+  console.log("🚀 ~ file: National.jsx:27 ~ National ~ filteredZonesData:", filteredZonesData)
+  const [data, setData] = useState(null);
+  console.log("🚀 ~ file: National.jsx:28 ~ National ~ id:", data)
 
   const [visibility, setVisibility] = useState(false);
   const [visibility1, setVisibility1] = useState(false);
@@ -43,6 +46,7 @@ const National = () => {
     setVisibility3(e);
   };
 
+
   useEffect(() => {
     const permissions = rolePermission()?.permissions;
     if (permissions) {
@@ -52,14 +56,27 @@ const National = () => {
       const filteredZoness = zoneData.filter((item) =>
         permissions.includes(item.id)
       );
+     const  zoneId=2;//permissions.length > 0 ? permissions[0] : 0;
+      setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
+      const filteredZonesNew = filteredZoness.filter((item) =>
+        item.id==zoneId
+      );
+       
+      setData(filteredZonesNew[0]);
       setFilteredZonesData(filteredZonessData);
       setFilteredZones(filteredZoness);
-      setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
+     
     }
   }, []);
 
-  const handleZoneSelect = (event) => {
-    setSelectedZone(event.target.value);
+  const handleZoneSelect = (data) => {
+    setSelectedZone(data?.id);
+    
+    const filteredZonesNew = filteredZones.filter((item) =>
+        item.id==data?.id
+      );
+console.log('filteredZonesNew',filteredZonesNew);
+      setData(filteredZonesNew[0]);
   };
 
   return (
@@ -115,10 +132,10 @@ const National = () => {
         class="Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
       >
         {filteredZonesData.map((data) => (
-          <Wgt_Zone_Ui key={data.id} data={data} />
+          <Wgt_Zone_Ui key={data.id} data={data} setId={handleZoneSelect}/>
         ))}
       </div>
-
+     
       <div class="w3-clear w3-padding-16"> </div>
 
       <div
@@ -129,21 +146,20 @@ const National = () => {
           <div className="w3-clear ">
             <div class="w3-col l3 m3 s6 ">
               <span className=" w3-xlarge w3-left ">
-                <i className="fa fa-bar-chart "></i> North
+                <i className="fa fa-bar-chart "></i>{data?.name}
               </span>
             </div>
 
             <div class="w3-col l3 m3 s6 w3-right">
               <form>
                 <select className="form-control">
-                  <option value="North" selected>
+                  <option value="North"  selected={data?.name === "North"}>
                     {" "}
                     North{" "}
                   </option>
-                  <option value="South">South </option>
-                  <option value="East"> East </option>
-                  <option value="West"> West </option>
-                  <option value="West"> ... </option>
+                  <option value="South"  selected={data?.name === "South"}>South </option>
+                  <option value="East"  selected={data?.name === "East"}> East </option>
+                  <option value="West"  selected={data?.name === "West"}> West </option>
                 </select>
               </form>
             </div>
@@ -152,7 +168,7 @@ const National = () => {
           <div className="w3-clear w3-padding"> </div>
 
           <div className="w3-col l3 m3 s12 ">
-            <span className="w3-xxlarge"> 70 </span> Cr.
+            <span className="w3-xxlarge"> 10 </span> Cr.
             <br />
             <span className="w3-small h6"> LLY 21-22 </span>
             <br />
@@ -299,7 +315,7 @@ const National = () => {
       >
         <p className=" w3-xlarge ">
           {" "}
-          <i className="fa fa-bar-chart "></i> Market Sector (Breakdown){" "}
+          <i className="fa fa-bar-chart "></i> Market Sector (Breakdown){" "}{data?.name}
         </p>{" "}
         <hr />
         {Wgt_Marketsector_Data.map((data) => (

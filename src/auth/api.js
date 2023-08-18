@@ -9,6 +9,14 @@ const instance = axios.create({
   },
 });
 
+// const summary = axios.create({
+//   baseURL: 'https://api.planboard.in/api/Summary/FYData',
+//   timeout: 10000,
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+// });
+
 // Request interceptor
 instance.interceptors.request.use(
   (config) => {
