@@ -85,6 +85,8 @@ const Zone = () => {
           <i className="w3-text-gray"> (12%) </i>
         </div>
       </div>
+
+      
       <Depot_componentss selectedZone={selectedZone}  setFilteredDepots={setFilteredDepots}/>
 
       <div class="w3-row w3-padding-16"></div>

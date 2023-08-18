@@ -2,6 +2,7 @@ export const permissions = [
   {
     roleId: "ZM",
     permission: [
+      'national',
       "zone",
       "depot",
       "territory",

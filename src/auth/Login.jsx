@@ -19,7 +19,7 @@ const Login = () => {
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then(async (result) => {
 
-console.log('result',result);
+
       // const data = {
       //   SessionData: [
       //     {
@@ -93,7 +93,7 @@ console.log('result',result);
     const data = {
       SessionData: [
         {
-          Email: "amit.srivastava@shalimarpaints.com",
+          Email: "amit.k@shalimarpaints.com",
           Token: "4644616546565414651asdasd",
         },
       ],
