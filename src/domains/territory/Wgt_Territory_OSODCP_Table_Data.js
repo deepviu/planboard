@@ -16,7 +16,7 @@ const Wgt_Territory_OSODCP_Table_Data = ({ data }) => {
              <td> {data.target} L <i className="w3-text-gray">({data.target_percentage}%)</i></td>  
              <td> {data.target} L <i className="w3-text-gray">({data.target_percentage}%)</i></td>  
              <td> {data.target} L <i className="w3-text-gray">({data.target_percentage}%)</i></td>  
-             <td> {data.target} L <i className="w3-text-gray">({data.target_percentage}%)</i></td>  
+             {/* <td> {data.target} L <i className="w3-text-gray">({data.target_percentage}%)</i></td>   */}
             <td> {data.achieved} L <i className="w3-text-gray">({data.achieved_percentage}%)</i></td>  
           </tr> 
 

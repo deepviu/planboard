@@ -14,10 +14,10 @@ import Wgt_Statewise_Ui from "./Wgt_Statewise_Ui";
 import { Wgt_Statewise_Data } from "./Wgt_Statewise_Data";
 import { rolePermission, zoneData } from "../../auth/middleware";
 
-import CustomPopup from "./CustomPopup";
-import CustomPopup1 from "./CustomPopup";
-import CustomPopup2 from "./CustomPopup";
-import CustomPopup3 from "./CustomPopup";
+import CustomPopup from "../CustomPopup";
+import CustomPopup1 from "../CustomPopup";
+import CustomPopup2 from "../CustomPopup";
+import CustomPopup3 from "../CustomPopup";
 
 const National = () => {
   // Set Select Zone

@@ -14,7 +14,23 @@
   color: slategray;
   font-size: 36px;
 }
-
+.hr1 {
+  margin: 0px;
+  margin: 5px 0px 5px 0px;
+  border: 0px;
+  border-top: 1px solid gray;
+}
+.tbl_grid {
+  border-color: #333;
+}
+.tbl_grid tr td, th {
+  padding: 2px;
+  border-color: #333;
+  text-align: center;
+}
+.inp40 {
+    width: 99%;
+}
 @media only screen and (max-width: 600px) {
   .main {
     margin-left: 0;
