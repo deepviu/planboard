@@ -11,7 +11,7 @@ import { provider } from "../firebase";
 import { setAuthData } from "../store/actions/Auth";
 import { SHOW_TOAST } from "../store/constant/types";
 
-const Login = () => {
+const Login = ({ setIsAuth }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const { AuthData } = useSelector((state) => state.auth);
@@ -19,70 +19,61 @@ const Login = () => {
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then(async (result) => {
 
+      const user = GoogleAuthProvider.credentialFromResult(result);
 
-      // const data = {
-      //   SessionData: [
-      //     {
-      //       Email: result.user.email,
-      //       Token: "4644616546565414651asdasd",
-      //     },
-      //   ],
-      // };
-      // await axiosInstance
-      //   .post("api/UserMaster/SessionCheck", data)
-      //   .then((res) => {
-      //     if (res?.status === 200) {
-      //       console.log(res.data);
-      //       dispatch(setAuthData(res?.data));
-      //       localStorage.setItem("access_token", res.data.Data[0].TokenValid);
-             
-  
-      //       if(res?.data?.Data[0]?.EmployeeTpye=="ZM"){
-      //         navigate("/zone");
-      //       }
-      //       if(res?.data?.Data[0]?.EmployeeTpye=="DM"){
-      //         navigate("/depot");
-      //       }
-      //       if(res?.data?.Data[0]?.EmployeeTpye=="TM" || res?.data?.Data[0]?.EmployeeTpye=="AM"){
-      //         navigate("/territory");
-      //       }                     
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     dispatch({ type: SHOW_TOAST, payload: error.message });
-      //   });
-      // const credential = GoogleAuthProvider.credentialFromResult(result);
-      // const token = credential.accessToken;
-      // const displayName = result.user.displayName;
-      // localStorage.setItem("displayName", displayName);
-      // const email = result.user.email;
-      // localStorage.setItem("email", email);
-      // const photoURL = result.user.photoURL;
-      // localStorage.setItem("photoURL", photoURL);
-      // const user = JSON.stringify([
-      //   { displayName: displayName, email: email, photoURL: photoURL },
-      // ]);
-      // localStorage.setItem("user", user);
-      // localStorage.setItem("isAuth", true);
+      const email = user?.email;
+      const accessToken = user?.accessToken;
 
-      // navigate("/");
-      // window.location.pathname = "/";
+      // const email='amit.k@shalimarpaints.com';
+      // const accessToken='4644616546565414651asdasd';
+
+      const data = {
+        SessionData: [
+          {
+            Email: email,
+            Token: accessToken,
+          },
+        ],
+      };
+      await axiosInstance
+        .post("api/UserMaster/SessionCheck", data)
+        .then((res) => {
+          if (res?.status === 200) {
+            console.log(res.data);
+            dispatch(setAuthData(res?.data));
+            localStorage.setItem("access_token", res.data.Data[0].TokenValid);
+
+
+            if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
+              navigate("/zone");
+            }
+            if (res?.data?.Data[0]?.EmployeeTpye == "DM") {
+              navigate("/depot");
+            }
+            if (res?.data?.Data[0]?.EmployeeTpye == "TM" || res?.data?.Data[0]?.EmployeeTpye == "AM") {
+              navigate("/territory");
+            }
+          }
+        })
+        .catch((error) => {
+          dispatch({ type: SHOW_TOAST, payload: error.message });
+        });
     });
   }; // 1 : Ends
 
-  useEffect(()=>{
-    if(AuthData?.Status==true){
-      if(AuthData?.Data[0]?.EmployeeTpye=="ZM"){
+  useEffect(() => {
+    if (AuthData?.Status == true) {
+      if (AuthData?.Data[0]?.EmployeeTpye == "ZM") {
         navigate("/zone");
       }
-      if(AuthData?.Data[0]?.EmployeeTpye=="DM"){
+      if (AuthData?.Data[0]?.EmployeeTpye == "DM") {
         navigate("/depot");
       }
-      if(AuthData?.Data[0]?.EmployeeTpye=="TM"){
+      if (AuthData?.Data[0]?.EmployeeTpye == "TM") {
         navigate("/territory");
       }
     }
-  },[AuthData])
+  }, [AuthData])
   //// 2 : Login with Email Password
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
@@ -90,54 +81,56 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const data = {
-      SessionData: [
-        {
-          Email: "amit.k@shalimarpaints.com",
-          Token: "4644616546565414651asdasd",
-        },
-      ],
-    };
-    await axiosInstance
-      .post("api/UserMaster/SessionCheck", data)
-      .then((res) => {
-        if (res?.status === 200) {
-          console.log(res.data);
-          dispatch(setAuthData(res?.data));
-          localStorage.setItem("access_token", res.data.Data[0].TokenValid);
-           
 
-          if(res?.data?.Data[0]?.EmployeeTpye=="ZM"){
-            navigate("/zone");
-          }
-          if(res?.data?.Data[0]?.EmployeeTpye=="DM"){
-            navigate("/depot");
-          }
-          if(res?.data?.Data[0]?.EmployeeTpye=="TM" || res?.data?.Data[0]?.EmployeeTpye=="AM"){
-            navigate("/territory");
-          }                     
-        }
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+
+        const email = user?.email;
+        const accessToken = user?.accessToken;
+
+        // const email='amit.k@shalimarpaints.com';
+        // const accessToken='4644616546565414651asdasd';
+
+        const data = {
+          SessionData: [
+            {
+              Email: email,
+              Token: accessToken,
+            },
+          ],
+        };
+        await axiosInstance
+          .post("api/UserMaster/SessionCheck", data)
+          .then((res) => {
+            if (res?.status === 200) {
+              console.log(res.data);
+              dispatch(setAuthData(res?.data));
+              localStorage.setItem("access_token", res.data.Data[0].TokenValid);
+
+
+              if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
+                navigate("/zone");
+              }
+              if (res?.data?.Data[0]?.EmployeeTpye == "DM") {
+                navigate("/depot");
+              }
+              if (res?.data?.Data[0]?.EmployeeTpye == "TM" || res?.data?.Data[0]?.EmployeeTpye == "AM") {
+                navigate("/territory");
+              }
+            }
+          })
+          .catch((error) => {
+            dispatch({ type: SHOW_TOAST, payload: error.message });
+          });
+
+
       })
       .catch((error) => {
-        dispatch({ type: SHOW_TOAST, payload: error.message });
+        setError(" Wrong email or password   ");
       });
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     // Signed in
-    //     const user = userCredential.user;
-    //     console.log(user);
-    //     setError("");
-
-    //     localStorage.setItem("user", JSON.stringify(user));
-    //     localStorage.setItem("isAuth", true);
-    //     localStorage.setItem("roleId", 2);
-
-    //     setIsAuth(true);
-    //     navigate("/");
-    //   })
-    //   .catch((error) => {
-    //     setError(" Wrong email or password   ");
-    //   });
   }; // 2 : handleLogin ends
 
   return (

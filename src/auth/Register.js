@@ -18,12 +18,13 @@ const Register = ({ setIsAuth }) => {
     const password = e.target[2].value;
     // const file = e.target[3].files[0];  
     try { 
+     
       // Create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
       // Create a unique image name
       const date = new Date().getTime();
       const storageRef = ref(storage, `${displayName + date}`); 
-
+      console.log(res);
       } catch (err) {
       setErr(true);
       setLoading(false);

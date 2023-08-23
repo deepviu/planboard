@@ -14,25 +14,49 @@ import Wgt_Statewise_Ui from "./Wgt_Statewise_Ui";
 import { Wgt_Statewise_Data } from "./Wgt_Statewise_Data";
 import { rolePermission, zoneData } from "../../auth/middleware";
 
+import axiosInstance from "../../auth/api";
+
 import CustomPopup from "../CustomPopup";
 import CustomPopup1 from "../CustomPopup";
 import CustomPopup2 from "../CustomPopup";
 import CustomPopup3 from "../CustomPopup";
+import { useDispatch } from "react-redux";
+import { SHOW_TOAST } from "../../store/constant/types";
 
 const National = () => {
   // Set Select Zone
+
+  const dispatch = useDispatch();
   const [selectedZone, setSelectedZone] = useState(0);
   const [filteredZones, setFilteredZones] = useState([]);
   const [filteredZonesData, setFilteredZonesData] = useState([]);
-  console.log("🚀 ~ file: National.jsx:27 ~ National ~ filteredZonesData:", filteredZonesData)
   const [data, setData] = useState(null);
-  console.log("🚀 ~ file: National.jsx:28 ~ National ~ id:", data)
 
   const [visibility, setVisibility] = useState(false);
   const [visibility1, setVisibility1] = useState(false);
   const [visibility2, setVisibility2] = useState(false);
   const [visibility3, setVisibility3] = useState(false);
 
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetchZoneData();
+  }, []);
+
+  const fetchZoneData= async()=>{
+    // setItems(Wgt_Summ_National_Data);
+    await axiosInstance
+          .post("api/UserMaster/SessionCheck", data)
+          .then((res) => {
+            if (res?.status === 200) {
+              setItems(res?.data);  
+            }
+          })
+          .catch((error) => {
+            dispatch({ type: SHOW_TOAST, payload: error.message });
+          });
+    
+  }
   const popupCloseHandler = (e) => {
     setVisibility(e);
   };
@@ -107,7 +131,7 @@ console.log('filteredZonesNew',filteredZonesNew);
         </span>
       </div>
 
-      {Wgt_Summ_National_Data.map((data) => (
+      {items.map((data) => (
         <Wgt_Summ_National_Ui key={data.id} data={data} />
       ))}
 
