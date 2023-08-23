@@ -45,11 +45,21 @@ const National = () => {
 
   const fetchZoneData= async()=>{
     // setItems(Wgt_Summ_National_Data);
+
+    const data={
+      "SummaryParam": [
+          {
+              "entity_type": "all",
+              "entity_id": "all"
+          }
+      ]
+  }
     await axiosInstance
-          .post("api/UserMaster/SessionCheck", data)
+          .post("api/Summary/FYData", data)
           .then((res) => {
+            console.log(res?.data);
             if (res?.status === 200) {
-              setItems(res?.data);  
+              setItems(res?.data.Data);  
             }
           })
           .catch((error) => {
