@@ -1,11 +1,11 @@
 // api.js
-import axios from 'axios';
+import axios from "axios";
 
 const instance = axios.create({
-  baseURL: 'https://api.planboard.in',
+  baseURL: "https://api.planboard.in",
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -38,8 +38,8 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response && error.response.status === 401) {
       // Refresh token and retry the request
-    //   await refreshToken();
-    //   return axiosInstance(originalRequest);
+      //   await refreshToken();
+      //   return axiosInstance(originalRequest);
     }
     return Promise.reject(error);
   }

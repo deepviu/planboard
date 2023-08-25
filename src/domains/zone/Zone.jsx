@@ -14,13 +14,27 @@ import Wgt_Summ_Zone_Ui from "./Wgt_Summ_Zone_Ui";
 import { Wgt_Summ_Zone_Data } from "./Wgt_Summ_Zone_Data";
 
 import CustomPopup from "../CustomPopup";
+import {
+  actionDepotSalesPlan,
+  actionTarritorySales,
+} from "../../store/actions/National";
+import { useDispatch, useSelector } from "react-redux";
+import axiosInstance from "./../../auth/api";
+import { SHOW_TOAST } from "../../store/constant/types";
 
 const Zone = () => {
+  const dispatch = useDispatch();
+
+  const { territoryData, depotSalesPlanData } = useSelector(
+    (state) => state.national
+  );
   const [selectedZone, setSelectedZone] = useState(0);
   const [filteredZones, setFilteredZones] = useState([]);
   const [filteredDepots, setFilteredDepots] = useState([]);
   const [visibility, setVisibility] = useState(false);
-  const popupCloseHandler = (e) => { setVisibility(e); };
+  const popupCloseHandler = (e) => {
+    setVisibility(e);
+  };
 
   useEffect(() => {
     const permissions = rolePermission()?.permissions;
@@ -33,14 +47,66 @@ const Zone = () => {
     }
   }, []);
 
+  // Depot Sales report
+  useEffect(() => {
+    const payload = {
+      Token: "E9388594-FC83-475E-83AA-3449B5F61467",
+    };
+    const fetchDepotSalesPlan = async () => {
+      try {
+        const response = await axiosInstance.post("DepotMonthPlan", payload);
+        console.log("=====response====", response);
+        if (response?.status === 200) {
+          dispatch(actionDepotSalesPlan(response.data.Data));
+        }
+      } catch (error) {
+        // Handle errors
+        dispatch({ type: SHOW_TOAST, payload: error.message });
+      }
+    };
+
+    if (!depotSalesPlanData.length) {
+      fetchDepotSalesPlan();
+    }
+  }, [depotSalesPlanData]);
+
+  // Territory Sales Report
+
+  useEffect(() => {
+    const payload = {
+      Token: "E9388594-FC83-475E-83AA-3449B5F61467",
+      CustomerId: 0,
+      TerritoryId: 0,
+    };
+
+    const fetchTerritoryData = async () => {
+      try {
+        const response = await axiosInstance.post(
+          "TerritoryMonthPlan",
+          payload
+        );
+        console.log("=====response====", response);
+        if (response?.status === 200) {
+          dispatch(actionTarritorySales(response.data.Data));
+        }
+      } catch (error) {
+        // Handle errors
+        dispatch({ type: SHOW_TOAST, payload: error.message });
+      }
+    };
+    if (!territoryData.length) {
+      fetchTerritoryData();
+    }
+  }, [territoryData]);
+
   const handleZoneChange = (e) => {
     const Id = parseInt(e.target.value, 10);
     setSelectedZone(Id);
   };
   return (
     <div className=" main ">
-      <div class="w3-row w3-padding-16">
-        <div class="w3-col l3 m3 s6 w3-right">
+      <div className="w3-row w3-padding-16">
+        <div className="w3-col l3 m3 s6 w3-right">
           <form>
             <select
               className="form-control"
@@ -61,325 +127,255 @@ const Zone = () => {
         </div>
       </div>
 
-
-      <div class="w3-row ">
+      <div className="w3-row ">
         <span className="w3-xlarge">
-          {zoneData.find((item) => item.id == selectedZone)?.name} <i className="fa fa-lock w3-text-red"> </i>
+          {zoneData.find((item) => item.id == selectedZone)?.name}{" "}
+          <i className="fa fa-lock w3-text-red"> </i>
         </span>
-        <span class=" w3-right">
-          <i className="w3-text-teal fa fa-file-excel-o" > </i> Upload
+        <span className=" w3-right">
+          <i className="w3-text-teal fa fa-file-excel-o"> </i> Upload
         </span>
-
       </div>
 
-      <span className=" btn btn-sm w3-small text-left w3-text-red " onClick={(e) => setVisibility(!visibility)} > <i className="fa fa-lock" ></i>   Lock / Un-Lock  </span>
+      <span
+        className=" btn btn-sm w3-small text-left w3-text-red "
+        onClick={(e) => setVisibility(!visibility)}
+      >
+        {" "}
+        <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
+      </span>
 
-      <span className=" btn btn-sm w3-small text-left " onClick={(e) => setVisibility(!visibility)} > <i className="fa fa-gear" ></i>   Set Rules </span>
+      <span
+        className=" btn btn-sm w3-small text-left "
+        onClick={(e) => setVisibility(!visibility)}
+      >
+        {" "}
+        <i className="fa fa-gear"></i> Set Rules{" "}
+      </span>
 
-      <span className="  btn btn-sm w3-text-gray  w3-small " onClick={(e) => setVisibility(!visibility)} > <i className="fa fa-pencil" ></i>  Edit Manually </span>
-
+      <span
+        className="  btn btn-sm w3-text-gray  w3-small "
+        onClick={(e) => setVisibility(!visibility)}
+      >
+        {" "}
+        <i className="fa fa-pencil"></i> Edit Manually{" "}
+      </span>
 
       {Wgt_Summ_Zone_Data.map((data) => (
         <Wgt_Summ_Zone_Ui key={data.id} data={data} />
       ))}
 
+      <Depot_componentss
+        selectedZone={selectedZone}
+        setFilteredDepots={setFilteredDepots}
+      />
 
-      {/* <div class="w3-row w3-row-padding w3-padding-16 w3-margin-top w3-white ">
-        <div class="w3-col l3 m3 s3 ">
-          <span className="w3-xlarge">
-            {zoneData.find((item) => item.id == selectedZone)?.name}
-          </span>
-          <br />
-          <span className="w3-text-red w3-small h6">
-            <i className="fa fa-lock w3-text-red"></i> Locked
-          </span>
-        </div>
-
-        <div class="w3-col l3 m3 s3 w3-center">
-          <span className="w3-text-gray"> LY 22-23 </span>
-          <hr className="hr1" />
-          <span className=" ">90</span> Cr.
-        </div>
-
-        <div class="w3-col l3 m3 s3 w3-center">
-          <span className="w3-text-gray"> Target 23-24 </span>
-          <hr className="hr1" />
-          <i className="fa fa-lock w3-text-red"></i>
-          <span className="h5">126 </span> Cr.
-          <i className="w3-text-gray"> (26%) </i>
-        </div>
-
-        <div class="w3-col l3 m3 s3 w3-center">
-          <span className="w3-text-gray"> YTD </span>
-          <hr className="hr1" />
-          <span className=" ">36 </span> Cr.
-          <i className="w3-text-gray"> (12%) </i>
-        </div>
-      </div> */}
-
-
-      <Depot_componentss selectedZone={selectedZone} setFilteredDepots={setFilteredDepots} />
-
-      <div class="w3-row w3-padding-16"></div>
+      <div className="w3-row w3-padding-16"></div>
       <Territory_Componentss
         depotsData={filteredDepots}
         selectedDepot={"all"}
       />
 
-      <div class="w3-row w3-padding-16"></div>
+      <div className="w3-row w3-padding-16"></div>
 
-
-      
-      < CustomPopup
+      <CustomPopup
         onClose={popupCloseHandler}
         show={visibility}
-        title="Configure Rules " >
+        title="Configure Rules "
+      >
         <hr />
-
-         Rules ( to Set Targets or breakdown Targets on every enity ) 
-
+        Rules ( to Set Targets or breakdown Targets on every enity )
         <table className="w3-table table-bordered ">
+          <tr className="">
+            <th className=""></th>
+            <th className="">Rule / Condition</th>
 
-            <tr className=""> 
-              <th className="" > 
-              </th>
-              <th className="" >
-              Rule / Condition 
-              </th>
+            <th className="">Ref. / Base Value</th>
 
-               <th className="" > 
-              Ref. / Base Value 
-              </th> 
+            <th className="">% Impact</th>
 
-              <th className="" >
-               % Impact 
-              </th>
+            <th className="">Value Impact</th>
 
-              <th className="" >
-               Value Impact 
-              </th>
+            <th className="">Net Increment</th>
+          </tr>
 
-              <th className="" >
-              Net Increment 
-              </th>
+          <tr className="">
+            <td colSpan="10" className="w3-gray h5">
+              Incremental Rules (Vertically Top Down | Global > Zone > Depot >
+              Territory > Dealer )
+            </td>
+          </tr>
 
-             
-            </tr>
+          <tr className="">
+            <td className="">1</td>
+            <td className="">Rule : LLY Topup ( Increment)</td>
+            <td className="">
+              <input className="inp40" value="60 Cr." />
+            </td>
+            <td className="">
+              <input className="inp40" value="10%" />
+            </td>
+            <td className="">
+              <input className="inp40" value="10 CR." />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
 
-              <tr className=""> 
-              <td colspan="10" className="w3-gray h5" > 
-              Incremental  Rules (Vertically Top Down  | Global >  Zone > Depot > Territory > Dealer  ) 
-              </td>
-            </tr> 
+          <tr className="">
+            <td className="">2</td>
+            <td className="">Rule : LY Topup ( Increment )</td>
+            <td className="">
+              <input className="inp40" value="90 Cr." />
+            </td>
+            <td className="">
+              <input className="inp40" value="30%" />
+            </td>
+            <td className="">
+              <input className="inp40" value="50 CR." />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
 
+          <tr className="">
+            <td className="">3</td>
+            <td className="">Rule : Potential based (Increment)</td>
+            <td className="">
+              <input className="inp40" value="600 Cr." />
+            </td>
+            <td className="">
+              <input className="inp40" value="10%" />
+            </td>
+            <td className="">
+              <input className="inp40" value="10 CR." />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
 
-             <tr className=""> 
-              <td className="" > 
-              1 
-              </td>
-              <td className="" >
-              Rule :  LLY Topup ( Increment)  
-              </td>
-              <td className="" >
-              <input className="inp40"  value="60 Cr." /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="10%"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="10 CR."   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""   /> 
-              </td>
-            </tr> 
+          <tr className="">
+            <td className="">3</td>
+            <td className="">
+              Rule : Product Category / Group Ex. Water base (last Y Revenue)
+            </td>
+            <td className="">
+              <input className="inp40" value="40 Cr." />
+            </td>
+            <td className="">
+              <input className="inp40" value="100%" />
+            </td>
+            <td className="">
+              <input className="inp40" value="100CR." />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
 
-             <tr className=""> 
-              <td className="" >
-              2 
-              </td>
-              <td className="" >
-              Rule :  LY Topup ( Increment )  
-              </td>
-               <td className="" >
-              <input className="inp40"  value="90 Cr." /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="30%"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="50 CR."   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""  /> 
-              </td>
-            </tr> 
+          <tr className="">
+            <td className="">4</td>
+            <td className="">Rule : Focus Segment ( )</td>
+            <td className="">
+              <input className="inp40" value="40 Cr." />
+            </td>
+            <td className="">
+              <input className="inp40" value="100%" />
+            </td>
+            <td className="">
+              <input className="inp40" value="100CR." />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
 
-             <tr className=""> 
-              <td className="" >
-              3 
-              </td>
-              <td className="" >
-              Rule :  Potential based (Increment)  
-              </td>
-              <td className="" >
-              <input className="inp40"  value="600 Cr." /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="10%"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="10 CR."   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""   /> 
-              </td>
-            </tr> 
+          <tr className="">
+            <td className="">4</td>
+            <td className="">Rule : Seasonal Time Months ( Festival.. )</td>
+            <td className="">
+              <input className="inp40" value="40 Cr." />
+            </td>
+            <td className="">
+              <input className="inp40" value="100%" />
+            </td>
+            <td className="">
+              <input className="inp40" value="100CR." />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
 
+          <tr className="">
+            <td colSpan="10" className="w3-gray h5">
+              Target Breakdown Rules (Horizontaly - Months / Weeks )
+            </td>
+          </tr>
 
-             <tr className=""> 
-              <td className="" >
-              3 
-              </td>
-              <td className="" >
-             Rule : Product Category / Group  
-             Ex. Water base (last Y Revenue) 
-              </td>
-               <td className="" >
-              <input className="inp40"  value="40 Cr." /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="100%"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="100CR."   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""   /> 
-              </td>
-            </tr> 
+          <tr className="">
+            <td className="">4</td>
+            <td className="">
+              Rule : Seasonal Time Months ( Festival.. ) ( Monthly Breakdown of
+              Territory -> 12 Months
+            </td>
+            <td className="">
+              <input className="inp40" value="40 Cr." />
+            </td>
+            <td className="">
+              <input className="inp40" value="100%" />
+            </td>
+            <td className="">
+              <input className="inp40" value="100CR." />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
 
+          <tr className="">
+            <td className="">4</td>
+            <td className="">
+              Rule : Months Weekly Breakdown ( Dealer Level Rule ) ( Weekwise
+              Breakdown of Monthly Target -> 4 Weeks
+            </td>
+            <td className="">
+              <input className="inp40" value="40 Cr." />
+            </td>
+            <td className="">
+              <input className="inp40" value="100%" />
+            </td>
+            <td className="">
+              <input className="inp40" value="100CR." />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
 
-                  <tr className=""> 
-              <td className="" >
-              4 
-              </td>
-              <td className="" >
-              Rule : Focus Segment  (   )  
-              </td>
-              <td className="" >
-              <input className="inp40"  value="40 Cr." /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="100%"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="100CR."   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""   /> 
-              </td>
-            </tr> 
-
-
-              <tr className=""> 
-              <td className="" >
-              4 
-              </td>
-              <td className="" >
-              Rule : Seasonal Time Months ( Festival.. )  
-              </td>
-              <td className="" >
-              <input className="inp40"  value="40 Cr." /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="100%"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="100CR."   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""   /> 
-              </td>
-            </tr> 
-
-
-              <tr className=""> 
-              <td colspan="10" className="w3-gray h5" > 
-              Target Breakdown Rules (Horizontaly - Months / Weeks ) 
-              </td>
-            </tr> 
-
-              <tr className=""> 
-              <td className="" >
-              4 
-              </td>
-              <td className="" >
-              Rule : Seasonal Time Months ( Festival.. )
-              ( Monthly Breakdown of Territory  -> 12 Months   
-              </td>
-              <td className="" >
-              <input className="inp40"  value="40 Cr." /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="100%"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="100CR."   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""   /> 
-              </td>
-            </tr> 
-
-              <tr className=""> 
-              <td className="" >
-              4 
-              </td>
-              <td className="" >
-              Rule : Months Weekly Breakdown  ( Dealer Level Rule )
-              ( Weekwise  Breakdown of Monthly Target   -> 4 Weeks 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="40 Cr." /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="100%"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="100CR."   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""   /> 
-              </td>
-            </tr>  
-
-
-            <tr className=""> 
-              <td className="" >
-              4 
-              </td>
-              <td className="" >
-              Anyother conditon which can be converted to avergae weightage  
-              </td>
-               <td className="" >
-              <input className="inp40"  value="Ref. Value " /> 
-              </td>
-              <td className="" >
-              <input className="inp40"  value="Target. %"  /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value="Target Value"   /> 
-              </td>
-               <td className="" >
-              <input className="inp40" value=""   /> 
-              </td>
-            </tr> 
-
-        </table> 
-          
-      </CustomPopup>  
-
+          <tr className="">
+            <td className="">4</td>
+            <td className="">
+              Anyother conditon which can be converted to avergae weightage
+            </td>
+            <td className="">
+              <input className="inp40" value="Ref. Value " />
+            </td>
+            <td className="">
+              <input className="inp40" value="Target. %" />
+            </td>
+            <td className="">
+              <input className="inp40" value="Target Value" />
+            </td>
+            <td className="">
+              <input className="inp40" value="" />
+            </td>
+          </tr>
+        </table>
+      </CustomPopup>
     </div>
   );
 };

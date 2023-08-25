@@ -1,11 +1,12 @@
+import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { Navigate, Link, useNavigate } from "react-router-dom";
 
 import Wgt_Zone_Ui from "./Wgt_Zone_Ui";
 import { Wgt_Zone_Data } from "./Wgt_Zone_Data";
 
-import Wgt_Summ_National_Ui from "./Wgt_Summ_National_Ui";
-import { Wgt_Summ_National_Data } from "./Wgt_Summ_National_Data";
+import Wgt_Summ_National_Ui from "../components/Wgt_Summ_National_Ui";
+import { Wgt_Summ_National_Data } from "../components/Wgt_Summ_National_Data";
 
 import Wgt_Marketsector_Ui from "./Wgt_Marketsector_Ui";
 import { Wgt_Marketsector_Data } from "./Wgt_Marketsector_Data";
@@ -14,59 +15,29 @@ import Wgt_Statewise_Ui from "./Wgt_Statewise_Ui";
 import { Wgt_Statewise_Data } from "./Wgt_Statewise_Data";
 import { rolePermission, zoneData } from "../../auth/middleware";
 
-import axiosInstance from "../../auth/api";
-
 import CustomPopup from "../CustomPopup";
 import CustomPopup1 from "../CustomPopup";
 import CustomPopup2 from "../CustomPopup";
 import CustomPopup3 from "../CustomPopup";
-import { useDispatch } from "react-redux";
-import { SHOW_TOAST } from "../../store/constant/types";
+import Wgt_ZoneWise_Ui from "./Wgt_ZoneWise_Ui.jsx";
 
 const National = () => {
   // Set Select Zone
-
-  const dispatch = useDispatch();
   const [selectedZone, setSelectedZone] = useState(0);
   const [filteredZones, setFilteredZones] = useState([]);
   const [filteredZonesData, setFilteredZonesData] = useState([]);
+  console.log(
+    "🚀 ~ file: National.jsx:27 ~ National ~ filteredZonesData:",
+    filteredZonesData
+  );
   const [data, setData] = useState(null);
+  console.log("🚀 ~ file: National.jsx:28 ~ National ~ id:", data);
 
   const [visibility, setVisibility] = useState(false);
   const [visibility1, setVisibility1] = useState(false);
   const [visibility2, setVisibility2] = useState(false);
   const [visibility3, setVisibility3] = useState(false);
 
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    fetchZoneData();
-  }, []);
-
-  const fetchZoneData= async()=>{
-    // setItems(Wgt_Summ_National_Data);
-
-    const data={
-      "SummaryParam": [
-          {
-              "entity_type": "all",
-              "entity_id": "all"
-          }
-      ]
-  }
-    await axiosInstance
-          .post("api/Summary/FYData", data)
-          .then((res) => {
-            console.log(res?.data);
-            if (res?.status === 200) {
-              setItems(res?.data.Data);  
-            }
-          })
-          .catch((error) => {
-            dispatch({ type: SHOW_TOAST, payload: error.message });
-          });
-    
-  }
   const popupCloseHandler = (e) => {
     setVisibility(e);
   };
@@ -80,7 +51,6 @@ const National = () => {
     setVisibility3(e);
   };
 
-
   useEffect(() => {
     const permissions = rolePermission()?.permissions;
     if (permissions) {
@@ -90,44 +60,43 @@ const National = () => {
       const filteredZoness = zoneData.filter((item) =>
         permissions.includes(item.id)
       );
-     const  zoneId=2;//permissions.length > 0 ? permissions[0] : 0;
+      const zoneId = 2; //permissions.length > 0 ? permissions[0] : 0;
       setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
-      const filteredZonesNew = filteredZoness.filter((item) =>
-        item.id==zoneId
+      const filteredZonesNew = filteredZoness.filter(
+        (item) => item.id == zoneId
       );
-       
+
       setData(filteredZonesNew[0]);
       setFilteredZonesData(filteredZonessData);
       setFilteredZones(filteredZoness);
-     
     }
   }, []);
 
   const handleZoneSelect = (data) => {
     setSelectedZone(data?.id);
-    
-    const filteredZonesNew = filteredZones.filter((item) =>
-        item.id==data?.id
-      );
-console.log('filteredZonesNew',filteredZonesNew);
-      setData(filteredZonesNew[0]);
+
+    const filteredZonesNew = filteredZones.filter(
+      (item) => item.id == data?.id
+    );
+    console.log("filteredZonesNew", filteredZonesNew);
+    setData(filteredZonesNew[0]);
   };
 
   return (
     <div className=" main ">
       <div className="w3-clear w3-padding-16"> </div>
 
-      <div class="w3-row ">
+      <div className="w3-row ">
         <span className="w3-xxlarge">
           Shalimar Paints Limited <i className="fa fa-lock w3-text-red"> </i>
         </span>
 
-        <span class=" w3-right">
+        <span className=" w3-right">
           <i className="w3-text-teal fa fa-file-excel-o"> </i> Upload
         </span>
       </div>
 
-      <div class="w3-row ">
+      <div className="w3-row ">
         <span className=" btn btn-sm w3-small text-left w3-text-red ">
           {" "}
           <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
@@ -141,13 +110,13 @@ console.log('filteredZonesNew',filteredZonesNew);
         </span>
       </div>
 
-      {items.map((data) => (
+      {Wgt_Summ_National_Data.map((data) => (
         <Wgt_Summ_National_Ui key={data.id} data={data} />
       ))}
 
       <div className="w3-clear w3-padding-16"> </div>
 
-      <div class="w3-row ">
+      <div className="w3-row ">
         <span className=" btn btn-sm w3-small text-left w3-text-red ">
           {" "}
           <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
@@ -163,173 +132,24 @@ console.log('filteredZonesNew',filteredZonesNew);
 
       <div
         id="Wgt_Zone_Id"
-        class="Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
+        className="Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
       >
         {filteredZonesData.map((data) => (
-          <Wgt_Zone_Ui key={data.id} data={data} setId={handleZoneSelect}/>
+          <Wgt_Zone_Ui key={data.id} data={data} setId={handleZoneSelect} />
         ))}
       </div>
-     
-      <div class="w3-clear w3-padding-16"> </div>
+
+      <div className="w3-clear w3-padding-16"> </div>
 
       <div
         id="Wgt_Zone_Id"
-        class=" w3-leftbar w3-border-red Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
+        className=" w3-leftbar w3-border-red Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
       >
-        <div className="w3-padding-large">
-          <div className="w3-clear ">
-            <div class="w3-col l3 m3 s6 ">
-              <span className=" w3-xlarge w3-left ">
-                <i className="fa fa-bar-chart "></i>{data?.name}
-              </span>
-            </div>
-
-            <div class="w3-col l3 m3 s6 w3-right">
-              <form>
-                <select className="form-control">
-                  <option value="North"  selected={data?.name === "North"}>
-                    {" "}
-                    North{" "}
-                  </option>
-                  <option value="South"  selected={data?.name === "South"}>South </option>
-                  <option value="East"  selected={data?.name === "East"}> East </option>
-                  <option value="West"  selected={data?.name === "West"}> West </option>
-                </select>
-              </form>
-            </div>
-          </div>
-
-          <div className="w3-clear w3-padding"> </div>
-
-          <div className="w3-col l3 m3 s12 ">
-            <span className="w3-xxlarge"> 10 </span> Cr.
-            <br />
-            <span className="w3-small h6"> LLY 21-22 </span>
-            <br />
-            <span className="h6"> -- </span>
-          </div>
-
-          <div className="w3-col l3 m3 s12 ">
-            <span className="w3-xxlarge"> 90</span> Cr.
-            <br />
-            <span className="w3-small h6"> LY 22-23 </span>
-            <br />
-            <span className="h6">21% </span>
-          </div>
-
-          <div className="w3-col l3 m3 s12 ">
-            <span className="w3-xxlarge"> 126 </span> Cr.
-            <br />
-            <span className="w3-small h6"> FY 23-24 - Plan (V.1) </span>
-            <br />
-            <span className="h6">26% </span>
-          </div>
-
-          <div className="w3-col l3 m3 s12 ">
-            <span className="w3-xxlarge"> 128.5 </span> Cr.{" "}
-            <i className=" w3-text-red fa fa-lock"> </i>
-            <br />
-            <span className="w3-small h6"> FY 23-24 - Plan (V.2) </span>
-            <br />
-            <span className="h6"> 26% </span>
-          </div>
-
-          <div id="mercury-north" class="w3-row w3-margin-top ">
-            <span className="w3-small h4  w3-right">
-              {" "}
-              128.5 Cr.
-              <i className="w3-text-blue fa fa-flag  w3-right"></i>{" "}
-            </span>
-            <br />
-            <div id="mercury-bar-north" class="w3-grey">
-              <div class="w3-container w3-red" style={{ width: "65%" }}>
-                <span className="w3-small w3-right">
-                  {" "}
-                  YTD - Aug - 65 Cr. ( - 12% ){" "}
-                </span>
-              </div>
-              <div class="w3-container w3-blue" style={{ width: "75%" }}>
-                <span className="w3-small   w3-right ">
-                  {" "}
-                  Plan - Aug - 75 Cr.{" "}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div id="mom-north" class="w3-row w3-margin-top ">
-            <span className="w3-small h4 ">
-              FY 23-24 - 128.5 Cr. <i className="w3-text-blue fa fa-flag"></i>{" "}
-            </span>{" "}
-            <br />
-            <div id="mom-bar-north" className=" ">
-              <table className="w3-table w3-stripped table-bordered">
-                <tr>
-                  <td className="w3-red"> Apr </td>
-                  <td className="w3-teal"> May </td>
-                  <td className="w3-red"> Jun </td>
-                  <td className="w3-teal"> Jul </td>
-                  <td className="w3-red"> Aug </td>
-                  <td className="w3-gray"> Sep </td>
-                  <td className="w3-gray"> Oct </td>
-                  <td className="w3-gray"> Nov </td>
-                  <td className="w3-gray"> Dec </td>
-                  <td className="w3-gray"> Jan </td>
-                  <td className="w3-gray"> Feb </td>
-                  <td className="w3-gray"> Mar </td>
-                </tr>
-                <tr className="w3-hide">
-                  <td> 2.1% </td>
-                  <td className="w3-text-teal"> ( 114.2% ) </td>
-                  <td className="w3-text-red"> ( 55.0% ) </td>
-                  <td className="w3-text-red"> +6.0% </td>
-                  <td className="w3-text-red"> +2.0% </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                </tr>
-
-                <tr className="w3-hide">
-                  <td className="w3-text-gray"> 12 </td>
-                  <td className="w3-text-gray"> 20 </td>
-                  <td className="w3-text-gray"> 15 </td>
-                  <td className="w3-text-gray"> 20 </td>
-                  <td className="w3-text-gray"> 30 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                  <td className="w3-text-gray"> 0 </td>
-                </tr>
-
-                <tr>
-                  <td className="w3-text-blue"> 10.3 </td>
-                  <td className="w3-text-blue"> 10.0 </td>
-                  <td className="w3-text-blue"> 10.0 </td>
-                  <td className="w3-text-blue"> 10.1 </td>
-                  <td className="w3-text-blue"> 10.3 </td>
-                  <td className="w3-text-blue"> 10.7 </td>
-                  <td className="w3-text-blue"> 10.3 </td>
-                  <td className="w3-text-blue"> 10.6 </td>
-                  <td className="w3-text-blue"> 10.5 </td>
-                  <td className="w3-text-blue"> 10.3 </td>
-                  <td className="w3-text-blue"> 10.2 </td>
-                  <td className="w3-text-blue"> 10.1 </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
+        <Wgt_ZoneWise_Ui data={data} />
       </div>
       <div className="w3-clear w3-padding-16"> </div>
 
-      <div class="w3-row ">
+      <div className="w3-row ">
         <span className=" btn btn-sm w3-small text-left w3-text-red ">
           {" "}
           <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
@@ -345,11 +165,12 @@ console.log('filteredZonesNew',filteredZonesNew);
 
       <div
         id="Wgt_Segment_Id"
-        class="Wgt_Segment_Class w3-row w3-row-padding  w3-padding-large w3-margin-bottom w3-white "
+        className="Wgt_Segment_Class w3-row w3-row-padding  w3-padding-large w3-margin-bottom w3-white "
       >
         <p className=" w3-xlarge ">
           {" "}
-          <i className="fa fa-bar-chart "></i> Market Sector (Breakdown){" "}{data?.name}
+          <i className="fa fa-bar-chart "></i> Market Sector (Breakdown){" "}
+          {data?.name}
         </p>{" "}
         <hr />
         {Wgt_Marketsector_Data.map((data) => (
@@ -358,8 +179,6 @@ console.log('filteredZonesNew',filteredZonesNew);
       </div>
 
       <div className="w3-clear w3-padding-16"> </div>
-
-
 
       <CustomPopup
         onClose={popupCloseHandler}
@@ -383,7 +202,7 @@ console.log('filteredZonesNew',filteredZonesNew);
           </tr>
 
           <tr className="">
-            <td colspan="10" className="w3-gray h5">
+            <td colSpan="10" className="w3-gray h5">
               Incremental Rules (Vertically Top Down | Global > Zone > Depot >
               Territory > Dealer )
             </td>
@@ -494,7 +313,7 @@ console.log('filteredZonesNew',filteredZonesNew);
           </tr>
 
           <tr className="">
-            <td colspan="10" className="w3-gray h5">
+            <td colSpan="10" className="w3-gray h5">
               Target Breakdown Rules (Horizontaly - Months / Weeks )
             </td>
           </tr>
@@ -567,7 +386,7 @@ console.log('filteredZonesNew',filteredZonesNew);
       >
         <span className="w3-text-gray">( National Level Target Rules )</span>
 
-        <div class="w3-row ">
+        <div className="w3-row ">
           <span className=" w3-right btn btn-sm w3-small text-left w3-text-red ">
             {" "}
             <i className="fa fa-lock"></i> Save & Lock{" "}
@@ -652,7 +471,7 @@ console.log('filteredZonesNew',filteredZonesNew);
           <tr className="">
             <td className="">
               <form>
-                <select className="">
+                <select className="" value="">
                   <option value="All" selected>
                     {" "}
                     All{" "}
@@ -694,7 +513,7 @@ console.log('filteredZonesNew',filteredZonesNew);
       >
         <span className="w3-text-gray">( Zone Level Target Rules )</span>
 
-        <div class="w3-row ">
+        <div className="w3-row ">
           <span className=" w3-right btn btn-sm w3-small text-left w3-text-red ">
             {" "}
             <i className="fa fa-lock"></i> Save & Lock{" "}
@@ -777,7 +596,7 @@ console.log('filteredZonesNew',filteredZonesNew);
           </tr>
 
           <tr className="w3-gray">
-            <td colspan="10" className="w3-small h6">
+            <td colSpan="10" className="w3-small h6">
               Zone Specific Rules
             </td>
           </tr>
@@ -804,7 +623,7 @@ console.log('filteredZonesNew',filteredZonesNew);
           <tr className="">
             <td className="">
               <form>
-                <select className="">
+                <select className="" value="">
                   <option value="All" selected>
                     {" "}
                     All Zone{" "}
@@ -851,7 +670,7 @@ console.log('filteredZonesNew',filteredZonesNew);
       >
         <span className="w3-text-gray">( Sector Level Target Rules )</span>
 
-        <div class="w3-row ">
+        <div className="w3-row ">
           <span className=" w3-right btn btn-sm w3-small text-left w3-text-red ">
             {" "}
             <i className="fa fa-lock"></i> Save & Lock{" "}
@@ -934,7 +753,7 @@ console.log('filteredZonesNew',filteredZonesNew);
           </tr>
 
           <tr className="w3-gray">
-            <td colspan="10" className="w3-small h6">
+            <td colSpan="10" className="w3-small h6">
               Sector Specific Rules
             </td>
           </tr>
@@ -961,7 +780,7 @@ console.log('filteredZonesNew',filteredZonesNew);
           <tr className="">
             <td className="">
               <form>
-                <select className="">
+                <select className="" value="">
                   <option value="All" selected>
                     {" "}
                     All Sectors{" "}
@@ -1012,16 +831,16 @@ console.log('filteredZonesNew',filteredZonesNew);
 
       {/* <div
         id="Wgt_Segment_Id"
-        class="Wgt_Segment_Class w3-row w3-row-padding  w3-padding-large w3-margin-bottom w3-white "
+        className="Wgt_Segment_Class w3-row w3-row-padding  w3-padding-large w3-margin-bottom w3-white "
       >
         <p className="h5 "> Market Segment Plan </p>
 
-        <div class="w3-row w3-margin-top ">
+        <div className="w3-row w3-margin-top ">
           <span className="w3-small h5 w3-text-gray"> Non Focus </span>
           <br />
-          <div class="w3-grey">
+          <div className="w3-grey">
             <div
-              class="w3-container w3-center w3-padding w3-blue"
+              className="w3-container w3-center w3-padding w3-blue"
               style={{ width: "25%" }}
             >
               50%
@@ -1029,11 +848,11 @@ console.log('filteredZonesNew',filteredZonesNew);
           </div>
         </div>
 
-        <div class="w3-row w3-margin-top ">
+        <div className="w3-row w3-margin-top ">
           <span className="w3-small h5 w3-text-gray"> Focus </span> <br />
-          <div class="w3-grey">
+          <div className="w3-grey">
             <div
-              class="w3-container w3-center w3-padding w3-indigo"
+              className="w3-container w3-center w3-padding w3-indigo"
               style={{ width: "75%" }}
             >
               {" "}
@@ -1045,10 +864,10 @@ console.log('filteredZonesNew',filteredZonesNew);
 
       {/* <div
         id="Wgt_State_Id"
-        class="Wgt_State_Class w3-row w3-row-padding w3-margin-bottom w3-white "
+        className="Wgt_State_Class w3-row w3-row-padding w3-margin-bottom w3-white "
       >
-        <div class="w3-col l12 m12 w3-margin-top w3-margin-bottom ">
-          <div class="w3-col l2 m4 s8 ">
+        <div className="w3-col l12 m12 w3-margin-top w3-margin-bottom ">
+          <div className="w3-col l2 m4 s8 ">
             <form>
               <select
                 className="form-control "
@@ -1066,8 +885,8 @@ console.log('filteredZonesNew',filteredZonesNew);
           </div>
         </div>
 
-        <div class="w3-col l12 m12 ">
-          <table class="w3-table w3-striped w3-white table-bordered ">
+        <div className="w3-col l12 m12 ">
+          <table className="w3-table w3-striped w3-white table-bordered ">
             <tr>
               <th>
                 {" "}

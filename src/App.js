@@ -45,12 +45,12 @@ function App() {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("access_token"));
   const rolId = parseInt(localStorage.getItem("roleId"));
   const dispatch = useDispatch();
-  useEffect(  () => {
+  useEffect(() => {
     if (AuthData == null) {
       const data = {
         TokenData: [
           {
-            Token: localStorage.getItem("access_token") ,
+            Token: localStorage.getItem("access_token"),
           },
         ],
       };
@@ -58,11 +58,11 @@ function App() {
         .post("api/UserMaster/UserAuth", data)
         .then((res) => {
           if (res?.status === 200) {
-            if(res?.data?.Status==true){
+            if (res?.data?.Status == true) {
               console.log(res?.data);
-              dispatch(setAuthData(res?.data));              
+              dispatch(setAuthData(res?.data));
               localStorage.setItem("access_token", res.data.Data[0].TokenValid);
-            }           
+            }
           }
         })
         .catch((error) => {
@@ -72,14 +72,20 @@ function App() {
   }, [AuthData]);
 
   const PrivateRoute = ({ element, ...rest }) => {
-    return AuthData?.Status==true ? element : <Navigate to="/login" />;
+    return AuthData?.Status == true ? element : <Navigate to="/login" />;
   };
   return (
     <>
       <BrowserRouter>
         <div>
-          <Navbar isAuth={AuthData?.Status==true?true:false}/>
-          <Sidebar rolId={AuthData?.Data?.length>0?AuthData?.Data[0]?.EmployeeTpye:true} />
+          <Navbar isAuth={AuthData?.Status == true ? true : false} />
+          <Sidebar
+            rolId={
+              AuthData?.Data?.length > 0
+                ? AuthData?.Data[0]?.EmployeeTpye
+                : true
+            }
+          />
           <Routes>
             {/* <Route path="*" element={isAuth ? <Navigate to="/dashboard" /> : <Login />} />   */}
             <Route
@@ -103,7 +109,7 @@ function App() {
               element={isAuth ? <Forgotpassword /> : <Navigate to="/login" />}
             /> */}
 
-<Route
+            <Route
               path="/account"
               element={<PrivateRoute element={<Account />} />}
             />
@@ -137,17 +143,14 @@ function App() {
                 )
               }
             /> */}
-            <Route
-              path="/logs"
-              element={<PrivateRoute element={<Logs />} />}
-            />
+            <Route path="/logs" element={<PrivateRoute element={<Logs />} />} />
             {/* <Route
               path="/logs"
               element={
                 isAuth ? <Logs isAuth={isAuth} /> : <Navigate to="/login" />
               }
             /> */}
-<Route
+            <Route
               path="/verifyphone"
               element={<PrivateRoute element={<Verifyphone />} />}
             />
@@ -189,7 +192,6 @@ function App() {
                 )
               }
             /> */}
-
 
             <Route
               path="/dashboard"

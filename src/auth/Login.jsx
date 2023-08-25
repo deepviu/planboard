@@ -18,7 +18,6 @@ const Login = ({ setIsAuth }) => {
   // 1 : Login with Google
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then(async (result) => {
-
       const user = GoogleAuthProvider.credentialFromResult(result);
 
       const email = user?.email;
@@ -43,14 +42,16 @@ const Login = ({ setIsAuth }) => {
             dispatch(setAuthData(res?.data));
             localStorage.setItem("access_token", res.data.Data[0].TokenValid);
 
-
             if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
               navigate("/zone");
             }
             if (res?.data?.Data[0]?.EmployeeTpye == "DM") {
               navigate("/depot");
             }
-            if (res?.data?.Data[0]?.EmployeeTpye == "TM" || res?.data?.Data[0]?.EmployeeTpye == "AM") {
+            if (
+              res?.data?.Data[0]?.EmployeeTpye == "TM" ||
+              res?.data?.Data[0]?.EmployeeTpye == "AM"
+            ) {
               navigate("/territory");
             }
           }
@@ -73,7 +74,7 @@ const Login = ({ setIsAuth }) => {
         navigate("/territory");
       }
     }
-  }, [AuthData])
+  }, [AuthData]);
   //// 2 : Login with Email Password
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
@@ -81,7 +82,6 @@ const Login = ({ setIsAuth }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
 
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
@@ -110,14 +110,16 @@ const Login = ({ setIsAuth }) => {
               dispatch(setAuthData(res?.data));
               localStorage.setItem("access_token", res.data.Data[0].TokenValid);
 
-
               if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
                 navigate("/zone");
               }
               if (res?.data?.Data[0]?.EmployeeTpye == "DM") {
                 navigate("/depot");
               }
-              if (res?.data?.Data[0]?.EmployeeTpye == "TM" || res?.data?.Data[0]?.EmployeeTpye == "AM") {
+              if (
+                res?.data?.Data[0]?.EmployeeTpye == "TM" ||
+                res?.data?.Data[0]?.EmployeeTpye == "AM"
+              ) {
                 navigate("/territory");
               }
             }
@@ -125,8 +127,6 @@ const Login = ({ setIsAuth }) => {
           .catch((error) => {
             dispatch({ type: SHOW_TOAST, payload: error.message });
           });
-
-
       })
       .catch((error) => {
         setError(" Wrong email or password   ");

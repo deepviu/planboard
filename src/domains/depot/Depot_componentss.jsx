@@ -8,9 +8,11 @@ const Depot_componentss = ({ selectedZone = 0, setFilteredDepots }) => {
   const [filtereDepot, setFiltereDepot] = useState([]);
   const [selectedPlans, setSelectedPlans] = useState(0);
 
-  const [visibility, setVisibility] = useState(false); 
-  const popupCloseHandler = (e) => { setVisibility(e); };
-  
+  const [visibility, setVisibility] = useState(false);
+  const popupCloseHandler = (e) => {
+    setVisibility(e);
+  };
+
   useEffect(() => {
     const filteredDepots = Wgt_Depotwise_Data.filter(
       (item) => item.zoneId == selectedZone
@@ -24,18 +26,36 @@ const Depot_componentss = ({ selectedZone = 0, setFilteredDepots }) => {
   };
   return (
     <>
-      <div class="w3-row w3-row-padding w3-padding-16 w3-margin-top  w3-margin-bottom w3-white ">
-        <div class="w3-col l6 m6 s6 ">
+      <div className="w3-row w3-row-padding w3-padding-16 w3-margin-top  w3-margin-bottom w3-white ">
+        <div className="w3-col l6 m6 s6 ">
           <span className="w3-xlarge">
             Depot
             <span className=" w3-text-gray w3-opacity">[Sales Plan ]</span>
           </span>
           <br />
-          <span className=" btn btn-sm w3-small text-left w3-text-red "  onClick={(e) => setVisibility(!visibility)} > <i className="fa fa-lock" ></i>   Lock / Un-Lock  </span>
+          <span
+            className=" btn btn-sm w3-small text-left w3-text-red "
+            onClick={(e) => setVisibility(!visibility)}
+          >
+            {" "}
+            <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
+          </span>
 
-<span className=" btn btn-sm w3-small text-left "  onClick={(e) => setVisibility(!visibility)} > <i className="fa fa-gear" ></i>   Set Rules </span>
+          <span
+            className=" btn btn-sm w3-small text-left "
+            onClick={(e) => setVisibility(!visibility)}
+          >
+            {" "}
+            <i className="fa fa-gear"></i> Set Rules{" "}
+          </span>
 
-<span className="  btn btn-sm w3-text-gray  w3-small "  onClick={(e) => setVisibility(!visibility)} > <i className="fa fa-pencil" ></i>  Edit Manually </span> 
+          <span
+            className="  btn btn-sm w3-text-gray  w3-small "
+            onClick={(e) => setVisibility(!visibility)}
+          >
+            {" "}
+            <i className="fa fa-pencil"></i> Edit Manually{" "}
+          </span>
 
           {/* <span className=" w3-text-red w3-small">
             <i className="fa fa-lock"></i> Locked
@@ -45,7 +65,7 @@ const Depot_componentss = ({ selectedZone = 0, setFilteredDepots }) => {
           </span> */}
         </div>
 
-        <div class="w3-col l3 m3 s6 w3-right">
+        <div className="w3-col l3 m3 s6 w3-right">
           <form>
             <select
               className="form-control"
@@ -59,16 +79,29 @@ const Depot_componentss = ({ selectedZone = 0, setFilteredDepots }) => {
           </form>
         </div>
         {selectedPlans == 0 ? (
-          <table class="w3-table table-stripped w3-white table-bordered ">
+          <table className="w3-table table-stripped w3-white table-bordered ">
             <tr>
               <th>
                 Depot <br />
                 <i className="w3-text-gray"> T.(6) , Dlrs.(234) </i>
               </th>
-              <th> LLY<br/> 21-22 </th>
-              <th>LY<br/> 22-23</th>
-              <th>Target V.1 <br/>23-24</th>
-              <th>Target V.2 <br/>23-24</th>
+              <th>
+                {" "}
+                LLY
+                <br /> 21-22{" "}
+              </th>
+              <th>
+                LY
+                <br /> 22-23
+              </th>
+              <th>
+                Target V.1 <br />
+                23-24
+              </th>
+              <th>
+                Target V.2 <br />
+                23-24
+              </th>
               <th> YTD (%) </th>
             </tr>
             {filtereDepot?.map((data) => (
@@ -76,8 +109,8 @@ const Depot_componentss = ({ selectedZone = 0, setFilteredDepots }) => {
             ))}
           </table>
         ) : null}
-        {selectedPlans == 'osodcp' ? (
-          <table class="w3-table table-stripped w3-white table-bordered ">
+        {selectedPlans == "osodcp" ? (
+          <table className="w3-table table-stripped w3-white table-bordered ">
             <tr>
               <th>
                 Depot <br />

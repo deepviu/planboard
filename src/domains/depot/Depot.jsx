@@ -23,12 +23,11 @@ const Depot = () => {
   const handleZoneChange = (e) => {
     const Id = parseInt(e.target.value, 10);
     setSelectedZone(Id);
-
   };
 
   return (
     <div className=" main ">
-      <div class="w3-row w3-padding-16"></div>
+      <div className="w3-row w3-padding-16"></div>
 
       <Territory_Componentss
         depotsData={Wgt_Depotwise_Data}
@@ -38,4 +37,4 @@ const Depot = () => {
   );
 };
 
-export default Depot 
+export default Depot;
