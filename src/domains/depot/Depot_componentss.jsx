@@ -3,8 +3,17 @@ import { useEffect, useState } from "react";
 import { Wgt_Depotwise_Data } from "./Wgt_Depotwise_Data";
 import Wgt_Depotwise_Ui from "./Wgt_Depotwise_Ui";
 import Wgt_Depotwise_OSODCP_Ui from "./Wgt_Depotwise_OSODCP_Ui";
+import { actionDepotSalesPlan } from "../../store/actions/National";
+import { useDispatch, useSelector } from "react-redux";
+import { SHOW_TOAST } from "../../store/constant/types";
+import axiosInstance from "./../../auth/api";
 
 const Depot_componentss = ({ selectedZone = 0, setFilteredDepots }) => {
+  /*const dispatch = useDispatch();
+  const { depotSalesPlanData } = useSelector((state) => state.national);
+  const { auth } = useSelector((state) => state.auth);
+  const [apiCalled, setApiCalled] = useState(false);*/
+
   const [filtereDepot, setFiltereDepot] = useState([]);
   const [selectedPlans, setSelectedPlans] = useState(0);
 
@@ -24,6 +33,33 @@ const Depot_componentss = ({ selectedZone = 0, setFilteredDepots }) => {
   const onchangePlansHandler = (e) => {
     setSelectedPlans(e.target.value);
   };
+
+  /*useEffect(() => {
+    console.log("-auth----", auth)
+    const payload = {
+      Token: localStorage.getItem("access_token"),
+      ZoneId: 0,
+      DepotId: 0
+    };
+    const fetchDepotSalesPlan = async () => {
+      try {
+        const response = await axiosInstance.post("DepotMonthPlan", payload);
+        console.log("=====DepotMonthPlan====", response);
+        if (response?.status === 200) {
+          dispatch(actionDepotSalesPlan(response.data.Data));
+        }
+      } catch (error) {
+        // Handle errors
+        dispatch({ type: SHOW_TOAST, payload: error.message });
+      }
+    };
+
+    if (!apiCalled && depotSalesPlanData?.length === 0) {
+      fetchDepotSalesPlan();
+      setApiCalled(true);
+    }
+  }, [apiCalled, depotSalesPlanData?.length, dispatch]);*/
+
   return (
     <>
       <div className="w3-row w3-row-padding w3-padding-16 w3-margin-top  w3-margin-bottom w3-white ">

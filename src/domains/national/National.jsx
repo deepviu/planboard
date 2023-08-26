@@ -1,12 +1,9 @@
 import React from "react";
-import { useEffect, useState, useContext } from "react";
-import { Navigate, Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"; 
 
 import Wgt_Zone_Ui from "./Wgt_Zone_Ui";
 import { Wgt_Zone_Data } from "./Wgt_Zone_Data";
-
-import Wgt_Summ_National_Ui from "../components/Wgt_Summ_National_Ui";
-import { Wgt_Summ_National_Data } from "../components/Wgt_Summ_National_Data";
+ 
 
 import Wgt_Marketsector_Ui from "./Wgt_Marketsector_Ui";
 import { Wgt_Marketsector_Data } from "./Wgt_Marketsector_Data";
@@ -20,6 +17,7 @@ import CustomPopup1 from "../CustomPopup";
 import CustomPopup2 from "../CustomPopup";
 import CustomPopup3 from "../CustomPopup";
 import Wgt_ZoneWise_Ui from "./Wgt_ZoneWise_Ui.jsx";
+import CommonTopSales from "../components/CommonTopSales";
 
 const National = () => {
   // Set Select Zone
@@ -109,10 +107,8 @@ const National = () => {
           <i className="fa fa-gear"></i> Target Rules{" "}
         </span>
       </div>
-
-      {Wgt_Summ_National_Data.map((data) => (
-        <Wgt_Summ_National_Ui key={data.id} data={data} />
-      ))}
+      
+      <CommonTopSales selectedZone={0}  />
 
       <div className="w3-clear w3-padding-16"> </div>
 

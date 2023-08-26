@@ -53,14 +53,14 @@ const Sidebar = ({ isAuth, rolId }) => {
           </button>
         </Link>
       )}
-      {hasPermission(rolId, "dealer")  && (
+      {/* {hasPermission(rolId, "dealer")  && (
         <Link className="" to="dealer">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
             <i className="fa fa-bar-chart "></i>
             <p className="w3-small h6">Dealer</p>
           </button>
         </Link>
-      )}
+      )} */}
       {hasPermission(rolId, "dashscheduleboard")  && (
         <Link className="" to="schedule">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">
