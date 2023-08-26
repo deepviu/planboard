@@ -23,7 +23,7 @@ const Login = ({ setIsAuth }) => {
       const email = user?.email;
       const accessToken = user?.accessToken;
 
-      // const email='amit.k@shalimarpaints.com';
+      // const email='a.srivastava@shalimarpaints.com';
       // const accessToken='4644616546565414651asdasd';
 
       const data = {
@@ -88,11 +88,11 @@ const Login = ({ setIsAuth }) => {
         // Signed in
         const user = userCredential.user;
 
-        const email = user?.email;
-        const accessToken = user?.accessToken;
+        // const email = user?.email;
+        // const accessToken = user?.accessToken;
 
-        // const email='amit.k@shalimarpaints.com';
-        // const accessToken='4644616546565414651asdasd';
+        const email='a.srivastava@shalimarpaints.com';
+        const accessToken='4644616546565414651asdasd';
 
         const data = {
           SessionData: [

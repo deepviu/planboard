@@ -47,7 +47,7 @@ const Zone = () => {
     }
   }, []);
 
-  // Depot Sales report
+  /*// Depot Sales report
   useEffect(() => {
     const payload = {
       Token: "E9388594-FC83-475E-83AA-3449B5F61467",
@@ -97,7 +97,7 @@ const Zone = () => {
     if (!territoryData.length) {
       fetchTerritoryData();
     }
-  }, [territoryData]);
+  }, [territoryData]);*/
 
   const handleZoneChange = (e) => {
     const Id = parseInt(e.target.value, 10);
