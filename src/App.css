@@ -20,6 +20,8 @@
   border: 0px;
   border-top: 1px solid gray;
 }
+
+.hr0{margin: 0px; border: 0px; border-top: 1px solid gray;} 
 .tbl_grid {
   border-color: #333;
 }

@@ -4,12 +4,15 @@ import { Navigate, Link, useNavigate } from "react-router-dom";
 import { rolePermission, zoneData } from "../../auth/middleware";
 
 import Wgt_Summ_Zone_Ui from "../zone/Wgt_Summ_Zone_Ui";
+import Wgt_Delear_Ui from "./Wgt_Delear_Ui";
 import { Wgt_Summ_Zone_Data } from "../zone/Wgt_Summ_Zone_Data";
+import { Wgt_Delear_Data } from "./Wgt_Delear_Data";
 
 import CustomPopup from "../CustomPopup";
 
 const Territory = () => {
   const [visibility, setVisibility] = useState(false);
+
   const popupCloseHandler = (e) => {
     setVisibility(e);
   };
@@ -22,8 +25,8 @@ const Territory = () => {
         <span className="w3-xlarge">
           Territory : H05 <i className="fa fa-lock w3-text-red"> </i>
         </span>
-        <span className=" w3-right">
-          <i className="w3-text-teal fa fa-file-excel-o"> </i> Upload
+        <span className="w3-hide w3-right">
+          <i className="w3-text-teal  fa fa-file-excel-o"> </i> Upload
         </span>
       </div>
 
@@ -115,112 +118,7 @@ const Territory = () => {
 
       <div className="w3-row w3-padding-16"></div>
 
-      <div className="w3-col l9 m6 s6 ">
-        <span className="w3-large ">
-          <b> [ H05 ] Dealers </b> (Targets){" "}
-          <i className="w3-text-red fa fa-lock"> </i>{" "}
-        </span>
-        <br />
-
-        <span
-          className=" btn btn-sm w3-small text-left w3-text-red "
-          onClick={(e) => setVisibility(!visibility)}
-        >
-          {" "}
-          <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
-        </span>
-
-        <span
-          className=" btn btn-sm w3-small text-left "
-          onClick={(e) => setVisibility(!visibility)}
-        >
-          {" "}
-          <i className="fa fa-gear"></i> Set Rules{" "}
-        </span>
-
-        <span
-          className="  btn btn-sm w3-text-gray  w3-small "
-          onClick={(e) => setVisibility(!visibility)}
-        >
-          {" "}
-          <i className="fa fa-pencil"></i> Edit Manually{" "}
-        </span>
-      </div>
-
-      <div className="w3-col l3 m3 s6 w3-right">
-        <form>
-          <select className="form-control " value="">
-            <option value=""> Sales Plan </option>
-            <option value="All"> OS / OD / Collection Plan </option>
-            <option value="All"> Activity Plan </option>
-            <option value="All"> Other </option>
-          </select>
-        </form>
-      </div>
-
-      <table className="w3-table table-stripped w3-white table-bordered ">
-        <tr>
-          <th style={{ width: "25%" }}> Dealers </th>
-          <th>
-            {" "}
-            LLY
-            <br /> FY 21-23{" "}
-          </th>
-          <th>
-            {" "}
-            LY
-            <br /> FY 22-23{" "}
-          </th>
-          <th>
-            {" "}
-            Target V.1 (%) <br /> FY 23-24{" "}
-          </th>
-          <th>
-            {" "}
-            Target V.2 (%) <br /> FY 23-24{" "}
-          </th>
-          <th>
-            {" "}
-            YTD (%) <br /> August{" "}
-          </th>
-        </tr>
-
-        <tr>
-          <td> [ Shanti Paints - Rohtak ]</td>
-          <td> 9 </td>
-          <td> 11 </td>
-          <td> 34 L (36%) </td>
-          <td>
-            {" "}
-            34 L (36%) <br /> <input className="" value="34" />
-          </td>
-          <td> 3 (4%) </td>
-        </tr>
-
-        <tr>
-          <td> [ Kamal Enterprise - Rohtak ] </td>
-          <td> 90 </td>
-          <td> 112 </td>
-          <td> 34 L (36%) </td>
-          <td>
-            {" "}
-            34 L (36%) <br /> <input className="" value="34" />
-          </td>
-          <td> 23 (4%) </td>
-        </tr>
-
-        <tr>
-          <td> [ Shanti Paints - Jhajjar ] </td>
-          <td> 11 </td>
-          <td> 12 L </td>
-          <td> 34 L (36%) </td>
-          <td>
-            {" "}
-            34 L (36%) <br /> <input className="" value="34" />
-          </td>
-          <td> 6 (8%) </td>
-        </tr>
-      </table>
+      <Wgt_Delear_Ui data={Wgt_Delear_Data} />
 
       <div className="w3-row w3-padding-16"></div>
 
@@ -409,9 +307,190 @@ const Territory = () => {
           </td>
         </tr>
       </table>
+      <div class="w3-row w3-padding-16"></div>
 
+      <table class="tbl_grid w3-table table-bordered  h6 w3-small  ">
+        <tr className="w3-gray h5">
+          <td colspan="30" className=" w3-padding  text-left ">
+            Territory Wise Dealers Month on Month Plan / Achieve
+          </td>
+        </tr>
+        <tr className=" w3-yellow h6 w3-small">
+          <td rowspan="2" colspan="1" className="" style={{ width: "15%" }}>
+            {" "}
+            Dealer{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Club{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Category{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            LY <br /> 22-23{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Plan CY <br /> 23-24{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Apr{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            May{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Jun{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Jul{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Aug{" "}
+          </td>
+          <td colspan="4" className=" ">
+            {" "}
+            September{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Oct{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Nov{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Dec{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Jan{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Feb{" "}
+          </td>
+          <td rowspan="2" className=" ">
+            {" "}
+            Mar{" "}
+          </td>
+        </tr>
+        <tr className=" w3-yellow h6 w3-small">
+          <td className=" "> OS </td>
+          <td className=" "> OD </td>
+          <td className="" style={{ width: "100px" }}>
+            {" "}
+            Sales{" "}
+          </td>
+          <td className=" " style={{ width: "100px" }}>
+            {" "}
+            Collection{" "}
+          </td>
+        </tr>
+        <tr className="">
+          <td className=""> [ Dealer 1 ] </td>
+          <td className=""> A 30% </td>
+          <td className=""> Dormant </td>
+          <td className=""> 23 </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 20
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 20
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 20{" "}
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 12{" "}
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 21{" "}
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 26{" "}
+          </td>
+          <td className=""> 23 </td>
+          <td className=""> 23 </td>
+          <td className="">
+            {" "}
+            <input className="inp40" value="2" />{" "}
+          </td>
+          <td className="">
+            {" "}
+            <input className="inp40" value="2" />{" "}
+          </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+        </tr>
+        <tr className="">
+          <td className=""> [ Dealer 2 ] </td>
+          <td className=""> C 50K </td>
+          <td className=""> New </td>
+          <td className=""> 23 </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 20
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 20
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 20{" "}
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 12{" "}
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 21{" "}
+          </td>
+          <td className="">
+            {" "}
+            23 <hr className="hr0" /> 26{" "}
+          </td>
+          <td className=""> 23 </td>
+          <td className=""> 23 </td>
+          <td className="">
+            {" "}
+            <input className="inp40" value="2" />{" "}
+          </td>
+          <td className="">
+            {" "}
+            <input className="inp40" value="2" />{" "}
+          </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+          <td className=""> 0 </td>
+        </tr>
+      </table>
       <div className="w3-row w3-padding-16"></div>
-
       <CustomPopup
         onClose={popupCloseHandler}
         show={visibility}
