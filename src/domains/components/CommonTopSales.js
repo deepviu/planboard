@@ -39,25 +39,27 @@ const CommonTopSales = ({selectedZone}) => {
   }, [selectedZone]);
   return (
     <>
+      <span className=" btn btn-sm w3-small text-left w3-text-red " title={(summaryData[0]?.isLock!=1) ? 'Click to Un-Lock' : 'Click to Lock'}> 
+      <i className="fa fa-lock" ></i> {(summaryData[0]?.isLock==1) ? 'Un-Lock' : 'Lock'}   </span>
+
       <div className="w3-row w3-row-padding w3-padding-16 w3-white w3-margin-bottom ">
-        <div className="w3-col l2 m2 s3 w3-center">
+        <div className="w3-col l3 m3 s3 w3-center">
           <span className="w3-text-gray h6"> LLY {summaryData[0]?.summ_lly_fy} </span>
           <hr className="hr1" />
           <span className=" ">{summaryData[0]?.summ_lly_sale_value}</span> Cr.
         </div>
 
-        <div className="w3-col l2 m2 s3 w3-center">
+        <div className="w3-col l3 m3 s3 w3-center">
           <span className="w3-text-gray h6"> LY {summaryData[0]?.summ_ly_fy} </span>
           <hr className="hr1" />
           <span className=" "> {summaryData[0]?.summ_ly_sale_value} </span> Cr.
         </div>
 
-        <div className="w3-col l6 m3 s3 w3-center w3-row-padding">
+        <div className="w3-col l3 m3 s3 w3-center w3-row-padding">
           <span className="w3-text-gray h6"> TARGET {summaryData[0]?.summ_cy_fy} </span>
           <hr className="hr1" />
 
-          <div className="w3-col l6 m6 s3 ">
-            <span className="  w3-text-gray w3-right ">
+           
               <b>
                 {" "}
                 [v.1 :{" "}
@@ -68,10 +70,9 @@ const CommonTopSales = ({selectedZone}) => {
                 </u>{" "}
                 ]{" "}
               </b>
-            </span>
-          </div>
+            
 
-          <div className="w3-col l6 m6 s3 ">
+          {/* <div className="w3-col l6 m6 s3 ">
             <span className="  w3-text-gray  w3-left ">
               [v.2 :{" "}
               <u className=" w3-text-red">
@@ -81,16 +82,16 @@ const CommonTopSales = ({selectedZone}) => {
               </u>{" "}
               ]<i className="fa fa-unlock w3-text-red"> </i>
             </span>
-          </div>
+          </div> */}
         </div>
 
-        <div className="w3-col l2 m2 s3  w3-center">
+        <div className="w3-col l3 m3 s3  w3-center">
           <span className="w3-text-gray h6"> YTD </span>
           <hr className="hr1" />
-          <span className=" "> {summaryData[0]?.summ_cy_sale_ytd_value} </span> Cr.
+          <span className=" "> {summaryData[0]?.summ_cy_sale_value} </span> Cr.
           <i className="w3-text-gray">
             {" "}
-            ( {summaryData[0]?.summ_cy_sale_ytd_percentage} %){" "}
+            ( {summaryData[0]?.summ_cy_plan_percentage} %){" "}
           </i>
         </div>
       </div>

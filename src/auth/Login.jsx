@@ -106,7 +106,7 @@ const Login = ({ setIsAuth }) => {
           .post("api/UserMaster/SessionCheck", data)
           .then((res) => {
             if (res?.status === 200) {
-              console.log(res.data);
+              console.log("===SessionCheck===",res.data);
               dispatch(setAuthData(res?.data));
               localStorage.setItem("access_token", res.data.Data[0].TokenValid);
 

@@ -7,8 +7,11 @@ import { Wgt_Depotwise_Data } from "../depot/Wgt_Depotwise_Data";
 import CommonTopSales from "../components/CommonTopSales";
 import TerritoryMonthWiseSalesReport from "../components/TerritoryMonthWiseSalesReport";
 import TerritorySales from "../components/TerritorySales";
+import { useParams } from "react-router";
 
 const Depot = () => {
+  const {depotId} = useParams();
+  console.log("-depotId==============depotId", depotId)
   const [selectedZone, setSelectedZone] = useState(0);
   const [filteredZones, setFilteredZones] = useState([]);
   const [filteredDepots, setFilteredDepots] = useState([]);
