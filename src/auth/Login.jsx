@@ -41,6 +41,7 @@ const Login = ({ setIsAuth }) => {
             console.log(res.data);
             dispatch(setAuthData(res?.data));
             localStorage.setItem("access_token", res.data.Data[0].TokenValid);
+            localStorage.setItem("data", res.data.Data[0].EmployeeTpye);
 
             if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
               navigate("/zone");
@@ -75,6 +76,7 @@ const Login = ({ setIsAuth }) => {
       }
     }
   }, [AuthData]);
+  console.log("🚀 ~ file: Login.jsx:79 ~ Login ~ AuthData:", AuthData)
   //// 2 : Login with Email Password
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
@@ -106,7 +108,7 @@ const Login = ({ setIsAuth }) => {
           .post("api/UserMaster/SessionCheck", data)
           .then((res) => {
             if (res?.status === 200) {
-              console.log(res.data);
+              console.log("===SessionCheck===",res.data);
               dispatch(setAuthData(res?.data));
               localStorage.setItem("access_token", res.data.Data[0].TokenValid);
 
