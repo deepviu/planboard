@@ -1,9 +1,9 @@
 import React from "react";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 
 import Wgt_Zone_Ui from "./Wgt_Zone_Ui";
 import { Wgt_Zone_Data } from "./Wgt_Zone_Data";
- 
+
 
 import Wgt_Marketsector_Ui from "./Wgt_Marketsector_Ui";
 import { Wgt_Marketsector_Data } from "./Wgt_Marketsector_Data";
@@ -18,8 +18,12 @@ import CustomPopup2 from "../CustomPopup";
 import CustomPopup3 from "../CustomPopup";
 import Wgt_ZoneWise_Ui from "./Wgt_ZoneWise_Ui.jsx";
 import CommonTopSales from "../components/CommonTopSales";
+import { useSelector } from "react-redux";
+import ZoneDropDown from "../components/ZoneDropDown";
 
 const National = () => {
+  const { AuthData } = useSelector((state) => state.auth);
+  console.log("====auth====", AuthData)
   // Set Select Zone
   const [selectedZone, setSelectedZone] = useState(0);
   const [filteredZones, setFilteredZones] = useState([]);
@@ -89,26 +93,14 @@ const National = () => {
           Shalimar Paints Limited <i className="fa fa-lock w3-text-red"> </i>
         </span>
 
-        <span className=" w3-right">
+        {/* <span className=" w3-right">
           <i className="w3-text-teal fa fa-file-excel-o"> </i> Upload
-        </span>
+        </span> */}
       </div>
 
-      <div className="w3-row ">
-        <span className=" btn btn-sm w3-small text-left w3-text-red ">
-          {" "}
-          <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
-        </span>
-        <span
-          className=" btn btn-sm w3-small text-left "
-          onClick={(e) => setVisibility1(!visibility1)}
-        >
-          {" "}
-          <i className="fa fa-gear"></i> Target Rules{" "}
-        </span>
-      </div>
       
-      <CommonTopSales selectedZone={0}  />
+
+      <CommonTopSales actionType="" selectedZone={0} />
 
       <div className="w3-clear w3-padding-16"> </div>
 
@@ -135,6 +127,9 @@ const National = () => {
         ))}
       </div>
 
+        <div className="w3-col l3 m3 s6">
+            <ZoneDropDown />
+          </div>
       <div className="w3-clear w3-padding-16"> </div>
 
       <div
@@ -145,19 +140,7 @@ const National = () => {
       </div>
       <div className="w3-clear w3-padding-16"> </div>
 
-      <div className="w3-row ">
-        <span className=" btn btn-sm w3-small text-left w3-text-red ">
-          {" "}
-          <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
-        </span>
-        <span
-          className=" btn btn-sm w3-small text-left "
-          onClick={(e) => setVisibility3(!visibility3)}
-        >
-          {" "}
-          <i className="fa fa-gear"></i> Target Rules{" "}
-        </span>
-      </div>
+       
 
       <div
         id="Wgt_Segment_Id"

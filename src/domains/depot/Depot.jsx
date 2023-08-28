@@ -8,46 +8,61 @@ import CommonTopSales from "../components/CommonTopSales";
 import TerritoryMonthWiseSalesReport from "../components/TerritoryMonthWiseSalesReport";
 import TerritorySales from "../components/TerritorySales";
 import { useParams } from "react-router";
+import { useSelector } from "react-redux";
+import ZoneSelectionBox from "../components/ZoneSelectionBox";
+import DepoSelectionBox from "../components/DepoSelectionBox";
 
 const Depot = () => {
-  const {depotId} = useParams();
-  console.log("-depotId==============depotId", depotId)
-  const [selectedZone, setSelectedZone] = useState(0);
-  const [filteredZones, setFilteredZones] = useState([]);
-  const [filteredDepots, setFilteredDepots] = useState([]);
-  const [selectedDepot, setSelectedDepot] = useState(0);
-  
-  useEffect(() => {
-    const permissions = rolePermission()?.permissions;
-    if (permissions) {
-      const filteredZoness = zoneData.filter((item) =>
-        permissions.includes(item.id)
-      );
+  const { depotId } = useParams();
 
-      setFilteredZones(filteredZoness);
-      setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
-    }
-  }, []);
-  const handleZoneChange = (e) => {
-    const Id = parseInt(e.target.value, 10);
-    setSelectedZone(Id);
+  const { AuthData } = useSelector((state) => state.auth);
+
+  const [selectedZone, setSelectedZone] = useState(AuthData.Zone[0]?.ZoneID ? AuthData.Zone[0]?.ZoneID : 0);
+  const [filteredZones, setFilteredZones] = useState([]);
+
+  const [selectedDepot, setSelectedDepot] = useState(0);
+
+  const handleSelectionChange = (newValue) => {
+    setSelectedZone(newValue);
+    console.log("45-selectedZone", selectedZone)
   };
+
+  const onSelectedDepoChange = (newValue) => {
+    setSelectedDepot(newValue);
+    console.log("45-setSelectedDepo", selectedDepot)
+  };
+
 
   return (
     <div className=" main ">
-      <div className="w3-row w3-padding-16"></div>
-      <CommonTopSales  selectedZone={selectedZone} />
 
-      <TerritorySales selectedZone={selectedZone} selectedDepot={selectedDepot} setFilteredDepots={setFilteredDepots}/>
+      <div className="w3-row w3-padding-16">
+        {(AuthData.Data[0].EmployeeTpye === 'HOD' || AuthData.Data[0].EmployeeTpye === 'ZM') ? (
+          <>
+            <div className="w3-col l3 m3 s6">
+              <ZoneSelectionBox onValueChange={handleSelectionChange} />
+            </div>
+            <div className="w3-col l3 m3 s6">
+              <DepoSelectionBox selectedZone={selectedZone} onSelectedDepoChange={onSelectedDepoChange} />
+            </div>
+          </>
+        ) : AuthData.Data[0].EmployeeTpye === 'DM' ? (
+          <div className="w3-col l3 m3 s6">
+            <DepoSelectionBox selectedZone={selectedZone} onSelectedDepoChange={onSelectedDepoChange} />
+          </div>
+        ) : (<></>)}
+      </div>
 
-      <TerritoryMonthWiseSalesReport />
- 
+
+      <CommonTopSales actionType="Depot" selectedZone={selectedZone} selectedDepot={selectedDepot} />
+
+      {/*  <TerritorySales selectedZone={selectedZone} selectedDepot={selectedDepot} setFilteredDepots={setFilteredDepots}/>  */}
+
+      <TerritoryMonthWiseSalesReport selectedDepot={selectedDepot} />
+
 
       {/* <DepoMonthWiseSalesReport  selectedZone={selectedZone} selectedDepot={selectedDepot}   /> */}
-      {/* <Territory_Componentss
-        depotsData={Wgt_Depotwise_Data}
-        selectedDepot={"all"}
-      /> */}
+
     </div>
   );
 };

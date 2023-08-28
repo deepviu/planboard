@@ -17,27 +17,7 @@ const Wgt_ZoneWise_Ui = ({ data }) => {
             </span>
           </div>
 
-          <div className="w3-col l3 m3 s6 w3-right">
-            <form>
-              <select className="form-control" value="">
-                <option value="North" selected={data?.name === "North"}>
-                  {" "}
-                  North{" "}
-                </option>
-                <option value="South" selected={data?.name === "South"}>
-                  South{" "}
-                </option>
-                <option value="East" selected={data?.name === "East"}>
-                  {" "}
-                  East{" "}
-                </option>
-                <option value="West" selected={data?.name === "West"}>
-                  {" "}
-                  West{" "}
-                </option>
-              </select>
-            </form>
-          </div>
+          
         </div>
 
         <div className="w3-clear w3-padding"> </div>

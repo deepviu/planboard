@@ -6,7 +6,7 @@ import { hasPermission } from "../auth/middleware";
 const Sidebar = ({ isAuth, rolId }) => {
   return (
     <div className="w3-sidebar w3-bar-block w3-hide-small  ">
-      {hasPermission(rolId, "dashboard")  && (
+      {/* {hasPermission(rolId, "dashboard")  && (
         <Link className="" to="dashboard">
           <button className="w3-bar-item w3-button w3-center w3-hover-none">
             <img src={icon} alt="" className="" style={{ width: "38px" }} />
@@ -20,7 +20,7 @@ const Sidebar = ({ isAuth, rolId }) => {
             <p className=" w3-small h6">FY-23-24 </p>
           </button>
         </Link>
-      )}
+      )} */}
       {hasPermission(rolId, "national")  && (
         <Link className="" to="national">
           <button className="w3-bar-item w3-button w3-padding-xlarge  w3-center">

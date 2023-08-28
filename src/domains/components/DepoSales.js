@@ -102,8 +102,8 @@ const DepoSales = ({ selectedZone, selectedDepot }) => {
                     </th>
                     <td>{ele.LLY_Value} <i className="w3-text-gray"> </i></td>
                     <td> {ele.LY_Value} <i className="w3-text-gray">({ele.LY_Volume}%)</i></td>
-                    <td> {ele.YTD_Value}<i className="w3-text-gray">({ele.YTD_Volume}%)</i></td>
-                    {/* <td> {ele.YTD_Value}<i className="w3-text-gray">({ele.YTD_Volume}%)</i></td> */}
+                    <td> {ele.YTD_Value}<i className="w3-text-gray">({ele.YTD_Vole}%)</i></td>
+                    {/* <td> {ele.YTD_Value}<i className="w3-text-gray">({ele.YTD_Volue}%)</i></td> */}
                     <td> {ele.YTD_Value} <i className="w3-text-gray">({ele.YTD_Volume}%)</i></td>
                   </tr>
                 ))

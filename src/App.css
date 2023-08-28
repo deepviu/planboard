@@ -14,6 +14,8 @@
   color: slategray;
   font-size: 36px;
 }
+
+  .hr0{margin: 0px; border: 0px; border-top: 1px solid gray;} 
 .hr1 {
   margin: 0px;
   margin: 5px 0px 5px 0px;

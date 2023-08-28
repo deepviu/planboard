@@ -1,0 +1,64 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axiosInstance from "./../../auth/api";
+import { SHOW_TOAST } from "../../store/constant/types";
+
+
+const TerritorySelectionBox = ({ selectedZone, selectedDepot, onSelectedTerritoryChange }) => {
+  const dispatch = useDispatch();
+
+  const [isLoading, setLoading] = useState(true)
+  const [territoryArray, setTerritoryArray] = useState([]);
+  const [selctedDepo, setSelctedDepo] = useState(0);
+
+  const handleChange = (event) => {
+    const territorId = parseInt(event.target.value);
+     
+    onSelectedTerritoryChange(parseInt(territorId));
+    // setSelctedDepo(parseInt(territorId));
+    // onSelectedTerritoryChange(parseInt(territorId));
+  };
+
+
+  useEffect(() => {
+    const payload = {
+      Token: localStorage.getItem("access_token"),
+      ZoneId: selectedZone,
+      DepotId: selectedDepot
+    };
+
+    const fetchTerritory = async () => {
+      setLoading(true)
+      try {
+        const response = await axiosInstance.post("TerritoryMonthPlan", payload);
+        console.log("=====TerritoryMonthPlan====", response);
+        if (response?.status === 200) {
+          setTerritoryArray(response.data.Data != null ? response.data.Data : [])
+        }
+        setLoading(false)
+      } catch (error) {
+        // Handle errors
+        dispatch({ type: SHOW_TOAST, payload: error.message });
+      }
+    };
+
+    fetchTerritory();
+  }, [selectedZone, selectedDepot]);
+
+  return (
+    <select
+      className="form-control"
+    value={selctedDepo}
+    onChange={handleChange}
+    >
+      <option value="0">All Territory</option>
+      {territoryArray?.map((item, index) => (
+        <option key={index} value={item?.territoryid} >
+          {item.territory_name}
+        </option>
+      ))}
+    </select>
+  )
+}
+
+export default TerritorySelectionBox;

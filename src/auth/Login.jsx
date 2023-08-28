@@ -91,7 +91,7 @@ const Login = ({ setIsAuth }) => {
         // const email = user?.email;
         // const accessToken = user?.accessToken;
 
-        const email='a.srivastava@shalimarpaints.com';
+        const email='amitgupta@shalimarpaints.com';
         const accessToken='4644616546565414651asdasd';
 
         const data = {
@@ -109,7 +109,10 @@ const Login = ({ setIsAuth }) => {
               console.log("===SessionCheck===",res.data);
               dispatch(setAuthData(res?.data));
               localStorage.setItem("access_token", res.data.Data[0].TokenValid);
-
+              
+              if (res?.data?.Data[0]?.EmployeeTpye == "HOD") {
+                navigate("/national");
+              }
               if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
                 navigate("/zone");
               }
