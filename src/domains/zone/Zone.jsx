@@ -9,7 +9,7 @@ const Zone = () => {
   const { AuthData } = useSelector((state) => state.auth);
   console.log("--AuthData---", AuthData)
 
-  const [selectedZone, setSelectedZone] = useState(0); 
+  const [selectedZone, setSelectedZone] = useState(AuthData.Zone[0]?.ZoneID ? AuthData.Zone[0]?.ZoneID : 0);
   const [selectedDepot, setSelectedDepot] = useState(0);
 
   const handleSelectionChange = (newValue) => {

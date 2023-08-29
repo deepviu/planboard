@@ -4,18 +4,19 @@ import axiosInstance from "./../../auth/api";
 import { SHOW_TOAST } from "../../store/constant/types";
 
 
-const DepoSelectionBox = ({ selectedZone, onSelectedDepoChange }) => {
+const DepoSelectionBox = ({ selectedZone, selectedDepot, onSelectedDepoChange }) => {
   const dispatch = useDispatch();
+  console.log("=====selectedDepot====", selectedDepot);
 
   const [isLoading, setLoading] = useState(true)
   const [depotArray, setDepotSalesPlanData] = useState([]);
-  const [selctedDepo, setSelctedDepo] = useState(0);
+  const [selctedDepo, setSelctedDepo] = useState(selectedDepot ?? 0);
 
   const handleChange = (event) => {
     const depotid = parseInt(event.target.value);
      
-    onSelectedDepoChange(parseInt(depotid));
-    setSelctedDepo(parseInt(depotid));
+    onSelectedDepoChange(depotid);
+    setSelctedDepo(depotid);
 
   };
 
@@ -29,9 +30,11 @@ const DepoSelectionBox = ({ selectedZone, onSelectedDepoChange }) => {
       setLoading(true)
       try {
         const response = await axiosInstance.post("DepotMonthPlan", payload);
-        console.log("=====DepotMonthPlan====", response);
+        
         if (response?.status === 200) {
           setDepotSalesPlanData(response.data.Data != null ? response.data.Data : [])
+          console.log("=====selectedDepotselectedDepotselectedDepotselectedDepot====", selectedDepot);
+          setSelctedDepo(selectedDepot ?? 0);
         }
         setLoading(false)
       } catch (error) {
@@ -41,7 +44,7 @@ const DepoSelectionBox = ({ selectedZone, onSelectedDepoChange }) => {
     };
 
     fetchDepotSalesPlan();
-  }, [selectedZone]);
+  }, [selectedZone, selectedDepot]);
 
   return (
     <select
@@ -49,7 +52,7 @@ const DepoSelectionBox = ({ selectedZone, onSelectedDepoChange }) => {
     value={selctedDepo}
     onChange={handleChange}
     >
-      <option value="0">All Depo</option>
+      <option value="0">All Depot</option>
       {depotArray?.map((item, index) => (
         <option key={index} value={item?.depotid} >
           {item.depot_name}

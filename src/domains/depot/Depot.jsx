@@ -13,25 +13,33 @@ import ZoneSelectionBox from "../components/ZoneSelectionBox";
 import DepoSelectionBox from "../components/DepoSelectionBox";
 
 const Depot = () => {
-  const { depotId } = useParams();
+  const { zoneId, depotId } = useParams();
+
 
   const { AuthData } = useSelector((state) => state.auth);
 
   const [selectedZone, setSelectedZone] = useState(AuthData.Zone[0]?.ZoneID ? AuthData.Zone[0]?.ZoneID : 0);
-  const [filteredZones, setFilteredZones] = useState([]);
-
   const [selectedDepot, setSelectedDepot] = useState(0);
 
   const handleSelectionChange = (newValue) => {
     setSelectedZone(newValue);
-    console.log("45-selectedZone", selectedZone)
   };
 
   const onSelectedDepoChange = (newValue) => {
     setSelectedDepot(newValue);
-    console.log("45-setSelectedDepo", selectedDepot)
   };
 
+  useEffect(() => {
+    console.log("--zoneId", zoneId)
+    
+    if (zoneId != undefined) {
+      setSelectedZone(parseInt(zoneId));
+    }
+    if (depotId != undefined) {
+      console.log("--depotId", depotId)
+      setSelectedDepot(parseInt(depotId));
+    }
+  }, [])
 
   return (
     <div className=" main ">
@@ -40,17 +48,17 @@ const Depot = () => {
         {(AuthData.Data[0].EmployeeTpye === 'HOD' || AuthData.Data[0].EmployeeTpye === 'ZM') ? (
           <>
             <div className="w3-col l3 m3 s6">
-              <ZoneSelectionBox onValueChange={handleSelectionChange} />
+              <ZoneSelectionBox selectedZone={selectedZone} onValueChange={handleSelectionChange} />
             </div>
             <div className="w3-col l3 m3 s6">
-              <DepoSelectionBox selectedZone={selectedZone} onSelectedDepoChange={onSelectedDepoChange} />
+              <DepoSelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} onSelectedDepoChange={onSelectedDepoChange} />
             </div>
           </>
         ) : AuthData.Data[0].EmployeeTpye === 'DM' ? (
           <div className="w3-col l3 m3 s6">
             <DepoSelectionBox selectedZone={selectedZone} onSelectedDepoChange={onSelectedDepoChange} />
           </div>
-        ) : (<></>)}
+        ) : null}
       </div>
 
 

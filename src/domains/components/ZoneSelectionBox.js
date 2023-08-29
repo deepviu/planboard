@@ -1,20 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // { filteredZones, selectedZone, onValueChange }
-const ZoneSelectionBox = ({onValueChange}) => {
+const ZoneSelectionBox = ({selectedZone, onValueChange}) => {
   const { AuthData } = useSelector((state) => state.auth);
-  const [selectedZone, setSelctedZone] = useState(0);
+  const [selectedZones, setSelctedZone] = useState(0);
 
-  // console.log("-selectedZone", selectedZone)
+  console.log("-selectedZone==============================", selectedZone)
   const handleChange = (event) => {
     onValueChange(parseInt(event.target.value));
     setSelctedZone(parseInt(event.target.value));
   };
 
+  useEffect(() => {
+    setSelctedZone(selectedZone);
+  },[selectedZone])
+
   return (
     <select
       className="form-control"
-      value={selectedZone}
+      value={selectedZones}
       onChange={handleChange}
     >
       {/* <option >All Zone</option> */}

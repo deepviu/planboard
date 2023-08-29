@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 import axiosInstance from "./../../auth/api";
 import { SHOW_TOAST } from "../../store/constant/types";
-import { useDispatch } from "react-redux";
 import LoadingPlaceholder from "../../components/LoadingPlaceholder";
 
 const TerritoryMonthWiseSalesReport = ({ selectedDepot }) => {
@@ -87,7 +89,9 @@ const TerritoryMonthWiseSalesReport = ({ selectedDepot }) => {
                 territoryMonthPlan.map((item, index) => (
                   <tr key={index}>
                     <td className=""> {item.depot_name} </td>
-                    <td className=""> {item.territory_name} </td>
+                    <td className="">   {item.territory_name}
+                      {/* <Link className="link  w3-text-indigo" to={`/territory/${item.zoneid}/${item.depotid}/${item.territoryid}`}>  {item.territory_name} </Link> */}
+                    </td>
                     <td className="">  {item.LLY_Value} </td>
                     <td className="">  {item.LY_Value}  <br /> <span className="w3-text-gray ">({(((item.LY_Value)/(item.LLY_Value))*100).toFixed(2)}%) </span>  </td> 
                     <td className=""> {item.CY_Value}  <br /> <span className="w3-text-gray ">({(((item.YTD_Value)/(item.LY_Value))*100).toFixed(2)}%) </span>  </td>

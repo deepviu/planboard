@@ -97,7 +97,8 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
                   <tr key={index} className="">
                     <td className="">{item.zone_name}</td>
                     <td className="">
-                    <Link className="link  w3-text-indigo" to={`/depot/${item.depotid}`}>  {item.depot_name} </Link>
+                    {item.depot_name} 
+                    {/* <Link className="link  w3-text-indigo" to={`/depot/${item.zoneid}/${item.depotid}`}>  </Link> */}
                     </td>
                     <td className="">{item.LLY_Value}</td>
                     <td className="">{item.LY_Value}   <br /> <span className="w3-text-gray ">({(((item.LY_Value)/(item.LLY_Value))*100).toFixed(2)}%) </span> </td> 
