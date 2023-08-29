@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { rolePermission, zoneData } from "../../auth/middleware";
 
+ 
 
 import Wgt_Delear_Ui from "./Wgt_Delear_Ui";
 import { Wgt_Delear_Data } from "./Wgt_Delear_Data";
+
+import Wgt_Delear_Weekly_Ui from "./Wgt_Delear_Weekly_Ui";
+import { Wgt_Delear_Weekly_Data } from "./Wgt_Delear_Weekly_Data";
 
 
 import CommonTopSales from "../components/CommonTopSales";
@@ -14,6 +18,14 @@ import TerritorySelectionBox from "../components/TerritorySelectionBox";
 
 
 const Territory = () => {
+
+
+const [toggleState, setToggleState] = useState(1); 
+const toggleTab = (index) => { 
+   setToggleState(index);
+};
+
+
   const [visibility, setVisibility] = useState(false);
   const popupCloseHandler = (e) => {
     setVisibility(e);
@@ -168,7 +180,30 @@ const Territory = () => {
 
       <div class="w3-row w3-padding-16"></div>
 
-      <Wgt_Delear_Ui data={Wgt_Delear_Data} />
+        <div class="w3-row w3-white w3-border w3-border-black">
+          <div className="w3-bar w3-black"> 
+            <div className={toggleState === 1 ? " w3-bar-item w3-button w3-white  w3-hover-white  " : " w3-bar-item w3-button w3-black  w3-hover-white  " } onClick={()=> toggleTab(1) } >
+           <span className=" h6 " > Dealer Monthly Targets  </span>
+            </div>  
+            <div className={toggleState === 2 ? " w3-bar-item w3-button  w3-white  w3-hover-white " : " w3-bar-item w3-button w3-black w3-hover-white " } onClick={()=> toggleTab(2) } >
+            <span className=" h6 " >  Dealer Weakly Targets  </span>
+            </div>   
+              <div className={toggleState === 3 ? " w3-bar-item w3-button  w3-white  w3-hover-white " : " w3-bar-item w3-button w3-black w3-hover-white " } onClick={()=> toggleTab(3) } >
+            <span className=" h6 " >  Dealer Activity Plan   </span>
+            </div> 
+          </div>  
+          <div class="w3-row w3-padding " style={{height:"300px"}}> 
+            <div className={toggleState === 1 ? "  " : " w3-hide  " } onClick={()=> toggleTab(1) } >  
+              <Wgt_Delear_Ui data={Wgt_Delear_Data} />   
+            </div>    
+            <div className={toggleState === 2 ? "  " : " w3-hide  " } onClick={()=> toggleTab(2) } > 
+              <Wgt_Delear_Weekly_Ui data={Wgt_Delear_Data} /> 
+            </div> 
+            <div className={toggleState === 3 ? "  " : " w3-hide  " } onClick={()=> toggleTab(3) } > 
+              
+            </div>   
+          </div> 
+        </div>
 
       <div class="w3-row w3-padding-16"> </div>
 
@@ -178,4 +213,4 @@ const Territory = () => {
 };
 
 
-export default Territory; 
+export default Territory;

@@ -9,14 +9,13 @@ const TerritorySelectionBox = ({ selectedZone, selectedDepot, onSelectedTerritor
 
   const [isLoading, setLoading] = useState(true)
   const [territoryArray, setTerritoryArray] = useState([]);
-  const [selctedDepo, setSelctedDepo] = useState(0);
+  const [selctedTerritory, setSelctedTerritory] = useState(0);
 
   const handleChange = (event) => {
     const territorId = parseInt(event.target.value);
      
-    onSelectedTerritoryChange(parseInt(territorId));
-    // setSelctedDepo(parseInt(territorId));
-    // onSelectedTerritoryChange(parseInt(territorId));
+    onSelectedTerritoryChange(territorId);
+    setSelctedTerritory(territorId);
   };
 
 
@@ -48,7 +47,7 @@ const TerritorySelectionBox = ({ selectedZone, selectedDepot, onSelectedTerritor
   return (
     <select
       className="form-control"
-    value={selctedDepo}
+    value={selctedTerritory}
     onChange={handleChange}
     >
       <option value="0">All Territory</option>
