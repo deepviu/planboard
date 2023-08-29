@@ -1,35 +1,39 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "./../../auth/api";
 import { SHOW_TOAST } from "../../store/constant/types";
 import { useDispatch } from "react-redux";
 import LoadingPlaceholder from "../../components/LoadingPlaceholder";
 import { Link } from "react-router-dom";
+import DataTable from "react-data-table-component";
+import { Button } from "bootstrap";
 
 const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
   const dispatch = useDispatch();
-  const [monthWiseSalesData, setMonthWiseSalesData] = useState([])
-  const [isLoading, setLoading] = useState(true)
+  const [monthWiseSalesData, setMonthWiseSalesData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [filterText, setFilterText] = React.useState("");
 
   const tableScroll = {
-    height: '400px',
-    overflow: 'scroll'
-  }
-
+    height: "400px",
+    overflow: "scroll",
+  };
   useEffect(() => {
     const payload = {
       Token: localStorage.getItem("access_token"),
       ZoneId: selectedZone,
-      DepotId: 0//selectedDepot
+      DepotId: 0, //selectedDepot
     };
     const fetchDepotSalesPlan = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
         const response = await axiosInstance.post("DepotMonthPlan", payload);
         console.log("=====DepotMonthPlan====", response);
         if (response?.status === 200) {
-          setMonthWiseSalesData(response.data.Data != null ? response.data.Data : [])
+          setMonthWiseSalesData(
+            response.data.Data != null ? response.data.Data : []
+          );
         }
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         // Handle errors
         dispatch({ type: SHOW_TOAST, payload: error.message });
@@ -38,24 +42,187 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
 
     fetchDepotSalesPlan();
   }, [selectedZone]);
+  const columns = [
+    {
+      name: "Zone",
+      selector: (row) => row.zone_name,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Depot",
+      selector: (row) => (
+        <Link className="link  w3-text-indigo" to={`/depot/${row.depotid}`}>
+          {row.depot_name}
+        </Link>
+      ),
+      sortable: true,
+      minWidth: "100px",
+    },
+    {
+      name: "LLY",
+      selector: (row) => (
+        <>
+          {row.LLY_Value} <br />
+          <span className="w3-text-gray ">
+            ({((row.LY_Value / row.LLY_Value) * 100).toFixed(2)}%){" "}
+          </span>
+        </>
+      ),
+      sortable: true,
+      minWidth: "70px",
+    },
+    {
+      name: "LY",
+      selector: (row) => (
+        <>
+          {row.LY_Value}
+          <br />
+          <span className="w3-text-gray ">
+            ({((row.CY_Value / row.LY_Value) * 100).toFixed(2)}%){" "}
+          </span>{" "}
+        </>
+      ),
+      sortable: true,
+      minWidth: "70px",
+    },
+    {
+      name: "CY Plan",
+      selector: (row) => (
+        <>
+          {row.CY_Value}
+          <br />
+          <span className="w3-text-gray ">
+          ({((row.YTD_Value / row.CY_Value) * 100).toFixed(2)}%)
+          </span>{" "}
+        </>
+      ),
+      sortable: true,
+      minWidth: "70px",
+    },
+    {
+      name: "YTD",
+      selector: (row) => row.YTD_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Apr",
+      selector: (row) => row.Apr_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "May",
+      selector: (row) => row.May_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Jun",
+      selector: (row) => row.Jun_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Jul",
+      selector: (row) => row.Jul_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Aug",
+      selector: (row) => row.Aug_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Sep",
+      selector: (row) => row.Sep_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Oct",
+      selector: (row) => row.Oct_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Nov",
+      selector: (row) => row.Nov_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Dec",
+      selector: (row) => row.Dec_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Jan",
+      selector: (row) => row.Jan_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Feb",
+      selector: (row) => row.Feb_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+    {
+      name: "Mar",
+      selector: (row) => row.Mar_Month_Value,
+      sortable: true,
+      minWidth: "10px",
+    },
+  ];
 
+  const filteredItems = monthWiseSalesData.filter(
+    (item) =>
+      item.zone_name &&
+      item.zone_name.toLowerCase().includes(filterText.toLowerCase())
+  );
+  const subHeaderComponent = (
+    <input
+      type="text"
+      placeholder="Filter By Name"
+      aria-label="Search Input"
+      value={filterText}
+      onChange={(e) => setFilterText(e.target.value)}
+    />
+  );
+
+  // Code for the Export CSV
+  const ExportButton = ({ onExport }) => (
+    <button onClick={onExport}>Export Table Data</button>
+  );
+  const handleExport = () => {
+    // Logic to export data (e.g., as a CSV file)
+    console.log("Exporting table data");
+  };
   return (
     <>
       <div className="w3-col l6 m6 s6 headingMB">
         <span className="w3-large">
-          Month wise Sales Target <span className=" w3-text-gray w3-opacity">({monthWiseSalesData.length})</span>
+          Month wise Sales Target{" "}
+          <span className=" w3-text-gray w3-opacity">
+            ({monthWiseSalesData.length})
+          </span>
         </span>
       </div>
       <div className="w3-col 12 " style={tableScroll}>
         <table className="tbl_grid w3-table table-bordered  h6 w3-small w3-white ">
           {/* <tr className="w3-gray h5">
-          <td colSpan="20" className=" w3-padding  text-left ">
-            Month wise Sales Target
-            <span className=" w3-right w3-opacity">
-              <i className="w3-text-teal fa fa-save"> </i> Save
-            </span>
-          </td>
-        </tr> */}
+            <td colSpan="20" className=" w3-padding  text-left ">
+              Month wise Sales Target
+              <span className=" w3-right w3-opacity">
+                <i className="w3-text-teal fa fa-save"> </i> Save
+              </span>
+            </td>
+          </tr> */}
           <tr className=" w3-yellow h6">
             <td colSpan="1" className="" style={{ width: "5%" }}>
               Zone
@@ -65,7 +232,7 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
             </td>
             <td className=" "> LLY </td>
             <td className=" "> LY </td>
-            <td className=" "> CY Plan  </td>
+            <td className=" "> CY Plan </td>
             <td className=" "> YTD </td>
             <td className=" "> Apr </td>
             <td className=" "> May </td>
@@ -97,12 +264,33 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
                   <tr key={index} className="">
                     <td className="">{item.zone_name}</td>
                     <td className="">
-                    <Link className="link  w3-text-indigo" to={`/depot/${item.depotid}`}>  {item.depot_name} </Link>
+                      <Link
+                        className="link  w3-text-indigo"
+                        to={`/depot/${item.depotid}`}
+                      >
+                        {" "}
+                        {item.depot_name}{" "}
+                      </Link>
                     </td>
                     <td className="">{item.LLY_Value}</td>
-                    <td className="">{item.LY_Value}   <br /> <span className="w3-text-gray ">({(((item.LY_Value)/(item.LLY_Value))*100).toFixed(2)}%) </span> </td> 
-                    <td className="">{item.CY_Value}   <br /> <span className="w3-text-gray ">({(((item.CY_Value)/(item.LY_Value))*100).toFixed(2)}%) </span>  </td>
-                    <td className="">{item.YTD_Value}   <br /> <span className="w3-text-gray ">({(((item.YTD_Value)/(item.CY_Value))*100).toFixed(2)}%) </span>  </td>
+                    <td className="">
+                      {item.LY_Value} <br />{" "}
+                      <span className="w3-text-gray ">
+                        ({((item.LY_Value / item.LLY_Value) * 100).toFixed(2)}%){" "}
+                      </span>{" "}
+                    </td>
+                    <td className="">
+                      {item.CY_Value} <br />{" "}
+                      <span className="w3-text-gray ">
+                        ({((item.CY_Value / item.LY_Value) * 100).toFixed(2)}%){" "}
+                      </span>{" "}
+                    </td>
+                    <td className="">
+                      {item.YTD_Value} <br />{" "}
+                      <span className="w3-text-gray ">
+                        ({((item.YTD_Value / item.CY_Value) * 100).toFixed(2)}%){" "}
+                      </span>{" "}
+                    </td>
                     <td className="">{item?.Apr_Month_Value}</td>
                     <td className="">{item?.May_Month_Value}</td>
                     <td className="">{item?.Jun_Month_Value}</td>
@@ -122,8 +310,20 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
           )}
         </table>
       </div>
+      <DataTable
+        columns={columns}
+        data={filteredItems}
+        pagination
+        className="datatable"
+        fixedHeader={true}
+        fixedHeaderScrollHeight="300px"
+        subHeader
+        subHeaderComponent={subHeaderComponent}
+        // subHeader
+        // subHeaderComponent={<ExportButton onExport={handleExport} />}
+      />
     </>
-  )
-}
+  );
+};
 
 export default DepoMonthWiseSalesReport;

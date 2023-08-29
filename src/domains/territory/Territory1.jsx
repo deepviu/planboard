@@ -1,37 +1,28 @@
 import { useEffect, useState } from "react";
 import { rolePermission, zoneData } from "../../auth/middleware";
 
+
 import Wgt_Delear_Ui from "./Wgt_Delear_Ui";
 import { Wgt_Delear_Data } from "./Wgt_Delear_Data";
 
-import Wgt_Delear_Weekly_Ui from "./Wgt_Delear_Weekly_Ui";
-import { Wgt_Delear_Weekly_Data } from "./Wgt_Delear_Weekly_Data";
 
 import CommonTopSales from "../components/CommonTopSales";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ZoneSelectionBox from "../components/ZoneSelectionBox";
 import DepoSelectionBox from "../components/DepoSelectionBox";
 import TerritorySelectionBox from "../components/TerritorySelectionBox";
-import { SHOW_TOAST } from "../../store/constant/types";
-import axiosInstance from "./../../auth/api";
+
 
 const Territory = () => {
-  const dispatch = useDispatch();
-  const [toggleState, setToggleState] = useState(1);
-  const toggleTab = (index) => {
-    setToggleState(index);
-  };
-
   const [visibility, setVisibility] = useState(false);
   const popupCloseHandler = (e) => {
     setVisibility(e);
   };
 
+
   const { AuthData } = useSelector((state) => state.auth);
 
-  const [selectedZone, setSelectedZone] = useState(
-    AuthData.Zone[0]?.ZoneID ? AuthData.Zone[0]?.ZoneID : 0
-  );
+  const [selectedZone, setSelectedZone] = useState(AuthData.Zone[0]?.ZoneID ? AuthData.Zone[0]?.ZoneID : 0);
   const [filteredZones, setFilteredZones] = useState([]);
 
   const [selectedDepot, setSelectedDepot] = useState(0);
@@ -39,102 +30,49 @@ const Territory = () => {
 
   const handleSelectionChange = (newValue) => {
     setSelectedZone(newValue);
-    console.log("45-selectedZone", selectedZone);
+    console.log("45-selectedZone", selectedZone)
   };
 
   const onSelectedDepoChange = (newValue) => {
     setSelectedDepot(newValue);
-    console.log("45-setSelectedDepo", selectedDepot);
+    console.log("45-setSelectedDepo", selectedDepot)
   };
 
   const onSelectedTerritoryChange = (newValue) => {
     setSelectedTerritory(newValue);
-    console.log("45-setselectedTerritory", newValue);
+    console.log("45-setselectedTerritory", newValue)
   };
-  const payload = {
-    Token: localStorage.getItem("access_token"),
-    entity_id: 0,
-  };
-  // useEffect(() => {
-  //   fetchDealerMaster();
-  //   fetchDealerMasterWeek();
-  // }, []);
-
-  // const fetchDealerMaster = async () => {
-  //   try {
-  //     const response = await axiosInstance.post("api/Master/yatin", payload);
-
-  //     if (response?.status === 200) {
-  //       console.log("=====api/Master/ZoneData==== 65", response);
-  //     }
-  //   } catch (error) {
-  //     // Handle errors
-  //     dispatch({ type: SHOW_TOAST, payload: error.message });
-  //   }
-  // };
-  // const fetchDealerMasterWeek = async () => {
-  //   try {
-  //     const response = await axiosInstance.post("api/Master/yatin1", payload);
-
-  //     if (response?.status === 200) {
-  //       console.log("=====api/Master/ZoneData==== 77", response);
-  //     }
-  //   } catch (error) {
-  //     // Handle errors
-  //     dispatch({ type: SHOW_TOAST, payload: error.m  essage });
-  //   }
-  // };
 
   return (
     <div className=" main ">
       <div className="w3-row w3-padding-16">
-        {AuthData.Data[0].EmployeeTpye === "HOD" ||
-        AuthData.Data[0].EmployeeTpye === "ZM" ? (
+        {(AuthData.Data[0].EmployeeTpye === 'HOD' || AuthData.Data[0].EmployeeTpye === 'ZM') ? (
           <>
             <div className="w3-col l3 m3 s6">
               <ZoneSelectionBox onValueChange={handleSelectionChange} />
             </div>
             <div className="w3-col l3 m3 s6">
-              <DepoSelectionBox
-                selectedZone={selectedZone}
-                onSelectedDepoChange={onSelectedDepoChange}
-              />
+              <DepoSelectionBox selectedZone={selectedZone} onSelectedDepoChange={onSelectedDepoChange} />
             </div>
             <div className="w3-col l3 m3 s6">
-              <TerritorySelectionBox
-                selectedZone={selectedZone}
-                selectedDepot={selectedDepot}
-                onSelectedTerritoryChange={onSelectedTerritoryChange}
-              />
+              <TerritorySelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} onSelectedTerritoryChange={onSelectedTerritoryChange} />
             </div>
           </>
-        ) : AuthData.Data[0].EmployeeTpye === "DM" ? (
+        ) : AuthData.Data[0].EmployeeTpye === 'DM' ? (
           <>
             <div className="w3-col l3 m3 s6">
-              <DepoSelectionBox
-                selectedZone={selectedZone}
-                onSelectedDepoChange={onSelectedDepoChange}
-              />
+              <DepoSelectionBox selectedZone={selectedZone} onSelectedDepoChange={onSelectedDepoChange} />
             </div>
             <div className="w3-col l3 m3 s6">
-              <TerritorySelectionBox
-                selectedZone={selectedZone}
-                selectedDepot={selectedDepot}
-                onSelectedDepoChange={onSelectedDepoChange}
-              />
+              <TerritorySelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} onSelectedDepoChange={onSelectedDepoChange} />
             </div>
           </>
-        ) : AuthData.Data[0].EmployeeTpye === "AM" ? (
+        ) : AuthData.Data[0].EmployeeTpye === 'AM' ? (
           <div className="w3-col l3 m3 s6">
-            <TerritorySelectionBox
-              selectedZone={selectedZone}
-              selectedDepot={selectedDepot}
-              onSelectedDepoChange={onSelectedDepoChange}
-            />
+            <TerritorySelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} onSelectedDepoChange={onSelectedDepoChange} />
           </div>
-        ) : (
-          <></>
-        )}
+        ) : (<></>)}
+
       </div>
       {/* <div className="w3-row w3-padding-16">
         <div className="w3-col l3 m3 s6">
@@ -142,11 +80,8 @@ const Territory = () => {
         </div>
       </div> */}
 
-      <CommonTopSales
-        actionType="Territory"
-        selectedZone={selectedZone}
-        selectedTerritory={selectedTerritory}
-      />
+      <CommonTopSales actionType="Territory" selectedZone={selectedZone} selectedTerritory={selectedTerritory}/>
+
 
       <table className="tbl_grid w3-table table-bordered  h6 w3-small w3-white ">
         <tr className="w3-gray h5">
@@ -230,51 +165,17 @@ const Territory = () => {
         </tr>
       </table>
 
+
       <div class="w3-row w3-padding-16"></div>
 
-      <div class="w3-row w3-white w3-border w3-border-black">
-        <div className="w3-bar w3-black">
-          <div
-            className={
-              toggleState === 1
-                ? " w3-bar-item w3-button w3-white  w3-hover-white  "
-                : " w3-bar-item w3-button w3-black  w3-hover-white  "
-            }
-            onClick={() => toggleTab(1)}
-          >
-            <span className=" h6 "> Dealer Monthly Targets </span>
-          </div>
-          <div
-            className={
-              toggleState === 2
-                ? " w3-bar-item w3-button  w3-white  w3-hover-white "
-                : " w3-bar-item w3-button w3-black w3-hover-white "
-            }
-            onClick={() => toggleTab(2)}
-          >
-            <span className=" h6 "> Dealer Weakly Targets </span>
-          </div>
-        </div>
-
-        <div class="w3-row w3-padding " style={{ height: "300px" }}>
-          <div
-            className={toggleState === 1 ? "  " : " w3-hide  "}
-            onClick={() => toggleTab(1)}
-          >
-            <Wgt_Delear_Ui data={Wgt_Delear_Data} />
-          </div>
-          <div
-            className={toggleState === 2 ? "  " : " w3-hide  "}
-            onClick={() => toggleTab(2)}
-          >
-            <Wgt_Delear_Weekly_Ui data={Wgt_Delear_Weekly_Data} />
-          </div>
-        </div>
-      </div>
+      <Wgt_Delear_Ui data={Wgt_Delear_Data} />
 
       <div class="w3-row w3-padding-16"> </div>
+
+
     </div>
   );
 };
 
-export default Territory;
+
+export default Territory; 

@@ -17,7 +17,9 @@ const monthNames = [
 const Wgt_Delear_Ui = ({ data = [] }) => {
   const [visibility, setVisibility] = useState(false);
   const [getinputs, setGetinputs] = useState({});
-  const currentDate = new Date("2023-05-22");
+  // const currentDate = new Date("2023-09-22");
+  const currentDate = new Date();
+
   // const currentMonthCou = currentDate.getMonth();
   const currentMonthCount =
     currentDate.getMonth() < 3
