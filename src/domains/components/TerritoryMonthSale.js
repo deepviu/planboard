@@ -8,15 +8,13 @@ import LoadingPlaceholder from "../../components/LoadingPlaceholder";
 const TerritoryMonthSale = ({ selectedTerritory }) => {
     const dispatch = useDispatch();
 
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState(false);
     const [territoryMonthPlan, setselectedDepotMonthPlan] = useState([])
     
-    const tableScroll = {
-        height: '400px',
-        overflow: 'scroll'
-      }
+     
 
     useEffect(() => {
+        
         const payload = {
             Token: localStorage.getItem("access_token"),
             ZoneId: 0,
@@ -25,7 +23,7 @@ const TerritoryMonthSale = ({ selectedTerritory }) => {
         };
         const getZoneMonthPlan = async () => {
             try {
-                setLoading(true)
+                
                 const response = await axiosInstance.post("TerritoryMonthPlan", payload);
 
                 if (response?.status === 200) {
@@ -38,12 +36,14 @@ const TerritoryMonthSale = ({ selectedTerritory }) => {
                 dispatch({ type: SHOW_TOAST, payload: error.message });
             }
         };
-
-        getZoneMonthPlan();
+        if(selectedTerritory!=0){
+            setLoading(true)
+            getZoneMonthPlan();
+        }
     }, [selectedTerritory])
 
     return (
-        <div  style={tableScroll}>
+        <div>
         <table className="tbl_grid w3-table table-bordered  h6 w3-small w3-white ">
             <tr className="w3-gray h5">
                 <td colSpan="20" className=" w3-padding  text-left ">
@@ -70,7 +70,7 @@ const TerritoryMonthSale = ({ selectedTerritory }) => {
             {isLoading ? (
                 <tr>
                     <td colSpan="13">
-                        <LoadingPlaceholder numberOfRows={4}  ></LoadingPlaceholder>
+                        <LoadingPlaceholder numberOfRows={2}  ></LoadingPlaceholder>
                     </td>
                 </tr>) : (
                 <>

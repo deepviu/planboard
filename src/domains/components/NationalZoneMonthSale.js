@@ -44,6 +44,7 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
             <div id="mom-bar-north" className=" ">
                 <table className="w3-table w3-stripped table-bordered">
                     <tr>
+                        <td className="w3-red"> Zone </td>
                         <td className="w3-red"> Apr </td>
                         <td className="w3-teal"> May </td>
                         <td className="w3-red"> Jun </td>
@@ -71,6 +72,7 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
                             ) : (
                                 zoneMonthPlan.map((item, index) => (
                                     <tr key={index} >
+                                        <td className="">{item?.zone_name}</td>
                                         <td className="">{item?.Apr_Month_Value}</td>
                                         <td className="">{item?.May_Month_Value}</td>
                                         <td className="">{item?.Jun_Month_Value}</td>
