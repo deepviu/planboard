@@ -20,7 +20,7 @@ const monthNames = [
   "December",
 ];
 
-const Wgt_Delear_Weekly_Ui = ({ data = [] }) => {
+const Wgt_Delear_Weekly_Ui = ({ data = [], selectedTerritory = 0 }) => {
   const dispatch = useDispatch();
 
   const [monthWiseSalesData, setMonthWiseSalesData] = useState([]);
@@ -62,8 +62,9 @@ const Wgt_Delear_Weekly_Ui = ({ data = [] }) => {
   useEffect(() => {
     const payload = {
       Token: localStorage.getItem("access_token"),
-      CustomerId: 4,
-      TerritoryId: 12006, //selectedDepot
+      CustomerId: 7845,
+      TerritoryId: 76, //selectedDepot
+      Month: "Aug", //selectedDepot
     };
     const fetchDepotSalesPlan = async () => {
       setLoading(true);
@@ -84,7 +85,7 @@ const Wgt_Delear_Weekly_Ui = ({ data = [] }) => {
     };
 
     fetchDepotSalesPlan();
-  }, []);
+  }, [selectedTerritory]);
 
   return (
     <>

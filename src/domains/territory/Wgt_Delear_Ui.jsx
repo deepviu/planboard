@@ -17,7 +17,7 @@ const monthNames = [
   "November",
   "December",
 ];
-const Wgt_Delear_Ui = ({ data = [] }) => {
+const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
   const dispatch = useDispatch();
   const [visibility, setVisibility] = useState(false);
   const [getinputs, setGetinputs] = useState({});
@@ -56,8 +56,8 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
   useEffect(() => {
     const payload = {
       Token: localStorage.getItem("access_token"),
-      TerritoryId: 4,
-      DealerId: 12006, //selectedDepot
+      TerritoryId: 7845,//4,
+      DealerId: 76, //selectedDepot
     };
     const fetchDepotSalesPlan = async () => {
       setLoading(true);
@@ -78,7 +78,7 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
     };
 
     fetchDepotSalesPlan();
-  }, []); 
+  }, [selectedTerritory]); 
 
   console.log("filteredMonths", currentMonth);
   return (
@@ -343,7 +343,7 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
           </td>
         </tr>
 
-        {data?.map((item) => {
+        {monthWiseSalesData?.map((item) => {
           // var fy = 0;
           // if (currentMonth <= 4) {
           //   fy = fy + item.Apr_Month_Value;
@@ -385,12 +385,12 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
             <tr className=" ">
               <td className="" colSpan={1}>
                 {" "}
-                {item?.name}{" "}
+                {item?.dealer_name}{" "}
               </td>
               <td className=""> {item?.club} </td>
-              <td className=""> {item?.category} </td>
-              <td className="">{item?.ly_income}</td>
-              <td className=""> {item?.cy_target} </td>
+              <td className=""> {item?.dealer_category} </td>
+              <td className="">{item?.LY_Value}</td>
+              <td className=""> {item?.CY_Value} <hr className="hr0" />  {item?.YTD_Value} </td>
               {currentMonth >= 4 ? (
                 currentMonth == 4 ? (
                   <>
@@ -413,9 +413,9 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                   </>
                 ) : (
                   <td>
-                    {item?.Apr_Month_Target}
-                    <hr className="hr0" />
                     {item?.Apr_Month_Value}
+                    {/* <hr className="hr0" />
+                    {item?.Apr_Month_Value} */}
                   </td>
                 )
               ) : (
@@ -424,7 +424,7 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
               {currentMonth >= 5 ? (
                 currentMonth == 5 ? (
                   <>
-                    <td>{item?.current_outstand}</td>
+                    <td>{item?.May_Month_Value}</td>
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
@@ -443,13 +443,13 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                   </>
                 ) : (
                   <td>
-                    {item?.May_Month_Target == 0 &&
+                    {item?.May_Month_Value == 0 &&
                     item?.May_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
-                        {item?.May_Month_Target}
-                        <hr className="hr0" /> {item?.May_Month_Value}
+                        {item?.May_Month_Value}
+                        {/* <hr className="hr0" /> {item?.May_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -484,9 +484,9 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                       0
                     ) : (
                       <>
-                        {item?.Jun_Month_Target}
-                        <hr className="hr0" />
                         {item?.Jun_Month_Value}
+                        {/* <hr className="hr0" />
+                        {item?.Jun_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -523,7 +523,7 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                       <>
                         {" "}
                         {item?.Jul_Month_Value}
-                        <hr className="hr0" /> {item?.Jul_Month_Value}
+                        {/* <hr className="hr0" /> {item?.Jul_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -558,8 +558,8 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                       0
                     ) : (
                       <>
-                        {item?.Aug_Month_Target}
-                        <hr className="hr0" /> {item?.Aug_Month_Value}
+                        {item?.Aug_Month_Value}
+                        {/* <hr className="hr0" /> {item?.Aug_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -593,9 +593,9 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                       0
                     ) : (
                       <>
-                        {item?.Sep_Month_Target}
-                        <hr className="hr0" />
                         {item?.Sep_Month_Value}
+                        {/* <hr className="hr0" />
+                        {item?.Sep_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -630,8 +630,8 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                       0
                     ) : (
                       <>
-                        {item?.Oct_Month_Target}
-                        <hr className="hr0" /> {item?.Oct_Month_Value}
+                        {item?.Oct_Month_Value}
+                        {/* <hr className="hr0" /> {item?.Oct_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -667,8 +667,8 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Nov_Month_Target}
-                        <hr className="hr0" /> {item?.Nov_Month_Value}
+                        {item?.Nov_Month_Value}
+                        {/* <hr className="hr0" /> {item?.Nov_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -703,8 +703,8 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                       0
                     ) : (
                       <>
-                        {item?.Dec_Month_Target}
-                        <hr className="hr0" /> {item?.Dec_Month_Value}
+                        {item?.Dec_Month_Value}
+                        {/* <hr className="hr0" /> {item?.Dec_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -740,9 +740,9 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Jan_Month_Target}
-                        <hr className="hr0" />
                         {item?.Jan_Month_Value}
+                        {/* <hr className="hr0" />
+                        {item?.Jan_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -777,8 +777,8 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Feb_Month_Target}
-                        <hr className="hr0" /> {item?.Feb_Month_Value}
+                        {item?.Feb_Month_Value}
+                        {/* <hr className="hr0" /> {item?.Feb_Month_Value} */}
                       </>
                     )}
                   </td>
@@ -818,8 +818,8 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Mar_Month_Target}
-                        <hr className="hr0" /> {item?.Mar_Month_Value}
+                        {item?.Mar_Month_Value}
+                        {/* <hr className="hr0" /> {item?.Mar_Month_Value} */}
                       </>
                     )}
                   </td>

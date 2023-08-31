@@ -20,11 +20,11 @@ const Login = ({ setIsAuth }) => {
     signInWithPopup(auth, provider).then(async (result) => {
       const user = GoogleAuthProvider.credentialFromResult(result);
 
-      const email = user?.email;
-      const accessToken = user?.accessToken;
+      // const email = user?.email;
+      // const accessToken = user?.accessToken;
 
-      // const email='a.srivastava@shalimarpaints.com';
-      // const accessToken='4644616546565414651asdasd';
+      const email='a.srivastava@shalimarpaints.com';
+      const accessToken='4644616546565414651asdasd';
 
       const data = {
         SessionData: [
@@ -83,16 +83,18 @@ const Login = ({ setIsAuth }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
-        // Signed in
-        const user = userCredential.user;
+    // signInWithEmailAndPassword(auth, email, password)
+    //   .then(async (userCredential) => {
+    //     // Signed in
+    //     const user = userCredential.user;
 
         // const email = user?.email;
         // const accessToken = user?.accessToken;
-
-        const email='a.srivastava@shalimarpaints.com';
+        const email='amit.k@shalimarpaints.com';
         const accessToken='4644616546565414651asdasd';
+
+        // const email='amitgupta@shalimarpaints.com';
+        // const accessToken='4644616546565414651asdasd';
 
         const data = {
           SessionData: [
@@ -130,10 +132,11 @@ const Login = ({ setIsAuth }) => {
           .catch((error) => {
             dispatch({ type: SHOW_TOAST, payload: error.message });
           });
-      })
-      .catch((error) => {
-        setError(" Wrong email or password   ");
-      });
+      // })
+      // .catch((error) => {
+      //   console.log("---error", error)
+      //   setError(" Wrong email or password   ");
+      // });
   }; // 2 : handleLogin ends
 
   return (
