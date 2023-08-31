@@ -1,6 +1,9 @@
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axiosInstance from "./../../auth/api";
+import { SHOW_TOAST } from "../../store/constant/types";
+import { useDispatch } from "react-redux";
 
 const monthNames = [
   "January",
@@ -18,7 +21,10 @@ const monthNames = [
 ];
 
 const Wgt_Delear_Weekly_Ui = ({ data = [] }) => {
+  const dispatch = useDispatch();
 
+  const [monthWiseSalesData, setMonthWiseSalesData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [visibility, setVisibility] = useState(false);
 
   const [getinputs, setGetinputs] = useState({});
@@ -53,16 +59,38 @@ const Wgt_Delear_Weekly_Ui = ({ data = [] }) => {
 
   console.log("filteredMonths", currentMonth);
 
+  useEffect(() => {
+    const payload = {
+      Token: localStorage.getItem("access_token"),
+      CustomerId: 4,
+      TerritoryId: 12006, //selectedDepot
+    };
+    const fetchDepotSalesPlan = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.post("CustomerMonthWeekPlan", payload);
+        console.log("=====CustomerMonthWeekPlan====", response);
+        if (response?.status === 200) {
+          setMonthWiseSalesData(
+            response.data.Data != null ? response.data.Data : []
+          );
+
+        }
+        setLoading(false);
+      } catch (error) {
+        // Handle errors
+        dispatch({ type: SHOW_TOAST, payload: error.message });
+      }
+    };
+
+    fetchDepotSalesPlan();
+  }, []);
+
   return (
     <>
       <div className="w3-col l12 m12 s12  "> 
 
-       <span className="w3-large w3-hide ">
-          <b> [ H05 ] Dealers  </b> Weekly  (Targets){" "}
-          <i className="w3-text-red fa fa-lock"> </i>{" "}
-        </span>
-        <br />
-
+      
 
         <table className="tbl_grid w3-table table-bordered h6 w3-small">
 

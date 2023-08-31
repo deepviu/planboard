@@ -97,7 +97,7 @@ const National = () => {
       <div className="w3-clear w3-padding-16"> </div>
 
       <div className="w3-row ">
-        <span className="w3-xxlarge">
+        <span className="w3-large">
           Shalimar Paints Limited <i className="fa fa-lock w3-text-red"> </i>
         </span>
 

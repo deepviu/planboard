@@ -163,4 +163,24 @@
 .headingMB{
   margin-bottom: 10px;
 }
+
+
+
+
+/* Align subheader component to the left */
+.react-data-table-component .rdt_TableHead {
+  justify-content: flex-start;
+}
+
  
+.datatable .rdt_TableCol{
+min-width: unset;
+}
+.datatable .rdt_TableCell,.datatable .rdt_TableCol{
+  padding-right: 2px;
+}
+.datatable .rdt_TableHeadRow{
+  color: #000 !important;
+background-color: #ffeb3b !important;
+min-height: 30px;
+}

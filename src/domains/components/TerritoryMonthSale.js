@@ -45,11 +45,7 @@ const TerritoryMonthSale = ({ selectedTerritory }) => {
     return (
         <div>
         <table className="tbl_grid w3-table table-bordered  h6 w3-small w3-white ">
-            <tr className="w3-gray h5">
-                <td colSpan="20" className=" w3-padding  text-left ">
-                    Month wise Sales Target
-                </td>
-            </tr>
+             
             <tr className=" w3-yellow h6">
                 <td colSpan="1" className="" style={{ width: "18%" }}>
                     Territory
@@ -76,12 +72,12 @@ const TerritoryMonthSale = ({ selectedTerritory }) => {
                 <>
                     {territoryMonthPlan.length == 0 ? (
                         <tr>
-                            <td colSpan="13">No data found</td>
+                            <td colSpan="13" className="w3-large w3-text-gray w3-padding h4"> No Data Found, Select Territory</td>
                         </tr>
                     ) : (
                         territoryMonthPlan.map((item, index) => (
                             <tr key={index} >
-                                <td className="">{item?.territory_name}</td>
+                                <td className="h3">{item?.territory_name}</td>
                                 <td className="">{item?.Apr_Month_Value}</td>
                                 <td className="">{item?.May_Month_Value}</td>
                                 <td className="">{item?.Jun_Month_Value}</td>

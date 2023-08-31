@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import axiosInstance from "./../../auth/api";
+import { SHOW_TOAST } from "../../store/constant/types";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 const monthNames = [
   "January",
@@ -15,9 +18,15 @@ const monthNames = [
   "December",
 ];
 const Wgt_Delear_Ui = ({ data = [] }) => {
+  const dispatch = useDispatch();
   const [visibility, setVisibility] = useState(false);
   const [getinputs, setGetinputs] = useState({});
-  const currentDate = new Date("2023-05-22");
+  const [monthWiseSalesData, setMonthWiseSalesData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+
+    const currentDate = new Date("2023-08-30");
+  // const currentDate = new Date();
+
   // const currentMonthCou = currentDate.getMonth();
   const currentMonthCount =
     currentDate.getMonth() < 3
@@ -43,58 +52,44 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
   //   adjustedCurrentMonth,
   //   currentMonth + 1
   // );
+
+  useEffect(() => {
+    const payload = {
+      Token: localStorage.getItem("access_token"),
+      TerritoryId: 4,
+      DealerId: 12006, //selectedDepot
+    };
+    const fetchDepotSalesPlan = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.post("CustomerMonthPlan", payload);
+        console.log("=====CustomerMonthPlan====", response);
+        if (response?.status === 200) {
+          setMonthWiseSalesData(
+            response.data.Data != null ? response.data.Data : []
+          );
+
+        }
+        setLoading(false);
+      } catch (error) {
+        // Handle errors
+        dispatch({ type: SHOW_TOAST, payload: error.message });
+      }
+    };
+
+    fetchDepotSalesPlan();
+  }, []); 
+
   console.log("filteredMonths", currentMonth);
   return (
     <>
-      <div className="w3-col l9 m6 s6 ">
-        <span className="w3-large ">
-          <b> [ H05 ] Dealers </b> (Targets){" "}
-          <i className="w3-text-red fa fa-lock"> </i>{" "}
-        </span>
-        <br />
-
-        <span
-          className="w3-hide btn btn-sm w3-small text-left w3-text-red "
-          onClick={(e) => setVisibility(!visibility)}
-        >
-          {" "}
-          <i className="fa fa-lock"></i> Lock / Un-Lock{" "}
-        </span>
-
-        <span
-          className="w3-hide btn btn-sm w3-small text-left "
-          onClick={(e) => setVisibility(!visibility)}
-        >
-          {" "}
-          <i className="fa fa-gear"></i> Set Rules{" "}
-        </span>
-
-        <span
-          className="w3-hide  btn btn-sm w3-text-gray  w3-small "
-          onClick={(e) => setVisibility(!visibility)}
-        >
-          {" "}
-          <i className="fa fa-pencil"></i> Edit Manually{" "}
-        </span>
-      </div>
-
-      <div className="w3-hide w3-col l3 m3 s6 w3-right">
-        <form>
-          <select className="form-control " value="">
-            <option value=""> Sales Plan </option>
-            <option value="All"> OS / OD / Collection Plan </option>
-            <option value="All"> Activity Plan </option>
-            <option value="All"> Other </option>
-          </select>
-        </form>
-      </div>
-
       <table className="tbl_grid w3-table table-bordered  h6 w3-small">
-        <tr className="w3-gray h5">
-          <td colSpan="30" className=" w3-padding  text-left ">
+        <tr className="w3-blue  h6 ">
+          <td colSpan="30" className=" text-left ">
             Month wise Sales Target
-            <span className="w3-right w3-opacity" onClick={getInput} style={{cursor:"pointer"}}>
-              <i className="w3-text-teal fa fa-save"> </i> Save
+
+            <span className="w3-button w3-right w3-blue " onClick={getInput} style={{cursor:"pointer"}}>
+              <i className=" fa fa-save"> </i> Save
             </span>
           </td>
         </tr>
@@ -189,14 +184,14 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
           )}
           {currentMonth <= 8 ? (
             currentMonth == 8 ? (
-              <td className=" " colSpan={4}>
+              <td className="  w3-blue " colSpan={4}>
                 {" "}
-                Aug{" "}
+                Aug <i className=" fa fa-unlock"> </i>   {" "}
               </td>
             ) : (
-              <td className=" " rowSpan={2}>
+              <td className=" w3-blue " rowSpan={2}>
                 {" "}
-                Aug{" "}
+                Aug  {" "}
               </td>
             )
           ) : (
@@ -205,9 +200,10 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
               Aug{" "}
             </td>
           )}
+
           {currentMonth <= 9 ? (
             currentMonth == 9 ? (
-              <td className=" " colSpan={4}>
+              <td className="  w3-blue  " colSpan={4}>
                 {" "}
                 Sep{" "}
               </td>
@@ -225,7 +221,7 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
           )}
           {currentMonth <= 10 ? (
             currentMonth == 10 ? (
-              <td className=" " colSpan={4}>
+              <td className="  w3-blue  " colSpan={4}>
                 {" "}
                 Oct{" "}
               </td>
@@ -332,7 +328,9 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
             </td>
           )}
         </tr>
-        <tr className=" w3-yellow h6 w3-small">
+
+
+        <tr className="  w3-blue h6 w3-small">
           <td className=" "> OS </td>
           <td className=" "> OD </td>
           <td className="" style={{ width: "100px" }}>
@@ -344,6 +342,7 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
             Collection{" "}
           </td>
         </tr>
+
         {data?.map((item) => {
           // var fy = 0;
           // if (currentMonth <= 4) {
@@ -383,7 +382,7 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
           //   fy = fy + item.Mar_Month_Value;
           // }
           return (
-            <tr className="">
+            <tr className=" ">
               <td className="" colSpan={1}>
                 {" "}
                 {item?.name}{" "}
@@ -535,14 +534,14 @@ const Wgt_Delear_Ui = ({ data = [] }) => {
               {currentMonth >= 8 ? (
                 currentMonth == 8 ? (
                   <>
-                    <td>{item?.current_outstand}</td>
-                    <td>{item?.current_overdue}</td>
-                    <td>
+                    <td className="  w3-blue  " >{item?.current_outstand}</td>
+                    <td className="  w3-blue " >{item?.current_overdue}</td>
+                    <td className="  w3-blue " >
                       {" "}
                       <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
                     </td>
-                    <td>
+                    <td className=" w3-blue ">
                       {" "}
                       <input
                         className="inp40"

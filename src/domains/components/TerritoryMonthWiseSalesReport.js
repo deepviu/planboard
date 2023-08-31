@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
 import axiosInstance from "./../../auth/api";
 import { SHOW_TOAST } from "../../store/constant/types";
+import { useDispatch } from "react-redux";
 import LoadingPlaceholder from "../../components/LoadingPlaceholder";
+import { Link } from "react-router-dom";
+import DataTable from "react-data-table-component"; 
 
 const TerritoryMonthWiseSalesReport = ({ selectedDepot }) => {
   const dispatch = useDispatch();
   const [territoryMonthPlan, setTerritoryMonthPlan] = useState([])
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true) 
 
-  const tableScroll = {
-    height: '400px',
-    overflow: 'scroll'
-  }
+  const [filterText, setFilterText] = React.useState("");
+
+ 
 
   useEffect(() => {
     const payload = {
@@ -39,82 +38,198 @@ const TerritoryMonthWiseSalesReport = ({ selectedDepot }) => {
     };
 
     fetchTerritoryMonthPlan();
-  }, [selectedDepot]);
+  }, [selectedDepot]); 
+
+
+   const columns = [
+
+    {
+      name: "Depot",
+      selector: (row) => row.depot_name,
+      sortable: true, 
+    },  
+    {
+      name: "Territory",
+      selector: (row) => (
+        <Link className="link  w3-text-indigo" to={`/depot/${row.territoryid}`}>
+          {row.territory_name}
+        </Link>
+      ),
+      sortable: true, 
+    },  
+    {
+      name: "LLY",
+      selector: (row) => row.LLY_Value,
+      sortable: true, 
+    },
+    {
+      name: "LY",
+      selector: (row) => (
+        <>
+          {row.LY_Value}
+          <br />
+          <span className="w3-text-gray ">
+            ({((row.LY_Value / row.LLY_Value) * 100).toFixed(2)}%){" "}
+          </span>{" "}
+        </>
+      ),
+      sortable: true, 
+    },
+    {
+      name: "CY Plan",
+      selector: (row) => (
+        <>
+          {row.CY_Value}
+          <br />
+          <span className="w3-text-gray ">
+          ({((row.CY_Value / row.LY_Value) * 100).toFixed(2)}%)
+          </span>{" "}
+        </>
+      ),
+      sortable: true, 
+    },
+    {
+      name: "YTD",
+      selector: (row) => (
+      <>
+      {row.YTD_Value}
+      <br />
+      <span className="w3-text-gray ">
+      ({(((row.YTD_Value)/(row.CY_Value))*100).toFixed(2)}%) 
+      </span>
+      </>
+      ),
+      sortable: true, 
+    },
+    {
+      name: "Apr",
+      selector: (row) => row.Apr_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "May",
+      selector: (row) => row.May_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Jun",
+      selector: (row) => row.Jun_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Jul",
+      selector: (row) => row.Jul_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Aug",
+      selector: (row) => row.Aug_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Sep",
+      selector: (row) => row.Sep_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Oct",
+      selector: (row) => row.Oct_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Nov",
+      selector: (row) => row.Nov_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Dec",
+      selector: (row) => row.Dec_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Jan",
+      selector: (row) => row.Jan_Month_Value,
+      sortable: true, 
+    },
+    {
+      name: "Feb",
+      selector: (row) => row.Feb_Month_Value,
+      sortable: true, 
+    },
+
+    {
+      name: "Mar",
+      selector: (row) => row.Mar_Month_Value,
+      sortable: true, 
+    },
+
+    ];
+
+   const filteredItems = territoryMonthPlan.filter(
+    (item) =>
+      item.territory_name &&
+      item.territory_name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+   const CustomSubHeaderComponent = ({ children, align }) => {
+  const containerStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: align === 'left' ? 'flex-start' : 'center',
+    marginBottom: '10px',
+  };
+
+  return (
+    <div className=" w3-left " style={containerStyle}>
+      {children}
+    </div>
+  );
+};
+
+   const rowCount = territoryMonthPlan.length; 
+
+  const additionalComponent = (
+    <span className="w3-left w3-margin-right "> Territory(s)   ({rowCount}) </span>
+  );
+
+     const subHeaderComponent = ( 
+    <input
+      type="text"
+      placeholder="Filter By Territory  Name"
+      aria-label="Search Input"
+      value={filterText}
+      onChange={(e) => setFilterText(e.target.value)}
+    />
+  );
+
+  const ExportButton = ({ onExport }) => (
+    <button onClick={onExport}>  <i className="fa fa-excel" > </i> Export </button>
+  ); 
+  const handleExport = () => { 
+    console.log("Exporting table data");
+  };  
+
 
   return (
     <>
-      <div className="w3-col l6 m6 s6 headingMB">
-        <span className="w3-large">
-          Month wise Sales Target <span className=" w3-text-gray w3-opacity">({territoryMonthPlan.length})</span>
-        </span>
-      </div>
-      <div className="w3-col 12 " style={tableScroll}>
-        <table className="tbl_grid w3-table table-bordered  h6 w3-small w3-white ">
-          <tr className=" w3-yellow h6">
-            <td colSpan="1" className="" style={{ width: "7%" }}>
-              Depo Name
-            </td>
-            <td colSpan="1" className="" style={{ width: "5%" }}>
-              Territory
-            </td>
-            <td className=" "> LLY </td>
-            <td className=" "> LY </td>
-            <td className=" "> CY </td>
-            <td className=" "> YTD </td>
-            <td className=" "> Apr </td>
-            <td className=" "> May </td>
-            <td className=" "> Jun </td>
-            <td className=" "> Jul </td>
-            <td className=" "> Aug </td>
-            <td className=" "> Sep </td>
-            <td className=" "> Oct </td>
-            <td className=" "> Nov </td>
-            <td className=" "> Dec </td>
-            <td className=" "> Jan </td>
-            <td className=" "> Feb </td>
-            <td className=" "> Mar </td>
-          </tr>
-          {isLoading ? (
-            <tr>
-              <td colSpan="30">
-                <LoadingPlaceholder numberOfRows={4}  ></LoadingPlaceholder>
-              </td>
-            </tr>) : (
-            <>
-              {territoryMonthPlan.length == 0 ? (
-                <tr>
-                  <td colSpan="30">No data found</td>
-                </tr>
-              ) : (
-                territoryMonthPlan.map((item, index) => (
-                  <tr key={index}>
-                    <td className=""> {item.depot_name} </td>
-                    <td className="">   {item.territory_name}
-                      {/* <Link className="link  w3-text-indigo" to={`/territory/${item.zoneid}/${item.depotid}/${item.territoryid}`}>  {item.territory_name} </Link> */}
-                    </td>
-                    <td className="">  {item.LLY_Value} </td>
-                    <td className="">  {item.LY_Value}  <br /> <span className="w3-text-gray ">({(((item.LY_Value)/(item.LLY_Value))*100).toFixed(2)}%) </span>  </td> 
-                    <td className=""> {item.CY_Value}  <br /> <span className="w3-text-gray ">({(((item.YTD_Value)/(item.LY_Value))*100).toFixed(2)}%) </span>  </td>
-                    <td className="">  {item.YTD_Value}  <br /> <span className="w3-text-gray ">({(((item.YTD_Value)/(item.CY_Value))*100).toFixed(2)}%) </span> </td>
-                    <td className="">{item?.Apr_Month_Value}</td>
-                    <td className="">{item?.May_Month_Value}</td>
-                    <td className="">{item?.Jun_Month_Value}</td>
-                    <td className="">{item?.Jul_Month_Value}</td>
-                    <td className="">{item?.Aug_Month_Value}</td>
-                    <td className="">{item?.Sep_Month_Value}</td>
-                    <td className="">{item?.Oct_Month_Value}</td>
-                    <td className="">{item?.Nov_Month_Value}</td>
-                    <td className="">{item?.Dec_Month_Value}</td>
-                    <td className="">{item?.Jan_Month_Value}</td>
-                    <td className="">{item?.Feb_Month_Value}</td>
-                    <td className="">{item?.Mar_Month_Value}</td>
-                  </tr>
-                ))
-              )}
-            </>
-          )}
-        </table>
-      </div>
+      {isLoading ? (
+      <div>Loading...</div>
+      ) : ( 
+      <DataTable
+      columns={columns} 
+      data={filteredItems}
+      pagination
+      className="datatable"
+      fixedHeader={true}
+      fixedHeaderScrollHeight="400px" subHeader
+      subHeaderComponent={
+      <CustomSubHeaderComponent align="left">
+      {additionalComponent}
+      {subHeaderComponent}  
+      </CustomSubHeaderComponent>
+      }  
+      /> 
+      )}  
     </>
   )
 }
