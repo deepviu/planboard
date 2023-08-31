@@ -4,19 +4,17 @@ import { SHOW_TOAST } from "../../store/constant/types";
 import { useDispatch } from "react-redux";
 import LoadingPlaceholder from "../../components/LoadingPlaceholder";
 import { Link } from "react-router-dom";
-import DataTable from "react-data-table-component";
-import { Button } from "bootstrap";
+import DataTable from "react-data-table-component";  
 
 const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
   const dispatch = useDispatch();
   const [monthWiseSalesData, setMonthWiseSalesData] = useState([]);
   const [isLoading, setLoading] = useState(true);
+
   const [filterText, setFilterText] = React.useState("");
 
-  const tableScroll = {
-    height: "400px",
-    overflow: "scroll",
-  };
+  
+
   useEffect(() => {
     const payload = {
       Token: localStorage.getItem("access_token"),
@@ -32,6 +30,7 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
           setMonthWiseSalesData(
             response.data.Data != null ? response.data.Data : []
           );
+
         }
         setLoading(false);
       } catch (error) {
@@ -41,13 +40,15 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
     };
 
     fetchDepotSalesPlan();
-  }, [selectedZone]);
+  }, [selectedZone]); 
+
+  // builkd table colunms
+
   const columns = [
     {
       name: "Zone",
       selector: (row) => row.zone_name,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Depot",
@@ -56,21 +57,12 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
           {row.depot_name}
         </Link>
       ),
-      sortable: true,
-      minWidth: "100px",
+      sortable: true, 
     },
     {
       name: "LLY",
-      selector: (row) => (
-        <>
-          {row.LLY_Value} <br />
-          <span className="w3-text-gray ">
-            ({((row.LY_Value / row.LLY_Value) * 100).toFixed(2)}%){" "}
-          </span>
-        </>
-      ),
-      sortable: true,
-      minWidth: "70px",
+      selector: (row) =>row.LLY_Value,
+      sortable: true, 
     },
     {
       name: "LY",
@@ -79,12 +71,11 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
           {row.LY_Value}
           <br />
           <span className="w3-text-gray ">
-            ({((row.CY_Value / row.LY_Value) * 100).toFixed(2)}%){" "}
+            ({((row.LY_Value / row.LLY_Value) * 100).toFixed(2)}%){" "}
           </span>{" "}
         </>
       ),
-      sortable: true,
-      minWidth: "70px",
+      sortable: true, 
     },
     {
       name: "CY Plan",
@@ -93,237 +84,160 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
           {row.CY_Value}
           <br />
           <span className="w3-text-gray ">
-          ({((row.YTD_Value / row.CY_Value) * 100).toFixed(2)}%)
+          ({((row.CY_Value / row.LY_Value) * 100).toFixed(2)}%)
           </span>{" "}
         </>
       ),
-      sortable: true,
-      minWidth: "70px",
+      sortable: true, 
     },
     {
       name: "YTD",
       selector: (row) => row.YTD_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Apr",
       selector: (row) => row.Apr_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "May",
       selector: (row) => row.May_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Jun",
       selector: (row) => row.Jun_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Jul",
       selector: (row) => row.Jul_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Aug",
       selector: (row) => row.Aug_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Sep",
       selector: (row) => row.Sep_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Oct",
       selector: (row) => row.Oct_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Nov",
       selector: (row) => row.Nov_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Dec",
       selector: (row) => row.Dec_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Jan",
       selector: (row) => row.Jan_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
     {
       name: "Feb",
       selector: (row) => row.Feb_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
+
     {
       name: "Mar",
       selector: (row) => row.Mar_Month_Value,
-      sortable: true,
-      minWidth: "10px",
+      sortable: true, 
     },
-  ];
 
-  const filteredItems = monthWiseSalesData.filter(
+  ]; 
+
+ 
+
+   const filteredItems = monthWiseSalesData.filter(
     (item) =>
-      item.zone_name &&
-      item.zone_name.toLowerCase().includes(filterText.toLowerCase())
+      item.depot_name &&
+      item.depot_name.toLowerCase().includes(filterText.toLowerCase())
   );
-  const subHeaderComponent = (
+
+
+const CustomSubHeaderComponent = ({ children, align }) => {
+  const containerStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: align === 'left' ? 'space-between' : 'center',
+    marginBottom: '10px',
+    width:'100%'
+  };
+
+  return (
+    <div className="w3-left" style={containerStyle}>
+      {children}
+    </div>
+  );
+};
+
+  const filterComponent = (
     <input
       type="text"
-      placeholder="Filter By Name"
+      placeholder="Search..."
+      style={{ marginRight: '10px' }}
+    />
+  );
+
+   const rowCount = monthWiseSalesData.length; 
+
+  const additionalComponent = (
+    <span className="w3-left w3-margin-right "> Depots   ({rowCount}) </span>
+  );
+
+
+  const subHeaderComponent = ( 
+    <input
+      type="text"
+      placeholder="Filter By Depot Name"
       aria-label="Search Input"
       value={filterText}
       onChange={(e) => setFilterText(e.target.value)}
     />
   );
-
-  // Code for the Export CSV
+ 
+ 
   const ExportButton = ({ onExport }) => (
-    <button onClick={onExport}>Export Table Data</button>
-  );
-  const handleExport = () => {
-    // Logic to export data (e.g., as a CSV file)
+    <button onClick={onExport}>  <i className="fa fa-excel" > </i> Export </button>
+  ); 
+  const handleExport = () => { 
     console.log("Exporting table data");
-  };
+  }; 
+
   return (
     <>
-      <div className="w3-col l6 m6 s6 headingMB">
-        <span className="w3-large">
-          Month wise Sales Target{" "}
-          <span className=" w3-text-gray w3-opacity">
-            ({monthWiseSalesData.length})
-          </span>
-        </span>
-      </div>
-      <div className="w3-col 12 " style={tableScroll}>
-        <table className="tbl_grid w3-table table-bordered  h6 w3-small w3-white ">
-          {/* <tr className="w3-gray h5">
-            <td colSpan="20" className=" w3-padding  text-left ">
-              Month wise Sales Target
-              <span className=" w3-right w3-opacity">
-                <i className="w3-text-teal fa fa-save"> </i> Save
-              </span>
-            </td>
-          </tr> */}
-          <tr className=" w3-yellow h6">
-            <td colSpan="1" className="" style={{ width: "5%" }}>
-              Zone
-            </td>
-            <td colSpan="1" className="" style={{ width: "9%" }}>
-              Depot
-            </td>
-            <td className=" "> LLY </td>
-            <td className=" "> LY </td>
-            <td className=" "> CY Plan </td>
-            <td className=" "> YTD </td>
-            <td className=" "> Apr </td>
-            <td className=" "> May </td>
-            <td className=" "> Jun </td>
-            <td className=" "> Jul </td>
-            <td className=" "> Aug </td>
-            <td className=" "> Sep </td>
-            <td className=" "> Oct </td>
-            <td className=" "> Nov </td>
-            <td className=" "> Dec </td>
-            <td className=" "> Jan </td>
-            <td className=" "> Feb </td>
-            <td className=" "> Mar </td>
-          </tr>
-          {isLoading ? (
-            <tr>
-              <td colSpan="18">
-                <LoadingPlaceholder numberOfRows={4} />
-              </td>
-            </tr>
-          ) : (
-            <>
-              {monthWiseSalesData.length == 0 ? (
-                <tr>
-                  <td colSpan="18">No data found</td>
-                </tr>
-              ) : (
-                monthWiseSalesData.map((item, index) => (
-                  <tr key={index} className="">
-                    <td className="">{item.zone_name}</td>
-                    <td className="">
-                      <Link
-                        className="link  w3-text-indigo"
-                        to={`/depot/${item.depotid}`}
-                      >
-                        {" "}
-                        {item.depot_name}{" "}
-                      </Link>
-                    </td>
-                    <td className="">{item.LLY_Value}</td>
-                    <td className="">
-                      {item.LY_Value} <br />{" "}
-                      <span className="w3-text-gray ">
-                        ({((item.LY_Value / item.LLY_Value) * 100).toFixed(2)}%){" "}
-                      </span>{" "}
-                    </td>
-                    <td className="">
-                      {item.CY_Value} <br />{" "}
-                      <span className="w3-text-gray ">
-                        ({((item.CY_Value / item.LY_Value) * 100).toFixed(2)}%){" "}
-                      </span>{" "}
-                    </td>
-                    <td className="">
-                      {item.YTD_Value} <br />{" "}
-                      <span className="w3-text-gray ">
-                        ({((item.YTD_Value / item.CY_Value) * 100).toFixed(2)}%){" "}
-                      </span>{" "}
-                    </td>
-                    <td className="">{item?.Apr_Month_Value}</td>
-                    <td className="">{item?.May_Month_Value}</td>
-                    <td className="">{item?.Jun_Month_Value}</td>
-                    <td className="">{item?.Jul_Month_Value}</td>
-                    <td className="">{item?.Aug_Month_Value}</td>
-                    <td className="">{item?.Sep_Month_Value}</td>
-                    <td className="">{item?.Oct_Month_Value}</td>
-                    <td className="">{item?.Nov_Month_Value}</td>
-                    <td className="">{item?.Dec_Month_Value}</td>
-                    <td className="">{item?.Jan_Month_Value}</td>
-                    <td className="">{item?.Feb_Month_Value}</td>
-                    <td className="">{item?.Mar_Month_Value}</td>
-                  </tr>
-                ))
-              )}
-            </>
-          )}
-        </table>
-      </div>
-      <DataTable
+
+     <DataTable
         columns={columns}
         data={filteredItems}
         pagination
         className="datatable"
         fixedHeader={true}
-        fixedHeaderScrollHeight="300px"
+        fixedHeaderScrollHeight="400px"  
         subHeader
-        subHeaderComponent={subHeaderComponent}
-        // subHeader
-        // subHeaderComponent={<ExportButton onExport={handleExport} />}
-      />
+        subHeaderComponent={
+         <CustomSubHeaderComponent align="left">
+            {additionalComponent}
+            {subHeaderComponent}  
+          </CustomSubHeaderComponent>
+        } 
+      /> 
+
     </>
   );
 };
 
-export default DepoMonthWiseSalesReport;
+export default DepoMonthWiseSalesReport; 

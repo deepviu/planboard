@@ -50,13 +50,10 @@ const CommonTopSales = ({actionType, selectedZone, selectedDepot, selectedTerrit
 
 
   return (
-    <>
-      <span className=" btn btn-sm w3-small text-left w3-text-red " title={(summaryData[0]?.isLock!=1) ? 'Click to Un-Lock' : 'Click to Lock'}> 
-      <i className="fa fa-lock" ></i> {(summaryData[0]?.isLock==1) ? 'Un-Lock' : 'Lock'}   </span>
+    <>  
 
-      <span className=" w3-small w3-right w3-text-gray " > * All amounts are in Lacs (INR)  </span> 
-
-      <div className="w3-row w3-row-padding w3-padding-16 w3-white w3-margin-bottom ">
+      <div className=" w3-leftbar w3-border-red w3-row w3-row-padding w3-padding-16 w3-white w3-margin-bottom ">
+      
         <div className="w3-col l3 m3 s3 w3-center">
           <span className="w3-text-gray h6"> LLY {summaryData[0]?.summ_lly_fy} </span>
           <hr className="hr1" />
@@ -84,6 +81,9 @@ const CommonTopSales = ({actionType, selectedZone, selectedDepot, selectedTerrit
                 </u>{" "}
                 ]{" "}
               </b>
+
+                    <span className=" btn btn-sm w3-small text-left w3-text-red " title={(summaryData[0]?.isLock!=1) ? 'Click to Un-Lock' : 'Click to Lock'}> 
+      <i className="fa fa-lock" ></i> {(summaryData[0]?.isLock==1) ? 'Un-Lock' : 'Lock'}   </span>
             
 
           {/* <div className="w3-col l6 m6 s3 ">

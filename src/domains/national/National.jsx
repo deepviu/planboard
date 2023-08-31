@@ -20,6 +20,7 @@ import Wgt_ZoneWise_Ui from "./Wgt_ZoneWise_Ui.jsx";
 import CommonTopSales from "../components/CommonTopSales";
 import { useSelector } from "react-redux";
 import ZoneDropDown from "../components/ZoneDropDown";
+import NationalZoneMonthSale from "../components/NationalZoneMonthSale";
 
 const National = () => {
   const { AuthData } = useSelector((state) => state.auth);
@@ -53,35 +54,42 @@ const National = () => {
     setVisibility3(e);
   };
 
+  // useEffect(() => {
+  //   const permissions = rolePermission()?.permissions;
+  //   if (permissions) {
+  //     const filteredZonessData = Wgt_Zone_Data.filter((item) =>
+  //       permissions.includes(item.id)
+  //     );
+  //     const filteredZoness = zoneData.filter((item) =>
+  //       permissions.includes(item.id)
+  //     );
+  //     const zoneId = 2; //permissions.length > 0 ? permissions[0] : 0;
+  //     setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
+  //     const filteredZonesNew = filteredZoness.filter(
+  //       (item) => item.id == zoneId
+  //     );
+
+  //     setData(filteredZonesNew[0]);
+  //     setFilteredZonesData(filteredZonessData);
+  //     setFilteredZones(filteredZoness);
+  //   }
+  // }, []);
+
+  // const handleZoneSelect = (data) => {
+  //   setSelectedZone(data?.id);
+
+  //   const filteredZonesNew = filteredZones.filter(
+  //     (item) => item.id == data?.id
+  //   );
+  //   console.log("filteredZonesNew", filteredZonesNew);
+  //   setData(filteredZonesNew[0]);
+  // };
   useEffect(() => {
-    const permissions = rolePermission()?.permissions;
-    if (permissions) {
-      const filteredZonessData = Wgt_Zone_Data.filter((item) =>
-        permissions.includes(item.id)
-      );
-      const filteredZoness = zoneData.filter((item) =>
-        permissions.includes(item.id)
-      );
-      const zoneId = 2; //permissions.length > 0 ? permissions[0] : 0;
-      setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
-      const filteredZonesNew = filteredZoness.filter(
-        (item) => item.id == zoneId
-      );
 
-      setData(filteredZonesNew[0]);
-      setFilteredZonesData(filteredZonessData);
-      setFilteredZones(filteredZoness);
-    }
-  }, []);
+  },[selectedZone])
 
-  const handleZoneSelect = (data) => {
-    setSelectedZone(data?.id);
-
-    const filteredZonesNew = filteredZones.filter(
-      (item) => item.id == data?.id
-    );
-    console.log("filteredZonesNew", filteredZonesNew);
-    setData(filteredZonesNew[0]);
+  const handleSelectionChange = (newValue) => {
+    setSelectedZone(newValue); 
   };
 
   return (
@@ -89,7 +97,7 @@ const National = () => {
       <div className="w3-clear w3-padding-16"> </div>
 
       <div className="w3-row ">
-        <span className="w3-xxlarge">
+        <span className="w3-large">
           Shalimar Paints Limited <i className="fa fa-lock w3-text-red"> </i>
         </span>
 
@@ -122,13 +130,13 @@ const National = () => {
         id="Wgt_Zone_Id"
         className="Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
       >
-        {filteredZonesData.map((data) => (
+        {/* {filteredZonesData.map((data) => (
           <Wgt_Zone_Ui key={data.id} data={data} setId={handleZoneSelect} />
-        ))}
+        ))} */}
       </div>
 
         <div className="w3-col l3 m3 s6">
-            <ZoneDropDown />
+            <ZoneDropDown selectedZone={selectedZone} onValueChange={handleSelectionChange} />
           </div>
       <div className="w3-clear w3-padding-16"> </div>
 
@@ -136,7 +144,11 @@ const National = () => {
         id="Wgt_Zone_Id"
         className=" w3-leftbar w3-border-red Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
       >
-        <Wgt_ZoneWise_Ui data={data} />
+      <CommonTopSales actionType="Zone" selectedZone={selectedZone} />
+
+      <NationalZoneMonthSale selectedZone={selectedZone}/>
+
+        {/* <Wgt_ZoneWise_Ui data={data} /> */}
       </div>
       <div className="w3-clear w3-padding-16"> </div>
 
