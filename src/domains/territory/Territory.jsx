@@ -129,7 +129,7 @@ const Territory = () => {
             <Wgt_Delear_Ui data={selectedTerritory} />
           </div>
           <div className={toggleState === 2 ? "  " : " w3-hide  "} onClick={() => toggleTab(2)} >
-            <Wgt_Delear_Weekly_Ui data={Wgt_Delear_Data} />
+            <Wgt_Delear_Weekly_Ui data={selectedTerritory} />
           </div>
           <div className={toggleState === 3 ? "  " : " w3-hide  "} onClick={() => toggleTab(3)} >
 

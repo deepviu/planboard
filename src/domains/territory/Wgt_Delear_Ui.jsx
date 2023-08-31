@@ -45,8 +45,8 @@ const Wgt_Delear_Ui = ({ data }) => {
   useEffect(() => {
     const payload = {
       Token: localStorage.getItem("access_token"),
-      TerritoryId: data,
-      DealerId: 0,
+      TerritoryId: 4,
+      DealerId: 12006,
     };
     const fetchDealerMaster = async () => {
       try {
