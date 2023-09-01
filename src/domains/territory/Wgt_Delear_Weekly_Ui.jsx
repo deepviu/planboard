@@ -75,7 +75,7 @@ const Wgt_Delear_Weekly_Ui = ({ data }) => {
     Token: localStorage.getItem("access_token"),
     CustomerId: 0,
     TerritoryId: data,
-    Month: monthName,
+    Month: "Aug",
   };
   const fetchDepotSalesPlan = async () => {
     try {

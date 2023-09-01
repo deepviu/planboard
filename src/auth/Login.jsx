@@ -91,7 +91,7 @@ const Login = ({ setIsAuth }) => {
         // const email = user?.email;
         // const accessToken = user?.accessToken;
 
-        const email='a.srivastava@shalimarpaints.com';
+        const email='amitgupta@shalimarpaints.com';
         const accessToken='4644616546565414651asdasd';
 
         const data = {

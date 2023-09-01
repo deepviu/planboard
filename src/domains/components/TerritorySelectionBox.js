@@ -4,7 +4,7 @@ import axiosInstance from "./../../auth/api";
 import { SHOW_TOAST } from "../../store/constant/types";
 
 
-const TerritorySelectionBox = ({ selectedZone, selectedDepot, selectedTerritory, onSelectedTerritoryChange }) => {
+const TerritorySelectionBox = ({ selectedZone, selectedDepot, selectedTerritory, onSelectedTerritoryChange,setSelectedTerritory }) => {
   const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(true)
@@ -13,6 +13,7 @@ const TerritorySelectionBox = ({ selectedZone, selectedDepot, selectedTerritory,
 
   const handleChange = (event) => {
     const territorId = parseInt(event.target.value);
+     console.log("🚀 ~ file: TerritorySelectionBox.js:16 ~ handleChange ~ event.target.value:", event.target.value)
      
     onSelectedTerritoryChange(territorId);
     setSelctedTerritory(territorId);

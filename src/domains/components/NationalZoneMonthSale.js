@@ -36,20 +36,26 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
     }, [selectedZone])
 
     return (
-        <div id="mom-north" className="w3-row w3-margin-top ">
-            <span className="w3-small h4 ">
-                FY 23-24 - 128.5 Cr. <i className="w3-text-blue fa fa-flag"></i>{" "}
-            </span>{" "}
-            <br />
+        <div id="mom-north" className="w3-row w3-margin-top "> 
             <div id="mom-bar-north" className=" ">
                 <table className="w3-table w3-stripped table-bordered">
+
+                <tr>
+                        
+
+                        <td className="w3-red" rowspan="2" > Zone </td> 
+                         <td className="w3-red" rowspan="2"> LY 22-23 </td>
+                         <td className="w3-red" rowspan="2" > Plan 2023 <hr className="hr0" /> YTD </td>
+
+                        <td className="w3-gray" colspan="12"> Month Wise Plan </td> 
+                    </tr>
+
                     <tr>
-                        <td className="w3-red"> Zone </td>
-                        <td className="w3-red"> Apr </td>
-                        <td className="w3-teal"> May </td>
-                        <td className="w3-red"> Jun </td>
-                        <td className="w3-teal"> Jul </td>
-                        <td className="w3-red"> Aug </td>
+                        <td className="w3-gray"> Apr </td>
+                        <td className="w3-gray"> May </td>
+                        <td className="w3-gray"> Jun </td>
+                        <td className="w3-gray"> Jul </td>
+                        <td className="w3-gray"> Aug </td>
                         <td className="w3-gray"> Sep </td>
                         <td className="w3-gray"> Oct </td>
                         <td className="w3-gray"> Nov </td>
@@ -73,6 +79,14 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
                                 zoneMonthPlan.map((item, index) => (
                                     <tr key={index} >
                                         <td className="">{item?.zone_name}</td>
+                                        <td className="">{item?.LY_Value}</td>
+                                        <td className="">
+                                        {item?.CY_Value} <hr className="hr0" />
+                                         {item?.YTD_Value} 
+                                        <span className="w3-text-gray ">
+                                        ({((item.YTD_Value / item.CY_Value) * 100).toFixed(0)}%)
+                                        </span>  
+                                        </td> 
                                         <td className="">{item?.Apr_Month_Value}</td>
                                         <td className="">{item?.May_Month_Value}</td>
                                         <td className="">{item?.Jun_Month_Value}</td>
