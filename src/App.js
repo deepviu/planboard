@@ -203,11 +203,11 @@ function App() {
             />
             <Route path="/zone" element={<PrivateRoute element={<Zone />} />} />
             <Route
-              path="/depot"
+              path="/depot/:zoneId?/:depotId?"
               element={<PrivateRoute element={<Depot />} />}
             />
             <Route
-              path="/territory"
+              path="/territory/:zoneId?/:depotId?/:territoryId?"
               element={<PrivateRoute element={<Territory />} />}
             />
             <Route

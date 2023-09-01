@@ -1,8 +1,18 @@
 export const permissions = [
   {
-    roleId: "ZM",
+    roleId: "HOD",
     permission: [
       'national',
+      "zone",
+      "depot",
+      "territory",
+      "dealer",
+      "dashscheduleboard",
+    ],
+  },
+  {
+    roleId: "ZM",
+    permission: [
       "zone",
       "depot",
       "territory",
