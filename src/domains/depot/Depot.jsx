@@ -23,10 +23,10 @@ const Depot = () => {
   const { AuthData } = useSelector((state) => state.auth);
 
   const [selectedZone, setSelectedZone] = useState(
-    AuthData.Zone[0]?.ZoneID ? AuthData.Zone[0]?.ZoneID : 0
+    AuthData?.Zone[0]?.ZoneID ? AuthData?.Zone[0]?.ZoneID : 0
   );
   const [selectedDepot, setSelectedDepot] = useState(
-    AuthData.Depot[0]?.DepotID ? AuthData.Depot[0]?.DepotID : 0
+    AuthData?.Depot[0]?.DepotID ? AuthData?.Depot[0]?.DepotID : 0
   );
   const handleSelectionChange = (newValue) => {
     setSelectedZone(newValue);
@@ -51,8 +51,8 @@ const Depot = () => {
   return (
     <div className=" main ">
       <div className="w3-row w3-padding-16">
-        {AuthData.Data[0].EmployeeTpye === "HOD" ||
-        AuthData.Data[0].EmployeeTpye === "ZM" ? (
+        {AuthData?.Data[0].EmployeeTpye === "HOD" ||
+        AuthData?.Data[0].EmployeeTpye === "ZM" ? (
           <>
             <div className="w3-col l3 m3 s6">
               <ZoneSelectionBox
@@ -68,7 +68,7 @@ const Depot = () => {
               />
             </div>
           </>
-        ) : AuthData.Data[0].EmployeeTpye === "DM" ? (
+        ) : AuthData?.Data[0].EmployeeTpye === "DM" ? (
           <div className="w3-col l3 m3 s6">
             <DepoSelectionBox
               selectedZone={selectedZone}

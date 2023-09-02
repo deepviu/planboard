@@ -45,6 +45,7 @@ function App() {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("access_token"));
   const rolId = parseInt(localStorage.getItem("roleId"));
   const dispatch = useDispatch();
+  const loggedIn = localStorage.getItem("Isloggedin");
   useEffect(() => {
     if (AuthData == null) {
       const data = {
@@ -59,6 +60,10 @@ function App() {
         .then((res) => {
           if (res?.status === 200) {
             if (res?.data?.Status == true) {
+              console.log(
+                "🚀 ~ file: App.js:62 ~ .then ~ res?.data?.Status:",
+                res?.data?.Status
+              );
               console.log(res?.data);
               dispatch(setAuthData(res?.data));
               localStorage.setItem("access_token", res.data.Data[0].TokenValid);
@@ -72,7 +77,7 @@ function App() {
   }, [AuthData]);
 
   const PrivateRoute = ({ element, ...rest }) => {
-    return AuthData?.Status == true ? element : <Navigate to="/login" />;
+    return loggedIn == "true" ? element : <Navigate to="/login" />;
   };
   return (
     <>

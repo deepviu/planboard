@@ -13,18 +13,19 @@ const DepoSelectionBox = ({
     selectedDepot
   );
   const dispatch = useDispatch();
-
+  const { AuthData } = useSelector((state) => state.auth);
   const [isLoading, setLoading] = useState(true);
   const [depotArray, setDepotSalesPlanData] = useState([]);
-  console.log(
-    "🚀 ~ file: DepoSelectionBox.js:15 ~ depotArray:",
-    depotArray[0]?.depot_name
+  const [deptonameselect, setDeptonameselect] = useState(null);
+  const [selctedDepo, setSelctedDepo] = useState(
+    selectedDepot ?? depotArray[0]?.depotid
   );
-  const [selctedDepo, setSelctedDepo] = useState(selectedDepot ?? depotArray[0]?.depotid);
 
   const handleChange = (event) => {
     const depotid = parseInt(event.target.value);
-
+    setDeptonameselect(
+      event.target.options[event.target.selectedIndex]?.textContent
+    );
     onSelectedDepoChange(depotid);
     setSelctedDepo(depotid);
   };
@@ -33,7 +34,7 @@ const DepoSelectionBox = ({
     const payload = {
       Token: localStorage.getItem("access_token"),
       ZoneId: selectedZone,
-      DepotId: selectedDepot, //selectedDepot
+      DepotId: AuthData?.Data[0].EmployeeTpye === "DM" ? selectedDepot : 0, //selectedDepot
     };
     const fetchDepotSalesPlan = async () => {
       setLoading(true);
@@ -44,10 +45,6 @@ const DepoSelectionBox = ({
           setDepotSalesPlanData(
             response.data.Data != null ? response.data.Data : []
           );
-          console.log(
-            "🚀 ~ file: DepoSelectionBox.js:40 ~ fetchDepotSalesPlan ~ response.data.Data:",
-            response.data.Data[0]?.depot_name
-          );
           setSelctedDepo(selectedDepot ?? response?.data?.Data[0]?.depotid);
         }
         setLoading(false);
@@ -56,17 +53,12 @@ const DepoSelectionBox = ({
         dispatch({ type: SHOW_TOAST, payload: error.message });
       }
     };
-
     fetchDepotSalesPlan();
   }, [selectedZone, selectedDepot]);
-  console.log(
-    "🚀 ~ file: DepoSelectionBox.js:67 ~ depotArray.find(item => item.id === selectedDepot):",
-    depotArray.find((item) => item.id === 1)
-  );
 
   return (
     <>
-      {selectedDepot ? (
+      {AuthData?.Data[0].EmployeeTpye === "DM" && selectedDepot ? (
         <select
           className="form-control"
           value={selctedDepo}

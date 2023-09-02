@@ -7,14 +7,10 @@ const CommonTopSales = ({
   actionType,
   selectedZone,
   selectedDepot,
-  selectedTerritory,
-  deponame
+  selectedTerritory
 }) => {
   const dispatch = useDispatch();
-
-  console.log("==-=selectedDepot", selectedDepot);
   const [summaryData, setSummaryData] = useState([]);
-  console.log("🚀 ~ file: CommonTopSales.js:16 ~ summaryData:", summaryData);
 
   useEffect(() => {
     const payload = {
@@ -59,8 +55,11 @@ const CommonTopSales = ({
     <>
       <div className=" w3-leftbar w3-border-red w3-row w3-row-padding w3-padding-16 w3-white w3-margin-bottom ">
         <div className="w3-col l2 w3-center">
-          {summaryData[0]?.summ_entity_type == "Zone" &&
-            summaryData[0]?.summ_entity_name}
+          <span className="w3-text-gray h6">
+            {summaryData[0]?.summ_entity_type}
+          </span>
+          <hr className="hr1" />
+          <span className=" "> {summaryData[0]?.summ_entity_name}</span>
         </div>
 
         <div className="w3-col l10 w3-center">

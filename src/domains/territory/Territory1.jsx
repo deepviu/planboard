@@ -22,7 +22,7 @@ const Territory = () => {
 
   const { AuthData } = useSelector((state) => state.auth);
 
-  const [selectedZone, setSelectedZone] = useState(AuthData.Zone[0]?.ZoneID ? AuthData.Zone[0]?.ZoneID : 0);
+  const [selectedZone, setSelectedZone] = useState(AuthData?.Zone[0]?.ZoneID ? AuthData?.Zone[0]?.ZoneID : 0);
   const [filteredZones, setFilteredZones] = useState([]);
 
   const [selectedDepot, setSelectedDepot] = useState(0);
@@ -46,7 +46,7 @@ const Territory = () => {
   return (
     <div className=" main ">
       <div className="w3-row w3-padding-16">
-        {(AuthData.Data[0].EmployeeTpye === 'HOD' || AuthData.Data[0].EmployeeTpye === 'ZM') ? (
+        {(AuthData?.Data[0].EmployeeTpye === 'HOD' || AuthData?.Data[0].EmployeeTpye === 'ZM') ? (
           <>
             <div className="w3-col l3 m3 s6">
               <ZoneSelectionBox onValueChange={handleSelectionChange} />
@@ -58,7 +58,7 @@ const Territory = () => {
               <TerritorySelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} onSelectedTerritoryChange={onSelectedTerritoryChange} />
             </div>
           </>
-        ) : AuthData.Data[0].EmployeeTpye === 'DM' ? (
+        ) : AuthData?.Data[0].EmployeeTpye === 'DM' ? (
           <>
             <div className="w3-col l3 m3 s6">
               <DepoSelectionBox selectedZone={selectedZone} onSelectedDepoChange={onSelectedDepoChange} />
@@ -67,7 +67,7 @@ const Territory = () => {
               <TerritorySelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} onSelectedDepoChange={onSelectedDepoChange} />
             </div>
           </>
-        ) : AuthData.Data[0].EmployeeTpye === 'AM' ? (
+        ) : AuthData?.Data[0].EmployeeTpye === 'AM' ? (
           <div className="w3-col l3 m3 s6">
             <TerritorySelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} onSelectedDepoChange={onSelectedDepoChange} />
           </div>

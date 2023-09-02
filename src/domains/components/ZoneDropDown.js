@@ -28,7 +28,7 @@ const ZoneDropDown = ({ selectedZone, onValueChange }) => {
 
         if (response?.status === 200) {
           const filteredZoneArr = response.data.Data?.filter(item1 =>
-            AuthData.Zone.some(item2 => item2.ZoneID === item1.zone_id)
+            AuthData?.Zone.some(item2 => item2.ZoneID === item1.zone_id)
           );
 
           setFilteredZones(filteredZoneArr?.length ? filteredZoneArr : [])

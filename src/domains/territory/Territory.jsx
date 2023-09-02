@@ -21,13 +21,13 @@ const Territory = () => {
   console.log("🚀 ~ file: Territory.jsx:25 ~ Territory ~ depotId:", depotId);
 
   const [selectedZone, setSelectedZone] = useState(
-    zoneId ?? (AuthData.Zone[0]?.ZoneID ? AuthData.Zone[0]?.ZoneID : 0)
+    zoneId ?? (AuthData?.Zone[0]?.ZoneID ? AuthData?.Zone[0]?.ZoneID : 0)
   );
   const [selectedDepot, setSelectedDepot] = useState(
     depotId
       ? depotId
-      : AuthData.Depot[0]?.DepotID
-      ? AuthData.Depot[0]?.DepotID
+      : AuthData?.Depot[0]?.DepotID
+      ? AuthData?.Depot[0]?.DepotID
       : 0
   );
   const [selectedTerritory, setSelectedTerritory] = useState(territoryId ?? 0);
@@ -77,8 +77,8 @@ const Territory = () => {
   return (
     <div className=" main ">
       <div className="w3-row w3-padding-16">
-        {AuthData.Data[0].EmployeeTpye === "HOD" ||
-        AuthData.Data[0].EmployeeTpye === "ZM" ? (
+        {AuthData?.Data[0].EmployeeTpye === "HOD" ||
+        AuthData?.Data[0].EmployeeTpye === "ZM" ? (
           <>
             <div className="w3-col l3 m3 s6">
               <ZoneSelectionBox
@@ -102,7 +102,7 @@ const Territory = () => {
               />
             </div>
           </>
-        ) : AuthData.Data[0].EmployeeTpye === "DM" ? (
+        ) : AuthData?.Data[0].EmployeeTpye === "DM" ? (
           <>
             <div className="w3-col l3 m3 s6">
               <DepoSelectionBox
@@ -120,7 +120,7 @@ const Territory = () => {
               />
             </div>
           </>
-        ) : AuthData.Data[0].EmployeeTpye === "AM" ? (
+        ) : AuthData?.Data[0].EmployeeTpye === "AM" ? (
           <div className="w3-col l3 m3 s6">
             <TerritorySelectionBox
               selectedZone={selectedZone}
