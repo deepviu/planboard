@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "./../../auth/api";
@@ -45,7 +44,7 @@ const Wgt_Delear_Weekly_Ui = ({ data = [], selectedTerritory = 0 }) => {
   function onchangeInputs(e, id) {
     setGetinputs({
       ...getinputs,
-      [id]: { ...getinputs[id],[e.target.name]: e.target.value },
+      [id]: { ...getinputs[id], [e.target.name]: e.target.value },
     });
   }
 
@@ -69,13 +68,15 @@ const Wgt_Delear_Weekly_Ui = ({ data = [], selectedTerritory = 0 }) => {
     const fetchDepotSalesPlan = async () => {
       setLoading(true);
       try {
-        const response = await axiosInstance.post("CustomerMonthWeekPlan", payload);
+        const response = await axiosInstance.post(
+          "CustomerMonthWeekPlan",
+          payload
+        );
         console.log("=====CustomerMonthWeekPlan====", response);
         if (response?.status === 200) {
           setMonthWiseSalesData(
             response.data.Data != null ? response.data.Data : []
           );
-
         }
         setLoading(false);
       } catch (error) {
@@ -89,140 +90,106 @@ const Wgt_Delear_Weekly_Ui = ({ data = [], selectedTerritory = 0 }) => {
 
   return (
     <>
-      <div className="w3-col l12 m12 s12  "> 
-
-      
-
+      <div className="w3-col l12 m12 s12  ">
         <table className="tbl_grid w3-table table-bordered h6 w3-small">
-
-        <tr className="w3-gray">
-          <td colSpan="30" className=" h5 w3-padding  text-left ">
-            Dealers Weekly Plan  
-          </td>
-        </tr> 
-
-        <tr className=" w3-yellow h6 w3-small">
-          <td className="" colSpan={1} rowSpan={2}  style={{ width: "15%" }}>
-            Delear{" "}
-          </td>{" "}
-
-          {currentMonth <= 8 ? ( 
-            currentMonth == 8 ? (
-              <td className="" colSpan={4}>
-              {" "}
-              August{" "}
+          <tr className="w3-gray">
+            <td colSpan="30" className=" h5 w3-padding  text-left ">
+              Dealers Weekly Plan
             </td>
+          </tr>
+
+          <tr className=" w3-yellow h6 w3-small">
+            <td className="" colSpan={1} rowSpan={2} style={{ width: "15%" }}>
+              Delear
+            </td>
+
+            {currentMonth <= 8 ? (
+              currentMonth == 8 ? (
+                <td className="" colSpan={4}>
+                  August
+                </td>
+              ) : (
+                <td className="" colSpan={4}>
+                  August
+                </td>
+              )
             ) : (
-               <td className="" colSpan={4}>
-              {" "}
-              August{" "}
+              <td className="" colSpan={4}>
+                August
+              </td>
+            )}
+
+            <td className="" colspan={12}>
+              Week
             </td>
-            )
-          ) : (
-           <td className="" colSpan={4}>
-              {" "}
-              August{" "}
+          </tr>
+
+          <tr className=" w3-yellow h6 w3-small">
+            <td className="" colSpan={1}>
+              OS
             </td>
-          )}  
 
+            <td className="" colSpan={1}>
+              OD
+            </td>
 
-          
+            <td className="" colSpan={1}>
+              Coll.
+            </td>
 
+            <td className="" colSpan={1}>
+              Sales
+            </td>
 
-           <td className="" colspan={12}>
-             Week {" "} 
-          </td>{" "}  
+            <td className="">Week-1</td>
 
+            <td className="">Week-2</td>
 
-        </tr>
+            <td className="">Week-3</td>
 
+            <td className="">Week-4</td>
+          </tr>
 
+          {monthWiseSalesData?.map((item, index) => (
+            <tr className=" h6 w3-small">
+              <td className="" colSpan={1} style={{ width: "15%" }}>
+                {item.dealer_name}
+              </td>
 
-        <tr className=" w3-yellow h6 w3-small">
-          
+              <td className="" colSpan={1}>
+                23
+              </td>
 
-          <td className="" colSpan={1} >
-            OS{" "}
-          </td>{" "}
+              <td className="" colSpan={1}>
+                34
+              </td>
 
-          <td className="" colSpan={1} >
-            OD{" "}
-          </td>{" "}
+              <td className="" colSpan={1}>
+                60
+              </td>
 
-           <td className="" colSpan={1}  >
-            Coll.{" "}
-          </td>{" "}
+              <td className="" colSpan={1}>
+                13
+              </td>
 
-          <td className="" colSpan={1}  >
-            Sales{" "}
-          </td>{" "}
+              <td className="">
+                <input className="inp40" value="10% " />
+              </td>
 
-          <td className="" >
-             Week-1 {" "} 
-          </td>{" "} 
+              <td className="">
+                <input className="inp40" value="35% " />
+              </td>
 
+              <td className="">
+                <input className="inp40" value="65% " />
+              </td>
 
-           <td className="" >
-             Week-2 {" "} 
-          </td>{" "} 
-
-
-           <td className="" >
-            Week-3 {" "} 
-          </td>{" "} 
-
-          <td className="" >
-            Week-4 {" "} 
-          </td>{" "}  
-         
-        </tr> 
-
-
-              <tr className=" h6 w3-small">
-          <td className="" colSpan={1}  style={{ width: "15%" }}>
-            Dealer 1{" "}
-          </td>{" "}
-
-          <td className="" colSpan={1} >
-            23{" "}
-          </td>{" "}
-
-          <td className="" colSpan={1} >
-            34{" "}
-          </td>{" "}
-
-           <td className="" colSpan={1}  >
-            60{" "}
-          </td>{" "}
-
-          <td className="" colSpan={1}  >
-            13{" "}
-          </td>{" "}
-
-          <td className="" >
-             <input className="inp40" value="10% " />{" "} 
-          </td>{" "} 
-
-
-           <td className="" >
-             <input className="inp40" value="35% "  />{" "} 
-          </td>{" "} 
-
-
-           <td className="" >
-               <input className="inp40"  value="65% " />{" "} 
-          </td>{" "} 
-
-          <td className="" >
-           <input className="inp40" value="100% "  />{" "}
-          </td>{" "}  
-         
-        </tr> 
-
+              <td className="">
+                <input className="inp40" value="100% " />
+              </td>
+            </tr>
+          ))}
         </table>
-
-
-
       </div>
     </>
   );

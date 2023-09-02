@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // { filteredZones, selectedZone, onValueChange }
-const ZoneSelectionBox = ({selectedZone, onValueChange}) => {
+const ZoneSelectionBox = ({ selectedZone, onValueChange }) => {
   const { AuthData } = useSelector((state) => state.auth);
   const [selectedZones, setSelctedZone] = useState(0);
 
-  console.log("-selectedZone==============================", selectedZone)
   const handleChange = (event) => {
     onValueChange(parseInt(event.target.value));
     setSelctedZone(parseInt(event.target.value));
@@ -13,7 +12,7 @@ const ZoneSelectionBox = ({selectedZone, onValueChange}) => {
 
   useEffect(() => {
     setSelctedZone(selectedZone);
-  },[selectedZone])
+  }, [selectedZone]);
 
   return (
     <select
@@ -23,12 +22,12 @@ const ZoneSelectionBox = ({selectedZone, onValueChange}) => {
     >
       {/* <option >All Zone</option> */}
       {AuthData?.Zone.map((item, index) => (
-        <option key={index} value={item?.ZoneID} >
+        <option key={index} value={item?.ZoneID}>
           {item.ZoneName}
         </option>
       ))}
     </select>
-  )
-}
+  );
+};
 
 export default ZoneSelectionBox;

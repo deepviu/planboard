@@ -23,8 +23,8 @@ const Login = ({ setIsAuth }) => {
       // const email = user?.email;
       // const accessToken = user?.accessToken;
 
-      const email='a.srivastava@shalimarpaints.com';
-      const accessToken='4644616546565414651asdasd';
+      const email = "amitgupta@shalimarpaints.com";
+      const accessToken = "4644616546565414651asdasd";
 
       const data = {
         SessionData: [
@@ -42,6 +42,9 @@ const Login = ({ setIsAuth }) => {
             dispatch(setAuthData(res?.data));
             localStorage.setItem("access_token", res.data.Data[0].TokenValid);
 
+            if (res?.data?.Data[0]?.EmployeeTpye == "HOD") {
+              navigate("/national");
+            }
             if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
               navigate("/zone");
             }
@@ -88,55 +91,55 @@ const Login = ({ setIsAuth }) => {
     //     // Signed in
     //     const user = userCredential.user;
 
-        // const email = user?.email;
-        // const accessToken = user?.accessToken;
-        const email='amit.k@shalimarpaints.com';
-        const accessToken='4644616546565414651asdasd';
+    // const email = user?.email;
+    // const accessToken = user?.accessToken;
+    const email = "a.chavan@shalimarpaints.com";
+    const accessToken = "4644616546565414651asdasd";
 
-        // const email='amitgupta@shalimarpaints.com';
-        // const accessToken='4644616546565414651asdasd';
+    // const email='amitgupta@shalimarpaints.com';
+    // const accessToken='4644616546565414651asdasd';
 
-        const data = {
-          SessionData: [
-            {
-              Email: email,
-              Token: accessToken,
-            },
-          ],
-        };
-        await axiosInstance
-          .post("api/UserMaster/SessionCheck", data)
-          .then((res) => {
-            if (res?.status === 200) {
-              console.log("===SessionCheck===",res.data);
-              dispatch(setAuthData(res?.data));
-              localStorage.setItem("access_token", res.data.Data[0].TokenValid);
-              
-              if (res?.data?.Data[0]?.EmployeeTpye == "HOD") {
-                navigate("/national");
-              }
-              if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
-                navigate("/zone");
-              }
-              if (res?.data?.Data[0]?.EmployeeTpye == "DM") {
-                navigate("/depot");
-              }
-              if (
-                res?.data?.Data[0]?.EmployeeTpye == "TM" ||
-                res?.data?.Data[0]?.EmployeeTpye == "AM"
-              ) {
-                navigate("/territory");
-              }
-            }
-          })
-          .catch((error) => {
-            dispatch({ type: SHOW_TOAST, payload: error.message });
-          });
-      // })
-      // .catch((error) => {
-      //   console.log("---error", error)
-      //   setError(" Wrong email or password   ");
-      // });
+    const data = {
+      SessionData: [
+        {
+          Email: email,
+          Token: accessToken,
+        },
+      ],
+    };
+    await axiosInstance
+      .post("api/UserMaster/SessionCheck", data)
+      .then((res) => {
+        if (res?.status === 200) {
+          console.log("===SessionCheck===", res.data);
+          dispatch(setAuthData(res?.data));
+          localStorage.setItem("access_token", res.data.Data[0].TokenValid);
+
+          if (res?.data?.Data[0]?.EmployeeTpye == "HOD") {
+            navigate("/national");
+          }
+          if (res?.data?.Data[0]?.EmployeeTpye == "ZM") {
+            navigate("/zone");
+          }
+          if (res?.data?.Data[0]?.EmployeeTpye == "DM") {
+            navigate("/depot");
+          }
+          if (
+            res?.data?.Data[0]?.EmployeeTpye == "TM" ||
+            res?.data?.Data[0]?.EmployeeTpye == "AM"
+          ) {
+            navigate("/territory");
+          }
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: SHOW_TOAST, payload: error.message });
+      });
+    // })
+    // .catch((error) => {
+    //   console.log("---error", error)
+    //   setError(" Wrong email or password   ");
+    // });
   }; // 2 : handleLogin ends
 
   return (

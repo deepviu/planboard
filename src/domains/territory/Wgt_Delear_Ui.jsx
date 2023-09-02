@@ -24,7 +24,7 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
   const [monthWiseSalesData, setMonthWiseSalesData] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
-    const currentDate = new Date("2023-08-30");
+  const currentDate = new Date("2023-08-30");
   // const currentDate = new Date();
 
   // const currentMonthCou = currentDate.getMonth();
@@ -34,14 +34,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
       : currentDate.getMonth() + 1;
   const [currentMonth, setCurrentMonth] = useState(currentMonthCount);
 
-  function getInput() {
-    console.log("🚀 ~ file: Wgt_Delear_Ui.jsx:20 ~ getinputs:", getinputs);
-  }
+  function getInput() {}
 
   function onchangeInputs(e, id) {
     setGetinputs({
       ...getinputs,
-      [id]: { ...getinputs[id],[e.target.name]: e.target.value },
+      [id]: { ...getinputs[id], [e.target.name]: e.target.value },
     });
   }
 
@@ -56,19 +54,17 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
   useEffect(() => {
     const payload = {
       Token: localStorage.getItem("access_token"),
-      TerritoryId: 7845,//4,
-      DealerId: 76, //selectedDepot
+      TerritoryId: 4, //4,
+      DealerId: 12006, //selectedDepot
     };
     const fetchDepotSalesPlan = async () => {
       setLoading(true);
       try {
         const response = await axiosInstance.post("CustomerMonthPlan", payload);
-        console.log("=====CustomerMonthPlan====", response);
         if (response?.status === 200) {
           setMonthWiseSalesData(
             response.data.Data != null ? response.data.Data : []
           );
-
         }
         setLoading(false);
       } catch (error) {
@@ -78,7 +74,7 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
     };
 
     fetchDepotSalesPlan();
-  }, [selectedTerritory]); 
+  }, [selectedTerritory]);
 
   console.log("filteredMonths", currentMonth);
   return (
@@ -87,8 +83,11 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
         <tr className="w3-blue  h6 ">
           <td colSpan="30" className=" text-left ">
             Month wise Sales Target
-
-            <span className="w3-button w3-right w3-blue " onClick={getInput} style={{cursor:"pointer"}}>
+            <span
+              className="w3-button w3-right w3-blue "
+              onClick={getInput}
+              style={{ cursor: "pointer" }}
+            >
               <i className=" fa fa-save"> </i> Save
             </span>
           </td>
@@ -186,12 +185,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
             currentMonth == 8 ? (
               <td className="  w3-blue " colSpan={4}>
                 {" "}
-                Aug <i className=" fa fa-unlock"> </i>   {" "}
+                Aug <i className=" fa fa-unlock"> </i>{" "}
               </td>
             ) : (
               <td className=" w3-blue " rowSpan={2}>
                 {" "}
-                Aug  {" "}
+                Aug{" "}
               </td>
             )
           ) : (
@@ -200,7 +199,6 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
               Aug{" "}
             </td>
           )}
-
           {currentMonth <= 9 ? (
             currentMonth == 9 ? (
               <td className="  w3-blue  " colSpan={4}>
@@ -329,7 +327,6 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
           )}
         </tr>
 
-
         <tr className="  w3-blue h6 w3-small">
           <td className=" "> OS </td>
           <td className=" "> OD </td>
@@ -390,7 +387,10 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
               <td className=""> {item?.club} </td>
               <td className=""> {item?.dealer_category} </td>
               <td className="">{item?.LY_Value}</td>
-              <td className=""> {item?.CY_Value} <hr className="hr0" />  {item?.YTD_Value} </td>
+              <td className="">
+                {" "}
+                {item?.CY_Value} <hr className="hr0" /> {item?.YTD_Value}{" "}
+              </td>
               {currentMonth >= 4 ? (
                 currentMonth == 4 ? (
                   <>
@@ -398,8 +398,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -428,8 +432,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -464,8 +472,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)} />{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -501,8 +513,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -534,12 +550,16 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
               {currentMonth >= 8 ? (
                 currentMonth == 8 ? (
                   <>
-                    <td className="  w3-blue  " >{item?.current_outstand}</td>
-                    <td className="  w3-blue " >{item?.current_overdue}</td>
-                    <td className="  w3-blue " >
+                    <td className="  w3-blue  ">{item?.current_outstand}</td>
+                    <td className="  w3-blue ">{item?.current_overdue}</td>
+                    <td className="  w3-blue ">
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td className=" w3-blue ">
                       {" "}
@@ -574,8 +594,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -610,8 +634,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -646,8 +674,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -683,8 +715,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -719,8 +755,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_overdue}</td>
                     <td>
                       {" "}
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}
@@ -756,8 +796,12 @@ const Wgt_Delear_Ui = ({ data = [], selectedTerritory = 0 }) => {
                     <td>{item?.current_outstand}</td>
                     <td>{item?.current_overdue}</td>
                     <td>
-                      <input className="inp40" defaultValue={item?.sales}  name={item?.id + `_sales`}
-                        onChange={(e) => onchangeInputs(e, item?.id)}/>{" "}
+                      <input
+                        className="inp40"
+                        defaultValue={item?.sales}
+                        name={item?.id + `_sales`}
+                        onChange={(e) => onchangeInputs(e, item?.id)}
+                      />{" "}
                     </td>
                     <td>
                       {" "}

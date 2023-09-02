@@ -5,7 +5,12 @@ import {
   API_TARRITORY_SALES_SUCCESS,
 } from "../constant/types";
 
-const initialState = { territoryData: [], depotSalesPlanData: [], summaryData: [], monthWiseSalesData: [] };
+const initialState = {
+  territoryData: [],
+  depotSalesPlanData: [],
+  summaryData: [],
+  monthWiseSalesData: [],
+};
 
 const nationalReducer = (state = initialState, action) => {
   const { type, payload } = action;
