@@ -41,6 +41,7 @@ import { SHOW_TOAST } from "./store/constant/types";
 
 function App() {
   const { AuthData } = useSelector((state) => state.auth);
+  console.log("🚀 ~ file: App.js:44 ~ App ~ AuthData:", AuthData)
 
   const [isAuth, setIsAuth] = useState(localStorage.getItem("access_token"));
   const rolId = parseInt(localStorage.getItem("roleId"));
@@ -83,7 +84,7 @@ function App() {
     <>
       <BrowserRouter>
         <div>
-          <Navbar isAuth={AuthData?.Status == true ? true : false} />
+          <Navbar isAuth={loggedIn == "true" ? true : false} />
           <Sidebar
             rolId={
               AuthData?.Data?.length > 0
