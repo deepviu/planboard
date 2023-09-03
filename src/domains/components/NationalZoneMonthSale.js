@@ -33,7 +33,7 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
         };
 
         getZoneMonthPlan();
-    }, [selectedZone])
+    }, [])
 
     return (
         <div id="mom-north" className="w3-row w3-margin-top "> 

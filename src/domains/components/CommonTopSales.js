@@ -9,6 +9,8 @@ const CommonTopSales = ({
   selectedDepot,
   selectedTerritory
 }) => {
+  console.log("-selectedZone, selectedDepot, selectedTerritory",selectedZone, selectedDepot, selectedTerritory)
+
   const dispatch = useDispatch();
   const [summaryData, setSummaryData] = useState([]);
 
