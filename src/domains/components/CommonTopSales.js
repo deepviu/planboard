@@ -4,8 +4,8 @@ import { SHOW_TOAST } from "../../store/constant/types";
 import axiosInstance from "./../../auth/api";
 
 const CommonTopSales = ({
-  actionType,
-  selectedZone,
+  actionType="",
+  selectedZone=0,
   selectedDepot,
   selectedTerritory
 }) => {
