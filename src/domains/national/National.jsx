@@ -18,12 +18,15 @@ import DepoMonthWiseSalesReport from "../components/DepoMonthWiseSalesReport";
 import TerritoryMonthWiseSalesReport from "../components/TerritoryMonthWiseSalesReport";
 import TerritoryMonthSale from "../components/TerritoryMonthSale";
 import TerritorySelectionBox from "../components/TerritorySelectionBox";
+import Wgt_Delear_Ui from "../territory/Wgt_Delear_Ui";
+import DealerMonthSale from "../components/DealerMonthSale";
 
 const National = () => {
   const { AuthData } = useSelector((state) => state.auth);
   console.log("====auth====", AuthData)
   // Set Select Zone
   const [selectedZone, setSelectedZone] = useState(0);
+  const [selectedZoneDrop, setSelectedZoneDrop] = useState(AuthData?.Zone[0].ZoneID ? AuthData?.Zone[0].ZoneID : 0);
   const [filteredZones, setFilteredZones] = useState([]);
   const [filteredZonesData, setFilteredZonesData] = useState([]);
   console.log(
@@ -32,25 +35,7 @@ const National = () => {
   );
   const [data, setData] = useState(null);
   console.log("🚀 ~ file: National.jsx:28 ~ National ~ id:", data);
-
-  const [visibility, setVisibility] = useState(false);
-  const [visibility1, setVisibility1] = useState(false);
-  const [visibility2, setVisibility2] = useState(false);
-  const [visibility3, setVisibility3] = useState(false);
-
-  const popupCloseHandler = (e) => {
-    setVisibility(e);
-  };
-  const popupCloseHandler1 = (e) => {
-    setVisibility1(e);
-  };
-  const popupCloseHandler2 = (e) => {
-    setVisibility2(e);
-  };
-  const popupCloseHandler3 = (e) => {
-    setVisibility3(e);
-  };
-
+ 
   const [toggleState, setToggleState] = useState(1);
   const toggleTab = (index) => {
     setToggleState(index);
@@ -60,6 +45,12 @@ const National = () => {
   const handleSelectionChange = (newValue) => {
     setSelectedZone(newValue);
   };
+
+  const handleSelectionChangeDrop = (newValue) => {
+    setSelectedZoneDrop(newValue);
+  };
+
+
   const [selectedTerritory, setSelectedTerritory] = useState(0)
   const [selectedDepot, setSelectedDepot] = useState(0)
 
@@ -69,6 +60,8 @@ const National = () => {
   };
 
   const onSelectedDepoChange = (newValue) => {
+    console.log("79-onSelectedDepoChange", newValue);
+
     setSelectedDepot(newValue);
   };
 
@@ -80,24 +73,15 @@ const National = () => {
         <span className="w3-large">
           Shalimar Paints Limited
         </span>
-
-        {/* <span className=" w3-right">
-          <i className="w3-text-teal fa fa-file-excel-o"> </i> Upload
-        </span> */}
       </div>
 
-
-
       <CommonTopSales actionType="hod" selectedZone={0} />
-
 
       <div
         id="Wgt_Zone_Id"
         className=" w3-leftbar w3-border-red Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
       >
-
         <NationalZoneMonthSale selectedZone={selectedZone} />
-        {/* <Wgt_ZoneWise_Ui data={data} /> */}
       </div>
       <div className="w3-clear w3-padding-16"> </div>
 
@@ -140,19 +124,19 @@ const National = () => {
             <div className="w3-row">
               {toggleState === 1 || toggleState === 2 || toggleState === 3 ? (
                 <div className="w3-col l3 m4 s6">
-                  <ZoneDropDown selectedZone={selectedZone} onValueChange={handleSelectionChange} />
+                  <ZoneDropDown selectedZone={selectedZoneDrop} onValueChange={handleSelectionChangeDrop} />
                 </div>
               ) : null}
 
               {toggleState === 2 || toggleState === 3 ? (
                 <div className="w3-col l3 m4 s6">
-                  <DepoSelectionBox selectedZone={selectedZone} selectedDepot={onSelectedDepoChange} />
+                  <DepoSelectionBox selectedZone={selectedZoneDrop} selectedDepot={selectedDepot} onSelectedDepoChange={onSelectedDepoChange} />
                 </div>
               ) : null}
 
               {toggleState === 3 ? (
                 <div className="w3-col l3 m4 s6">
-                  <TerritorySelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} selectedTerritory={0} onSelectedTerritoryChange={onSelectedTerritoryChange} />
+                  <TerritorySelectionBox selectedZone={selectedZoneDrop} selectedDepot={selectedDepot} selectedTerritory={selectedTerritory} onSelectedTerritoryChange={onSelectedTerritoryChange} />
                 </div>
               ) : null}
             </div>
@@ -163,19 +147,21 @@ const National = () => {
             className={toggleState === 1 ? "  " : " w3-hide  "}
             onClick={() => toggleTab(1)}
           >
-            <DepoMonthWiseSalesReport selectedZone={selectedZone} selectedDepot={0} filterDropDown={1} />
+            <DepoMonthWiseSalesReport selectedZone={selectedZoneDrop} selectedDepot={0} />
           </div>
           <div
             className={toggleState === 2 ? "  " : " w3-hide  "}
             onClick={() => toggleTab(2)}
           >
-            <TerritoryMonthWiseSalesReport selectedDepot={0} filterDropDown={1} />
+            <TerritoryMonthWiseSalesReport selectedDepot={selectedDepot}  />
           </div>
           <div
             className={toggleState === 3 ? "  " : " w3-hide  "}
             onClick={() => toggleTab(3)}
           >
-            <TerritoryMonthSale selectedTerritory={0} filterDropDown={1} />
+            {/* {selectedTerritory ? (<Wgt_Delear_Ui data={selectedTerritory} />) : (<div>Please select a territory</div>)} */}
+            {selectedTerritory ? (<DealerMonthSale selectedTerritory={selectedTerritory} />) : (<div>Please select a territory</div>)}
+            
           </div>
         </div>
       </div>

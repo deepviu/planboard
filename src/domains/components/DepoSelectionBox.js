@@ -72,6 +72,7 @@ const DepoSelectionBox = ({
           value={selctedDepo}
           onChange={handleChange}
         >
+          <option value={0}>All Depot</option>
           {depotArray?.map((item, index) => (
             <option key={index} value={item?.depotid}>
               {item.depot_name}

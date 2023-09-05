@@ -48,7 +48,7 @@ const ZoneDropDown = ({ selectedZone, onValueChange }) => {
       value={selectedZone}
       onChange={handleChange}
     >
-      {/* <option >All Zone</option> */}
+      <option value={0} >All Zone</option>
       {filteredZones.map((item) => (
         <option value={item?.zone_id} key={item?.zone_id}>
           {item.zone_name}

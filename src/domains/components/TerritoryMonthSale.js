@@ -43,7 +43,6 @@ const TerritoryMonthSale = ({ selectedTerritory }) => {
     }, [selectedTerritory])
 
     return (
-        <div>
         <table className="tbl_grid w3-table table-bordered  h6 w3-small w3-white ">
              
             <tr className=" w3-yellow h6">
@@ -97,7 +96,6 @@ const TerritoryMonthSale = ({ selectedTerritory }) => {
                 </>
             )}
         </table>
-        </div>
     )
 }
 

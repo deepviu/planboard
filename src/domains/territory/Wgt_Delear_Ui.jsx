@@ -30,8 +30,8 @@ const Wgt_Delear_Ui = ({ data }) => {
   useEffect(() => {
     const payload = {
       Token: localStorage.getItem("access_token"),
-      TerritoryId: 4,
-      DealerId: 12006,
+      TerritoryId: data,
+      DealerId: 0,
     };
     const fetchDealerMaster = async () => {
       try {
@@ -315,43 +315,7 @@ const Wgt_Delear_Ui = ({ data }) => {
         </tr>
 
         {dealerlist?.map((item) => {
-          // var fy = 0;
-          // if (currentMonth <= 4) {
-          //   fy = fy + item.Apr_Month_Value;
-          // }
-          // if (currentMonth <= 5) {
-          //   fy = fy + item.May_Month_Value;
-          // }
-          // if (currentMonth <= 6) {
-          //   fy = fy + item.Jun_Month_Value;
-          // }
-          // if (currentMonth <= 7) {
-          //   fy = fy + item.Jul_Month_Value;
-          // }
-          // if (currentMonth <= 8) {
-          //   fy = fy + item.Aug_Month_Value;
-          // }
-          // if (currentMonth <= 9) {
-          //   fy = fy + item.Sep_Month_Value;
-          // }
-          // if (currentMonth <= 10) {
-          //   fy = fy + item.Oct_Month_Value;
-          // }
-          // if (currentMonth <= 11) {
-          //   fy = fy + item.Nov_Month_Value;
-          // }
-          // if (currentMonth <= 12) {
-          //   fy = fy + item.Dec_Month_Value;
-          // }
-          // if (currentMonth <= 13) {
-          //   fy = fy + item.Jan_Month_Value;
-          // }
-          // if (currentMonth <= 14) {
-          //   fy = fy + item.Feb_Month_Value;
-          // }
-          // if (currentMonth <= 15) {
-          //   fy = fy + item.Mar_Month_Value;
-          // }
+           
           return (
             <tr className=" ">
               <td className="" colSpan={1}>
@@ -524,8 +488,8 @@ const Wgt_Delear_Ui = ({ data }) => {
               {currentMonth >= 8 ? (
                 currentMonth == 8 ? (
                   <>
-                    <td className="  w3-blue  ">{item?.current_outstand}</td>
-                    <td className="  w3-blue ">{item?.current_overdue}</td>
+                    <td className="  w3-blue  ">{item?.OD}</td>
+                    <td className="  w3-blue ">{item?.OS}</td>
                     <td className="  w3-blue ">
                       {" "}
                       <input
