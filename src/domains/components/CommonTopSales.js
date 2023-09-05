@@ -21,14 +21,14 @@ const CommonTopSales = ({
             actionType === "Zone"
               ? selectedZone
               : actionType === "Depot"
-              ? selectedDepot
                 ? selectedDepot
-                : 0
-              : actionType === "Territory"
-              ? selectedTerritory
-                ? selectedTerritory
-                : 0
-              : 0,
+                  ? selectedDepot
+                  : 0
+                : actionType === "Territory"
+                  ? selectedTerritory
+                    ? selectedTerritory
+                    : 0
+                  : 0,
         },
       ],
     };
@@ -54,13 +54,20 @@ const CommonTopSales = ({
   return (
     <>
       <div className=" w3-leftbar w3-border-red w3-row w3-row-padding w3-padding-16 w3-white w3-margin-bottom ">
-        <div className="w3-col l2 w3-center">
+        {actionType == 'hod' ? (<div className="w3-col l2 w3-center">
+          <span className="w3-text-gray h6">
+            All Zone{" "}
+          </span>
+          <hr className="hr1" />
+          <span className=" "> Shalimar</span>
+        </div>) : (<div className="w3-col l2 w3-center">
           <span className="w3-text-gray h6">
             {summaryData[0]?.summ_entity_type}
           </span>
           <hr className="hr1" />
           <span className=" "> {summaryData[0]?.summ_entity_name}</span>
-        </div>
+        </div>)}
+
 
         <div className="w3-col l10 w3-center">
           <div className="w3-col l3 m3 s3 w3-center">

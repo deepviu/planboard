@@ -4,18 +4,22 @@ import { SHOW_TOAST } from "../../store/constant/types";
 import { useDispatch } from "react-redux";
 import LoadingPlaceholder from "../../components/LoadingPlaceholder";
 import { Link } from "react-router-dom";
-import DataTable from "react-data-table-component";  
+import DataTable from "react-data-table-component";
+import ZoneDropDown from "./ZoneDropDown";
 
-const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
+const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot, filterDropDown = 0 }) => {
+  console.log('"-----on click')
   const dispatch = useDispatch();
   const [monthWiseSalesData, setMonthWiseSalesData] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
-  const [filterText, setFilterText] = React.useState("");
+  const [filterText, setFilterText] = useState("");
 
   
 
+
   useEffect(() => {
+    console.log("-calling DepotMonthPlan api from dpo mon wise re")
     const payload = {
       Token: localStorage.getItem("access_token"),
       ZoneId: selectedZone,
@@ -40,7 +44,7 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
     };
 
     fetchDepotSalesPlan();
-  }, [selectedZone]); 
+  }, [selectedZone]);
 
   // builkd table colunms
 
@@ -48,7 +52,7 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
     {
       name: "Zone",
       selector: (row) => row.zone_name,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Depot",
@@ -57,12 +61,12 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
           {row.depot_name}
         </Link>
       ),
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "LLY",
-      selector: (row) =>row.LLY_Value,
-      sortable: true, 
+      selector: (row) => row.LLY_Value,
+      sortable: true,
     },
     {
       name: "LY",
@@ -75,7 +79,7 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
           </span>{" "}
         </>
       ),
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "CY Plan",
@@ -84,105 +88,105 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot }) => {
           {row.CY_Value}
           <br />
           <span className="w3-text-gray ">
-          ({((row.CY_Value / row.LY_Value) * 100).toFixed(2)}%)
+            ({((row.CY_Value / row.LY_Value) * 100).toFixed(2)}%)
           </span>{" "}
         </>
       ),
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "YTD",
       selector: (row) => row.YTD_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Apr",
       selector: (row) => row.Apr_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "May",
       selector: (row) => row.May_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Jun",
       selector: (row) => row.Jun_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Jul",
       selector: (row) => row.Jul_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Aug",
       selector: (row) => row.Aug_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Sep",
       selector: (row) => row.Sep_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Oct",
       selector: (row) => row.Oct_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Nov",
       selector: (row) => row.Nov_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Dec",
       selector: (row) => row.Dec_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Jan",
       selector: (row) => row.Jan_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
     {
       name: "Feb",
       selector: (row) => row.Feb_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
 
     {
       name: "Mar",
       selector: (row) => row.Mar_Month_Value,
-      sortable: true, 
+      sortable: true,
     },
 
-  ]; 
+  ];
 
- 
 
-   const filteredItems = monthWiseSalesData.filter(
+
+  const filteredItems = monthWiseSalesData.filter(
     (item) =>
       item.depot_name &&
       item.depot_name.toLowerCase().includes(filterText.toLowerCase())
   );
 
 
-const CustomSubHeaderComponent = ({ children, align }) => {
-  const containerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: align === 'left' ? 'space-between' : 'center',
-    marginBottom: '10px',
-    width:'100%'
-  };
+  const CustomSubHeaderComponent = ({ children, align }) => {
+    const containerStyle = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: align === 'left' ? 'space-between' : 'center',
+      marginBottom: '10px',
+      width: '100%'
+    };
 
-  return (
-    <div className="w3-left" style={containerStyle}>
-      {children}
-    </div>
-  );
-};
+    return (
+      <div className="w3-left" style={containerStyle}>
+        {children}
+      </div>
+    );
+  };
 
   const filterComponent = (
     <input
@@ -192,14 +196,14 @@ const CustomSubHeaderComponent = ({ children, align }) => {
     />
   );
 
-   const rowCount = monthWiseSalesData.length; 
+  const rowCount = monthWiseSalesData.length;
 
   const additionalComponent = (
     <span className="w3-left w3-margin-right "> Depots   ({rowCount}) </span>
   );
 
 
-  const subHeaderComponent = ( 
+  const subHeaderComponent = (
     <input
       type="text"
       placeholder="Filter By Depot Name"
@@ -208,33 +212,47 @@ const CustomSubHeaderComponent = ({ children, align }) => {
       onChange={(e) => setFilterText(e.target.value)}
     />
   );
- 
- 
+
+
   const ExportButton = ({ onExport }) => (
     <button onClick={onExport}>  <i className="fa fa-excel" > </i> Export </button>
-  ); 
-  const handleExport = () => { 
+  );
+  const handleExport = () => {
     console.log("Exporting table data");
-  }; 
+  };
+  
+  /**
+   * THis code for adding dropwodn in this component
+   */
+  // const [selectedZone, setSelectedZone] = useState(true);
+
+  // const handleSelectionChange = (newValue) => {
+  //   console.log("-setting on newValue", newValue) 
+  // };
 
   return (
     <>
+      {/* {filterDropDown == 1 && (
+        <div>
+          <ZoneDropDown selectedZone={selectedZone} onValueChange={handleSelectionChange} />
+        </div>
+      )} */}
 
-     <DataTable
+      <DataTable
         columns={columns}
         data={filteredItems}
         pagination
         className="datatable"
         fixedHeader={true}
-        fixedHeaderScrollHeight="400px"  
+        fixedHeaderScrollHeight="400px"
         subHeader
         subHeaderComponent={
-         <CustomSubHeaderComponent align="left">
+          <CustomSubHeaderComponent align="left">
             {additionalComponent}
-            {subHeaderComponent}  
+            {subHeaderComponent}
           </CustomSubHeaderComponent>
-        } 
-      /> 
+        }
+      />
 
     </>
   );

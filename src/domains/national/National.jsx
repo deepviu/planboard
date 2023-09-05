@@ -7,11 +7,17 @@ import { Wgt_Marketsector_Data } from "./Wgt_Marketsector_Data";
 import CustomPopup from "../CustomPopup";
 import CustomPopup1 from "../CustomPopup";
 import CustomPopup2 from "../CustomPopup";
-import CustomPopup3 from "../CustomPopup"; 
+import CustomPopup3 from "../CustomPopup";
 import CommonTopSales from "../components/CommonTopSales";
 import { useSelector } from "react-redux";
 import ZoneDropDown from "../components/ZoneDropDown";
+import DepoSelectionBox from "../components/DepoSelectionBox";
+
 import NationalZoneMonthSale from "../components/NationalZoneMonthSale";
+import DepoMonthWiseSalesReport from "../components/DepoMonthWiseSalesReport";
+import TerritoryMonthWiseSalesReport from "../components/TerritoryMonthWiseSalesReport";
+import TerritoryMonthSale from "../components/TerritoryMonthSale";
+import TerritorySelectionBox from "../components/TerritorySelectionBox";
 
 const National = () => {
   const { AuthData } = useSelector((state) => state.auth);
@@ -45,42 +51,25 @@ const National = () => {
     setVisibility3(e);
   };
 
-  // useEffect(() => {
-  //   const permissions = rolePermission()?.permissions;
-  //   if (permissions) {
-  //     const filteredZonessData = Wgt_Zone_Data.filter((item) =>
-  //       permissions.includes(item.id)
-  //     );
-  //     const filteredZoness = zoneData.filter((item) =>
-  //       permissions.includes(item.id)
-  //     );
-  //     const zoneId = 2; //permissions.length > 0 ? permissions[0] : 0;
-  //     setSelectedZone(permissions.length > 0 ? permissions[0] : 0);
-  //     const filteredZonesNew = filteredZoness.filter(
-  //       (item) => item.id == zoneId
-  //     );
+  const [toggleState, setToggleState] = useState(1);
+  const toggleTab = (index) => {
+    setToggleState(index);
+  };
 
-  //     setData(filteredZonesNew[0]);
-  //     setFilteredZonesData(filteredZonessData);
-  //     setFilteredZones(filteredZoness);
-  //   }
-  // }, []);
-
-  // const handleZoneSelect = (data) => {
-  //   setSelectedZone(data?.id);
-
-  //   const filteredZonesNew = filteredZones.filter(
-  //     (item) => item.id == data?.id
-  //   );
-  //   console.log("filteredZonesNew", filteredZonesNew);
-  //   setData(filteredZonesNew[0]);
-  // };
-  useEffect(() => {
-
-  },[selectedZone])
 
   const handleSelectionChange = (newValue) => {
-    setSelectedZone(newValue); 
+    setSelectedZone(newValue);
+  };
+  const [selectedTerritory, setSelectedTerritory] = useState(0)
+  const [selectedDepot, setSelectedDepot] = useState(0)
+
+  const onSelectedTerritoryChange = (newValue) => {
+    setSelectedTerritory(newValue);
+    console.log("45-setselectedTerritory", newValue);
+  };
+
+  const onSelectedDepoChange = (newValue) => {
+    setSelectedDepot(newValue);
   };
 
   return (
@@ -89,7 +78,7 @@ const National = () => {
 
       <div className="w3-row ">
         <span className="w3-large">
-          Shalimar Paints Limited 
+          Shalimar Paints Limited
         </span>
 
         {/* <span className=" w3-right">
@@ -97,54 +86,103 @@ const National = () => {
         </span> */}
       </div>
 
-   
 
-      <CommonTopSales actionType="zone" selectedZone={0} /> 
-     
-      <div
-        id="Wgt_Zone_Id"
-        className="Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white w3-hide  "
-      >
-        {/* {filteredZonesData.map((data) => (
-          <Wgt_Zone_Ui key={data.id} data={data} setId={handleZoneSelect} />
-        ))} */}
-      </div>
 
-        <div className="w3-col l3 m3 s6 w3-hide">
-            <ZoneDropDown selectedZone={selectedZone} onValueChange={handleSelectionChange} />
-          </div>
-      <div className="w3-clear w3-padding-16"> </div>
+      <CommonTopSales actionType="hod" selectedZone={0} />
+
 
       <div
         id="Wgt_Zone_Id"
         className=" w3-leftbar w3-border-red Wgt_Zone_Class w3-row w3-row-padding w3-margin-bottom w3-white "
       >
-       {/* <CommonTopSales actionType="Zone" selectedZone={selectedZone} /> */}
 
-      <NationalZoneMonthSale selectedZone={selectedZone}/> 
+        <NationalZoneMonthSale selectedZone={selectedZone} />
         {/* <Wgt_ZoneWise_Ui data={data} /> */}
       </div>
       <div className="w3-clear w3-padding-16"> </div>
-       
 
-      <div
-        id="Wgt_Segment_Id"
-        className="Wgt_Segment_Class w3-row w3-row-padding  w3-padding-large w3-margin-bottom w3-white "
-      >
-        <p className=" w3-xlarge ">
-          {" "}
-          <i className="fa fa-bar-chart "></i> Market Sector (Breakdown){" "}
-          {data?.name}
-        </p>{" "}
-        <hr />
-        {Wgt_Marketsector_Data.map((data) => (
-          <Wgt_Marketsector_Ui key={data.id} data={data} />
-        ))}
+
+      <div class="w3-row w3-white w3-border w3-border-gray">
+        <div className="w3-bar w3-gray">
+          <div
+            className={
+              toggleState === 1
+                ? " w3-bar-item w3-button w3-white  w3-hover-white  "
+                : " w3-bar-item w3-button w3-gray  w3-hover-white  "
+            }
+            onClick={() => toggleTab(1)}
+          >
+            <span className=" h6  w3-text-gray "> Depot Monthly Plan </span>
+          </div>
+          <div
+            className={
+              toggleState === 2
+                ? " w3-bar-item w3-button  w3-white  w3-hover-white "
+                : " w3-bar-item w3-button w3-gray w3-hover-white "
+            }
+            onClick={() => toggleTab(2)}
+          >
+            <span className=" h6  w3-text-gray "> Territory Monthly Plan </span>
+          </div>
+          <div
+            className={
+              toggleState === 3
+                ? " w3-bar-item w3-button  w3-white  w3-hover-white "
+                : " w3-bar-item w3-button w3-gray w3-hover-white "
+            }
+            onClick={() => toggleTab(3)}
+          >
+            <span className=" h6 w3-text-gray "> Dealer Monthly Plan </span>
+          </div>
+        </div>
+        <div class="w3-row w3-padding ">
+          <div>
+            <div className="w3-row">
+              {toggleState === 1 || toggleState === 2 || toggleState === 3 ? (
+                <div className="w3-col l3 m4 s6">
+                  <ZoneDropDown selectedZone={selectedZone} onValueChange={handleSelectionChange} />
+                </div>
+              ) : null}
+
+              {toggleState === 2 || toggleState === 3 ? (
+                <div className="w3-col l3 m4 s6">
+                  <DepoSelectionBox selectedZone={selectedZone} selectedDepot={onSelectedDepoChange} />
+                </div>
+              ) : null}
+
+              {toggleState === 3 ? (
+                <div className="w3-col l3 m4 s6">
+                  <TerritorySelectionBox selectedZone={selectedZone} selectedDepot={selectedDepot} selectedTerritory={0} onSelectedTerritoryChange={onSelectedTerritoryChange} />
+                </div>
+              ) : null}
+            </div>
+
+          </div>
+          <div className="w3-clear w3-padding-16"> </div>
+          <div
+            className={toggleState === 1 ? "  " : " w3-hide  "}
+            onClick={() => toggleTab(1)}
+          >
+            <DepoMonthWiseSalesReport selectedZone={selectedZone} selectedDepot={0} filterDropDown={1} />
+          </div>
+          <div
+            className={toggleState === 2 ? "  " : " w3-hide  "}
+            onClick={() => toggleTab(2)}
+          >
+            <TerritoryMonthWiseSalesReport selectedDepot={0} filterDropDown={1} />
+          </div>
+          <div
+            className={toggleState === 3 ? "  " : " w3-hide  "}
+            onClick={() => toggleTab(3)}
+          >
+            <TerritoryMonthSale selectedTerritory={0} filterDropDown={1} />
+          </div>
+        </div>
       </div>
 
-      <div className="w3-clear w3-padding-16"> </div> 
-        
-        
+      <div className="w3-clear w3-padding-16"> </div>
+
+
     </div>
   );
 };
