@@ -2,24 +2,9 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../auth/api";
 import { SHOW_TOAST } from "../../store/constant/types";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+
 const Wgt_Delear_Ui = ({ data }) => {
   const dispatch = useDispatch();
-  const [visibility, setVisibility] = useState(false);
   const [getinputs, setGetinputs] = useState({});
   const [dealerlist, setDealerlist] = useState([]);
   const currentDate = new Date("2023-08-30");
@@ -64,17 +49,11 @@ const Wgt_Delear_Ui = ({ data }) => {
     fetchDealerMaster();
   }, [data]);
 
-  // const financialYearStartMonth = 4;
-  // const adjustedCurrentMonth =
-  //   (currentMonth + 12 - financialYearStartMonth) % 12;
-  // const filteredMonths = monthNames.slice(
-  //   adjustedCurrentMonth,
-  //   currentMonth + 1
-  // );
+
   console.log("filteredMonths", currentMonth);
   return (
     <>
- <table className="tbl_grid w3-table table-bordered  h6 w3-small">
+      <table className="tbl_grid w3-table table-bordered  h6 w3-small">
         <tr className="w3-blue  h6 ">
           <td colSpan="30" className=" text-left ">
             Month wise Sales Target
@@ -447,7 +426,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.May_Month_Value == 0 &&
-                    item?.May_Month_Value == 0 ? (
+                      item?.May_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -487,7 +466,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Jun_Month_Target == 0 &&
-                    item?.Jun_Month_Value == 0 ? (
+                      item?.Jun_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -528,7 +507,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Jul_Month_Value == 0 &&
-                    item?.Jul_Month_Value == 0 ? (
+                      item?.Jul_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -569,7 +548,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Aug_Month_Target == 0 &&
-                    item?.Aug_Month_Value == 0 ? (
+                      item?.Aug_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -649,7 +628,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Oct_Month_Target == 0 &&
-                    item?.Oct_Month_Value == 0 ? (
+                      item?.Oct_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -689,7 +668,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Nov_Month_Target == 0 &&
-                    item?.Nov_Month_Value == 0 ? (
+                      item?.Nov_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -730,7 +709,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Dec_Month_Target == 0 &&
-                    item?.Dec_Month_Value == 0 ? (
+                      item?.Dec_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -770,7 +749,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Jan_Month_Target == 0 &&
-                    item?.Jan_Month_Value == 0 ? (
+                      item?.Jan_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -811,7 +790,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Feb_Month_Target == 0 &&
-                    item?.Feb_Month_Value == 0 ? (
+                      item?.Feb_Month_Value == 0 ? (
                       0
                     ) : (
                       <>
@@ -852,7 +831,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                 ) : (
                   <td>
                     {item?.Mar_Month_Target == 0 &&
-                    item?.Mar_Month_Value == 0 ? (
+                      item?.Mar_Month_Value == 0 ? (
                       0
                     ) : (
                       <>

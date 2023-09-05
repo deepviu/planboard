@@ -1,9 +1,4 @@
-import { useEffect, useState } from "react";
-import Depot_componentss from "./Depot_componentss";
-import { rolePermission, zoneData } from "../../auth/middleware";
-
-import Territory_Componentss from "../territory/Territory_componentss";
-import { Wgt_Depotwise_Data } from "../depot/Wgt_Depotwise_Data";
+import { useEffect, useState } from "react"; 
 import CommonTopSales from "../components/CommonTopSales";
 import TerritoryMonthWiseSalesReport from "../components/TerritoryMonthWiseSalesReport";
 import TerritorySales from "../components/TerritorySales";

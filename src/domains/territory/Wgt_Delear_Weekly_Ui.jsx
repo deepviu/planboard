@@ -1,40 +1,17 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../auth/api";
 import { SHOW_TOAST } from "../../store/constant/types";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+import { useDispatch } from "react-redux"; 
 
 const Wgt_Delear_Weekly_Ui = ({ data }) => {
   const dispatch = useDispatch();
-
-  const [visibility, setVisibility] = useState(false);
+ 
   const [weekdata, setWeekdata] = useState([]);
   const [getinputs, setGetinputs] = useState({});
   const [reload, setReload] = useState(false);
   // const currentDate = new Date("2023-10-22");
   const currentDate = new Date();
-
-  // const currentMonthCou = currentDate.getMonth();
-  const currentMonthCount =
-    currentDate.getMonth() < 3
-      ? currentDate.getMonth() + 13
-      : currentDate.getMonth() + 1;
-  const [currentMonth, setCurrentMonth] = useState(currentMonthCount);
+ 
   const monthNames = [
     "January",
     "February",
@@ -48,10 +25,8 @@ const Wgt_Delear_Weekly_Ui = ({ data }) => {
     "October",
     "November",
     "December",
-  ];
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const month = monthNames[currentDate.getMonth()];
-  const monthName = months[currentDate.getMonth()];
+  ]; 
+  const month = monthNames[currentDate.getMonth()]; 
   function getInput() {
     console.log("🚀 ~ file: Wgt_Delear_Ui.jsx:20 ~ getinputs:", getinputs);
     setReload(true);
@@ -63,14 +38,7 @@ const Wgt_Delear_Weekly_Ui = ({ data }) => {
       [id]: { ...getinputs[id], [e.target.name]: e.target.value },
     });
   }
-
-  // const financialYearStartMonth = 4;
-  // const adjustedCurrentMonth =
-  //   (currentMonth + 12 - financialYearStartMonth) % 12;
-  // const filteredMonths = monthNames.slice(
-  //   adjustedCurrentMonth,
-  //   currentMonth + 1
-  // );
+ 
   const payload = {
     Token: localStorage.getItem("access_token"),
     CustomerId: 0,
@@ -100,14 +68,13 @@ const Wgt_Delear_Weekly_Ui = ({ data }) => {
       fetchDepotSalesPlan(); // Call the API when component mounts
     }
   }, [data]);
+
   useEffect(() => {
     if (reload) {
       setReload(false);
       fetchDepotSalesPlan();
     }
-  }, [reload]);
-  console.log("filteredMonths", currentMonth);
-
+  }, [reload]); 
   return (
     <>
       <div className="w3-col l12 m12 s12  ">

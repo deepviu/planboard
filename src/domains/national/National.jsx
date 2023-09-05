@@ -1,23 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-import Wgt_Zone_Ui from "./Wgt_Zone_Ui";
-import { Wgt_Zone_Data } from "./Wgt_Zone_Data";
-
-
 import Wgt_Marketsector_Ui from "./Wgt_Marketsector_Ui";
 import { Wgt_Marketsector_Data } from "./Wgt_Marketsector_Data";
-
-import Wgt_Statewise_Ui from "./Wgt_Statewise_Ui";
-import { Wgt_Statewise_Data } from "./Wgt_Statewise_Data";
-
-import { rolePermission, zoneData } from "../../auth/middleware";
 
 import CustomPopup from "../CustomPopup";
 import CustomPopup1 from "../CustomPopup";
 import CustomPopup2 from "../CustomPopup";
-import CustomPopup3 from "../CustomPopup";
-import Wgt_ZoneWise_Ui from "./Wgt_ZoneWise_Ui.jsx";
+import CustomPopup3 from "../CustomPopup"; 
 import CommonTopSales from "../components/CommonTopSales";
 import { useSelector } from "react-redux";
 import ZoneDropDown from "../components/ZoneDropDown";
@@ -109,7 +99,7 @@ const National = () => {
 
    
 
-      <CommonTopSales actionType="" selectedZone={0} /> 
+      <CommonTopSales actionType="zone" selectedZone={0} /> 
      
       <div
         id="Wgt_Zone_Id"

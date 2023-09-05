@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
-import { rolePermission, zoneData } from "../../auth/middleware";
+import { useEffect, useState } from "react"; 
 
-import Wgt_Delear_Ui from "./Wgt_Delear_Ui";
-import { Wgt_Delear_Data } from "./Wgt_Delear_Data";
+import Wgt_Delear_Ui from "./Wgt_Delear_Ui"; 
 
-import Wgt_Delear_Weekly_Ui from "./Wgt_Delear_Weekly_Ui";
-import { Wgt_Delear_Weekly_Data } from "./Wgt_Delear_Weekly_Data";
+import Wgt_Delear_Weekly_Ui from "./Wgt_Delear_Weekly_Ui"; 
 
 import CommonTopSales from "../components/CommonTopSales";
 import { useSelector } from "react-redux";
