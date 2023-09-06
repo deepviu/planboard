@@ -38,6 +38,7 @@ import store from "./store";
 import { About } from "./pages";
 import { setAuthData } from "./store/actions/Auth";
 import { SHOW_TOAST } from "./store/constant/types";
+import Settings from "./domains/settings/Settings";
 
 function App() {
   const { AuthData } = useSelector((state) => state.auth);
@@ -224,7 +225,10 @@ function App() {
               path="/schedule"
               element={<PrivateRoute element={<Schedule />} />}
             />
-
+            <Route
+              path="/settings"
+              element={<PrivateRoute element={<Settings />} />}
+            />
             <Route
               path="/about"
               element={

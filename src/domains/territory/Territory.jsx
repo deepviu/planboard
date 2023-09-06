@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 
-import Wgt_Delear_Ui from "./Wgt_Delear_Ui"; 
+import Wgt_Delear_Ui from "./Wgt_Delear_Ui";
 
-import Wgt_Delear_Weekly_Ui from "./Wgt_Delear_Weekly_Ui"; 
+import Wgt_Delear_Weekly_Ui from "./Wgt_Delear_Weekly_Ui";
 
 import CommonTopSales from "../components/CommonTopSales";
 import { useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import DepoSelectionBox from "../components/DepoSelectionBox";
 import TerritorySelectionBox from "../components/TerritorySelectionBox";
 import { useParams } from "react-router";
 import TerritoryMonthSale from "../components/TerritoryMonthSale";
+import CustomPopup from "../CustomPopup";
 
 const Territory = () => {
   const { AuthData } = useSelector((state) => state.auth);
@@ -24,10 +25,11 @@ const Territory = () => {
     depotId
       ? depotId
       : AuthData?.Depot[0]?.DepotID
-      ? AuthData?.Depot[0]?.DepotID
-      : 0
+        ? AuthData?.Depot[0]?.DepotID
+        : 0
   );
   const [selectedTerritory, setSelectedTerritory] = useState(territoryId ?? 0);
+   
 
   const [toggleState, setToggleState] = useState(1);
   const toggleTab = (index) => {
@@ -53,29 +55,14 @@ const Territory = () => {
     Token: localStorage.getItem("access_token"),
     entity_id: 0,
   };
-  // useEffect(() => {
-  //   fetchDealerMaster();
-  //   fetchDealerMasterWeek();
-  // }, []);
-
-  // const fetchDealerMasterWeek = async () => {
-  //   try {
-  //     const response = await axiosInstance.post("api/Master/yatin1", payload);
-
-  //     if (response?.status === 200) {
-  //       console.log("=====api/Master/ZoneData==== 77", response);
-  //     }
-  //   } catch (error) {
-  //     // Handle errors
-  //     dispatch({ type: SHOW_TOAST, payload: error.m  essage });
-  //   }
-  // };
+   
+  
 
   return (
     <div className=" main ">
       <div className="w3-row w3-padding-16">
         {AuthData?.Data[0].EmployeeTpye === "HOD" ||
-        AuthData?.Data[0].EmployeeTpye === "ZM" ? (
+          AuthData?.Data[0].EmployeeTpye === "ZM" ? (
           <>
             <div className="w3-col l3 m3 s6">
               <ZoneSelectionBox
@@ -178,13 +165,14 @@ const Territory = () => {
             className={toggleState === 1 ? "  " : " w3-hide  "}
             onClick={() => toggleTab(1)}
           >
-            <Wgt_Delear_Ui data={selectedTerritory} />
+            {selectedTerritory ? (<Wgt_Delear_Ui data={selectedTerritory} />) : (<>Select Territory</>)}
           </div>
           <div
             className={toggleState === 2 ? "  " : " w3-hide  "}
             onClick={() => toggleTab(2)}
           >
-            <Wgt_Delear_Weekly_Ui data={selectedTerritory} />
+            {selectedTerritory ? (<Wgt_Delear_Weekly_Ui data={selectedTerritory} />) : (<>Select Territory</>)}
+
           </div>
           <div
             className={toggleState === 3 ? "  " : " w3-hide  "}
@@ -194,6 +182,9 @@ const Territory = () => {
       </div>
 
       <div class="w3-row w3-padding-16"> </div>
+
+
+      
     </div>
   );
 };

@@ -20,7 +20,7 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
             try {
                 setLoading(true)
                 const response = await axiosInstance.post("ZoneMonthPlan", payload);
-                
+
                 if (response?.status === 200) {
                     console.log("=====getZoneMonthPlan====", response.data.Data);
                     setZoneMonthPlan(response.data.Data != null ? response.data.Data : [])
@@ -35,21 +35,63 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
         getZoneMonthPlan();
     }, [selectedZone])
 
+    const totalCYValue = zoneMonthPlan.reduce((acc, item) => acc + (item.CY_Value || 0), 0);
+    const totalYTDValue = zoneMonthPlan.reduce((acc, item) => acc + (item.YTD_Value || 0), 0);
+
+    const tableRows = zoneMonthPlan.map((item, index) => (
+        <tr key={index} >
+            <td className="">{item?.zone_name}</td>
+            <td className="">{item?.LY_Value}</td>
+            <td className="">
+                {item?.CY_Value} <hr className="hr0" />
+                {item?.YTD_Value}
+                <span className="w3-text-gray ">
+                    ({((item.YTD_Value / item.CY_Value) * 100).toFixed(0)}%)
+                </span>
+            </td>
+            <td className="">{item?.Apr_Month_Value}</td>
+            <td className="">{item?.May_Month_Value}</td>
+            <td className="">{item?.Jun_Month_Value}</td>
+            <td className="">{item?.Jul_Month_Value}</td>
+            <td className="">{item?.Aug_Month_Value}</td>
+            <td className="">{item?.Sep_Month_Value}</td>
+            <td className="">{item?.Oct_Month_Value}</td>
+            <td className="">{item?.Nov_Month_Value}</td>
+            <td className="">{item?.Dec_Month_Value}</td>
+            <td className="">{item?.Jan_Month_Value}</td>
+            <td className="">{item?.Feb_Month_Value}</td>
+            <td className="">{item?.Mar_Month_Value}</td>
+        </tr>
+    ));
+
+    // Add a new row for total CY_Value and YTD_Value
+    const totalRow = (
+        <tr key="total">
+            <td className="" colSpan={2}>Total</td>
+            <td className="" >
+                {totalCYValue} <hr className="hr0" />
+                {totalYTDValue}
+                <span className="w3-text-gray ">
+                    ({((totalYTDValue / totalCYValue) * 100).toFixed(0)}%)
+                </span>
+            </td> 
+            <td className="" colSpan={10}></td>
+        </tr>
+    );
+
+    const tableWithTotalRow = [...tableRows, totalRow];
+
     return (
-        <div id="mom-north" className="w3-row w3-margin-top "> 
+        <div id="mom-north" className="w3-row w3-margin-top ">
             <div id="mom-bar-north" className=" ">
                 <table className="w3-table w3-stripped table-bordered">
+                    <tr>
+                        <td className="w3-red" rowspan="2" > Zone </td>
+                        <td className="w3-red" rowspan="2"> LY 22-23 </td>
+                        <td className="w3-red" rowspan="2" > Plan 2023 <hr className="hr0" /> YTD </td>
 
-                <tr>
-                        
-
-                        <td className="w3-red" rowspan="2" > Zone </td> 
-                         <td className="w3-red" rowspan="2"> LY 22-23 </td>
-                         <td className="w3-red" rowspan="2" > Plan 2023 <hr className="hr0" /> YTD </td>
-
-                        <td className="w3-gray" colspan="12"> Month Wise Plan </td> 
+                        <td className="w3-gray" colspan="12"> Month Wise Plan </td>
                     </tr>
-
                     <tr>
                         <td className="w3-gray"> Apr </td>
                         <td className="w3-gray"> May </td>
@@ -76,31 +118,7 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
                                     <td colSpan="12">No data found</td>
                                 </tr>
                             ) : (
-                                zoneMonthPlan.map((item, index) => (
-                                    <tr key={index} >
-                                        <td className="">{item?.zone_name}</td>
-                                        <td className="">{item?.LY_Value}</td>
-                                        <td className="">
-                                        {item?.CY_Value} <hr className="hr0" />
-                                         {item?.YTD_Value} 
-                                        <span className="w3-text-gray ">
-                                        ({((item.YTD_Value / item.CY_Value) * 100).toFixed(0)}%)
-                                        </span>  
-                                        </td> 
-                                        <td className="">{item?.Apr_Month_Value}</td>
-                                        <td className="">{item?.May_Month_Value}</td>
-                                        <td className="">{item?.Jun_Month_Value}</td>
-                                        <td className="">{item?.Jul_Month_Value}</td>
-                                        <td className="">{item?.Aug_Month_Value}</td>
-                                        <td className="">{item?.Sep_Month_Value}</td>
-                                        <td className="">{item?.Oct_Month_Value}</td>
-                                        <td className="">{item?.Nov_Month_Value}</td>
-                                        <td className="">{item?.Dec_Month_Value}</td>
-                                        <td className="">{item?.Jan_Month_Value}</td>
-                                        <td className="">{item?.Feb_Month_Value}</td>
-                                        <td className="">{item?.Mar_Month_Value}</td>
-                                    </tr>
-                                ))
+                                tableWithTotalRow
                             )}
                         </>
                     )}

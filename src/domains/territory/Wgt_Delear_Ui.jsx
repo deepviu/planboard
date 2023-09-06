@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../auth/api";
 import { SHOW_TOAST } from "../../store/constant/types";
 import { useDispatch } from "react-redux";
+import CustomPopup from "../CustomPopup";
 
 const Wgt_Delear_Ui = ({ data }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Wgt_Delear_Ui = ({ data }) => {
       ? currentDate.getMonth() + 13
       : currentDate.getMonth() + 1;
   const [currentMonth, setCurrentMonth] = useState(currentMonthCount);
+  const [visibility, setVisibility] = useState(false);
 
   function getInput() {
     console.log("🚀 ~ file: Wgt_Delear_Ui.jsx:20 ~ getinputs:", getinputs);
@@ -27,6 +29,12 @@ const Wgt_Delear_Ui = ({ data }) => {
       [id]: { ...getinputs[id], [e.target.name]: e.target.value },
     });
   }
+
+  const getMonthTarget = (item) => {
+    console.log("--open item", item);
+    setVisibility(true);
+  }
+
   useEffect(() => {
     const payload = {
       Token: localStorage.getItem("access_token"),
@@ -49,6 +57,10 @@ const Wgt_Delear_Ui = ({ data }) => {
     fetchDealerMaster();
   }, [data]);
 
+  const popupCloseHandler = (e) => {
+    console.log("---clonse", e)
+    setVisibility(e);
+ };
 
   console.log("filteredMonths", currentMonth);
   return (
@@ -57,6 +69,7 @@ const Wgt_Delear_Ui = ({ data }) => {
         <tr className="w3-blue  h6 ">
           <td colSpan="30" className=" text-left ">
             Month wise Sales Target
+            <span className="">Dealer(s) {dealerlist.length}</span>
             <span
               className="w3-button w3-right w3-blue "
               onClick={getInput}
@@ -68,12 +81,13 @@ const Wgt_Delear_Ui = ({ data }) => {
         </tr>
 
         <tr className=" w3-yellow h6 w3-small">
+          <td className="" rowSpan={2}>
+            S.No
+          </td>
           <td className="" colSpan={1} rowSpan={2} style={{ width: "15%" }}>
             Delear{" "}
           </td>{" "}
-          <td className="" rowSpan={2}>
-            Club{" "}
-          </td>{" "}
+
           <td className="" rowSpan={2}>
             Category{" "}
           </td>{" "}
@@ -314,15 +328,15 @@ const Wgt_Delear_Ui = ({ data }) => {
           </td>
         </tr>
 
-        {dealerlist?.map((item) => {
-           
+        {dealerlist?.map((item, index) => {
+
           return (
-            <tr className=" ">
+            <tr key={index}>
+              <td>{++index}</td>
               <td className="" colSpan={1}>
                 {" "}
                 {item?.dealer_name}{" "}
               </td>
-              <td className=""> {item?.club} </td>
               <td className=""> {item?.dealer_category} </td>
               <td className="">{item?.LY_Value}</td>
               <td className="">
@@ -338,7 +352,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Apr_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -347,7 +361,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Apr_Month_Value}
+                        defaultValue={item?.Apr_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -355,7 +369,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                   </>
                 ) : (
                   <td>
-                    {item?.Apr_Month_Value}
+                    {item?.Apr_Month_Value_v1}
                     {/* <hr className="hr0" />
                     {item?.Apr_Month_Value} */}
                   </td>
@@ -372,7 +386,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.May_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -381,7 +395,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.May_Month_Value}
+                        defaultValue={item?.May_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -394,7 +408,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       0
                     ) : (
                       <>
-                        {item?.May_Month_Value}
+                        {item?.May_Month_Value_v1}
                         {/* <hr className="hr0" /> {item?.May_Month_Value} */}
                       </>
                     )}
@@ -412,7 +426,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Jun_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -421,7 +435,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Jun_Month_Value}
+                        defaultValue={item?.Jun_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -434,7 +448,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       0
                     ) : (
                       <>
-                        {item?.Jun_Month_Value}
+                        {item?.Jun_Month_Value_v1}
                         {/* <hr className="hr0" />
                         {item?.Jun_Month_Value} */}
                       </>
@@ -453,7 +467,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Jul_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -462,7 +476,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Jul_Month_Value}
+                        defaultValue={item?.Jul_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -476,7 +490,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Jul_Month_Value}
+                        {item?.Jul_Month_Value_v1}
                         {/* <hr className="hr0" /> {item?.Jul_Month_Value} */}
                       </>
                     )}
@@ -491,19 +505,19 @@ const Wgt_Delear_Ui = ({ data }) => {
                     <td className="  w3-blue  ">{item?.OD}</td>
                     <td className="  w3-blue ">{item?.OS}</td>
                     <td className="  w3-blue ">
-                      {" "}
+                      {item?.Aug_Month_Value}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Aug_Month_Value_v1}
+                        readOnly={true}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
-                      />{" "}
+                      /><i className=" fa fa-pencil" title="Click to update" onClick={() => getMonthTarget(item)}></i>
                     </td>
                     <td className=" w3-blue ">
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Aug_Month_Value}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -516,7 +530,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       0
                     ) : (
                       <>
-                        {item?.Aug_Month_Value}
+                        {item?.Aug_Month_Value_v1}
                         {/* <hr className="hr0" /> {item?.Aug_Month_Value} */}
                       </>
                     )}
@@ -534,7 +548,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Sep_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -543,7 +557,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Sep_Month_Value}
+                        defaultValue={item?.Sep_Month_Value_1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -555,7 +569,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       0
                     ) : (
                       <>
-                        {item?.Sep_Month_Value}
+                        {item?.Sep_Month_Value_v1}
                         {/* <hr className="hr0" />
                         {item?.Sep_Month_Value} */}
                       </>
@@ -574,7 +588,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Oct_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -583,7 +597,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Oct_Month_Value}
+                        defaultValue={item?.Oct_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -596,7 +610,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       0
                     ) : (
                       <>
-                        {item?.Oct_Month_Value}
+                        {item?.Oct_Month_Value_v1}
                         {/* <hr className="hr0" /> {item?.Oct_Month_Value} */}
                       </>
                     )}
@@ -614,7 +628,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Nov_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -623,7 +637,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Nov_Month_Value}
+                        defaultValue={item?.Nov_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -637,7 +651,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Nov_Month_Value}
+                        {item?.Nov_Month_Value_v1}
                         {/* <hr className="hr0" /> {item?.Nov_Month_Value} */}
                       </>
                     )}
@@ -655,7 +669,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Dec_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -664,7 +678,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Dec_Month_Value}
+                        defaultValue={item?.Dec_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -677,7 +691,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       0
                     ) : (
                       <>
-                        {item?.Dec_Month_Value}
+                        {item?.Dec_Month_Value_v1}
                         {/* <hr className="hr0" /> {item?.Dec_Month_Value} */}
                       </>
                     )}
@@ -695,7 +709,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Jan_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -704,7 +718,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Jan_Month_Value}
+                        defaultValue={item?.Jan_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -718,7 +732,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Jan_Month_Value}
+                        {item?.Jan_Month_Value_v1}
                         {/* <hr className="hr0" />
                         {item?.Jan_Month_Value} */}
                       </>
@@ -736,7 +750,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                     <td>
                       <input
                         className="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Feb_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -745,7 +759,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         className="inp40"
-                        defaultValue={item?.Feb_Month_Value}
+                        defaultValue={item?.Feb_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -759,7 +773,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Feb_Month_Value}
+                        {item?.Feb_Month_Value_v1}
                         {/* <hr className="hr0" /> {item?.Feb_Month_Value} */}
                       </>
                     )}
@@ -777,7 +791,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         class="inp40"
-                        defaultValue={item?.sales}
+                        defaultValue={item?.Mar_Month_Value}
                         name={item?.id + `_sales`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -786,7 +800,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                       {" "}
                       <input
                         class="inp40"
-                        defaultValue={item?.Mar_Month_Value}
+                        defaultValue={item?.Mar_Month_Value_v1}
                         name={item?.id + `_coll`}
                         onChange={(e) => onchangeInputs(e, item?.id)}
                       />{" "}
@@ -800,7 +814,7 @@ const Wgt_Delear_Ui = ({ data }) => {
                     ) : (
                       <>
                         {" "}
-                        {item?.Mar_Month_Value}
+                        {item?.Mar_Month_Value_v1}
                         {/* <hr className="hr0" /> {item?.Mar_Month_Value} */}
                       </>
                     )}
@@ -813,6 +827,18 @@ const Wgt_Delear_Ui = ({ data }) => {
           );
         })}
       </table>
+
+      <CustomPopup
+        onClose={popupCloseHandler}
+        show={visibility}
+        title="Configure Rules "
+      >
+        <hr />
+        Dealer Id , Month 
+         <div>
+
+         </div>
+      </CustomPopup>
     </>
   );
 };

@@ -21,7 +21,7 @@ const ZoneSelectionBox = ({selectedZone, onValueChange}) => {
       value={selectedZones}
       onChange={handleChange}
     >
-      {/* <option >All Zone</option> */}
+      <option value={0} >All Zone</option>
       {AuthData?.Zone.map((item, index) => (
         <option key={index} value={item?.ZoneID} >
           {item.ZoneName}

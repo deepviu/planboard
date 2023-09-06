@@ -7,16 +7,13 @@ import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import ZoneDropDown from "./ZoneDropDown";
 
-const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot, filterDropDown = 0 }) => {
+const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot}) => {
   console.log('"-----on click')
   const dispatch = useDispatch();
   const [monthWiseSalesData, setMonthWiseSalesData] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
   const [filterText, setFilterText] = useState("");
-
-  
-
 
   useEffect(() => {
     console.log("-calling DepotMonthPlan api from dpo mon wise re")
@@ -56,11 +53,7 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot, filterDropDown 
     },
     {
       name: "Depot",
-      selector: (row) => (
-        <Link className="link  w3-text-indigo" to={`/depot/${row.depotid}`}>
-          {row.depot_name}
-        </Link>
-      ),
+      selector: (row) => row.depot_name,
       sortable: true,
     },
     {
@@ -163,8 +156,6 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot, filterDropDown 
 
   ];
 
-
-
   const filteredItems = monthWiseSalesData.filter(
     (item) =>
       item.depot_name &&
@@ -221,23 +212,9 @@ const DepoMonthWiseSalesReport = ({ selectedZone, selectedDepot, filterDropDown 
     console.log("Exporting table data");
   };
   
-  /**
-   * THis code for adding dropwodn in this component
-   */
-  // const [selectedZone, setSelectedZone] = useState(true);
-
-  // const handleSelectionChange = (newValue) => {
-  //   console.log("-setting on newValue", newValue) 
-  // };
-
+ 
   return (
-    <>
-      {/* {filterDropDown == 1 && (
-        <div>
-          <ZoneDropDown selectedZone={selectedZone} onValueChange={handleSelectionChange} />
-        </div>
-      )} */}
-
+    <> 
       <DataTable
         columns={columns}
         data={filteredItems}
