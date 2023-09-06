@@ -831,13 +831,51 @@ const Wgt_Delear_Ui = ({ data }) => {
       <CustomPopup
         onClose={popupCloseHandler}
         show={visibility}
-        title="Configure Rules "
+        title="Add month sale target"
       >
-        <hr />
-        Dealer Id , Month 
-         <div>
-
-         </div>
+        <form className="w3-container">
+                    <div className="w3-row">
+                        <div className="w3-col l4 m4 s4 ">
+                            <label htmlFor="selectionBox">Select an Option:</label>
+                            <select className="w3-select"
+                            >
+                                <option value="january">2023</option>
+                                <option value="february">2024</option>
+                                <option value="march">2025</option>
+                            </select>
+                        </div>
+                        <div className="w3-col l4 m4 s4 ">
+                            <label htmlFor="selectionBox">Select an Option:</label>
+                            <select className="w3-select"
+                            ><option value="january">January</option>
+                                <option value="february">February</option>
+                                <option value="march">March</option>
+                                <option value="april">April</option>
+                                <option value="may">May</option>
+                                <option value="june">June</option>
+                                <option value="july">July</option>
+                                <option value="august">August</option>
+                                <option value="september">September</option>
+                                <option value="october">October</option>
+                                <option value="november">November</option>
+                                <option value="december">December</option>
+                            </select>
+                        </div>
+                        <div className="w3-col l4 m4 s4 ">
+                            <label htmlFor="selectionBox">Select an Option:</label>
+                            <select className="w3-select"
+                            ><option value="january">First </option>
+                                <option value="february">First</option>
+                                <option value="march">First</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="w3-clear w3-padding-16"> </div>
+                    <div className="w3-row">
+                        <div className="w3-col l4 m4 s4 ">
+                    <button type="submit" className="w3-button w3-blue">Submit</button>
+                    </div></div>
+                </form>
       </CustomPopup>
     </>
   );

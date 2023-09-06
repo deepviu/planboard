@@ -184,3 +184,8 @@ min-width: unset;
 background-color: #ffeb3b !important;
 min-height: 30px;
 }
+
+.colrdrow{
+  background-color: #ffeb3b;
+  color:#000;
+}

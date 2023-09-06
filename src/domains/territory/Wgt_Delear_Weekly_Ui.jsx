@@ -88,13 +88,7 @@ const Wgt_Delear_Weekly_Ui = ({ data }) => {
           <tr className="w3-gray">
             <td colSpan="30" className=" h5 w3-padding  text-left ">
               Dealers Weekly Plan ({weekdata?.length})
-              <span
-                className="w3-button w3-right w3-blue "
-                onClick={getInput}
-                style={{ cursor: "pointer" }}
-              >
-                <i className=" fa fa-save"> </i> Save
-              </span>
+               
             </td>
           </tr>
 
@@ -111,15 +105,7 @@ const Wgt_Delear_Weekly_Ui = ({ data }) => {
           </tr>
 
           <tr className=" w3-yellow h6 w3-small">
-            <td className="" colSpan={1}>
-              OS{" "}
-            </td>{" "}
-            <td className="" colSpan={1}>
-              OD{" "}
-            </td>{" "}
-            <td className="" colSpan={1}>
-              Coll.{" "}
-            </td>{" "}
+            
             <td className="" colSpan={1}>
               Sales{" "}
             </td>{" "}
@@ -129,85 +115,26 @@ const Wgt_Delear_Weekly_Ui = ({ data }) => {
 
           {weekdata?.map((item) => (
             <tr className="h6 w3-small" key={item?.dealerid}>
-              <td className="" colSpan={1} style={{ width: "15%" }}>
+               <td className="" colSpan={1} style={{ width: "15%" }}>
                 {item?.dealer_name}
-              </td>
-              <td className="" colSpan={1}>
-                {item?.current_outstand}
-              </td>
-              <td className="" colSpan={1}>
-                {item?.current_overdue}
-              </td>
-              <td className="" colSpan={1}>
-                {item?.current_traget}
-              </td>
+              </td> 
               <td className="" colSpan={1}>
                 {item?.current_sell}
               </td>
               <td className="">
-                <input
-                  className="inp40"
-                  defaultValue={item?.week1}
-                  name={item?.dealerid + `_week1`}
-                  onChange={(e) => onchangeInputs(e, item?.dealerid)}
-                />
+                {item?.week1}
               </td>
               <td className="">
-                <input
-                  className="inp40"
-                  defaultValue={item?.week2}
-                  name={item?.dealerid + `_week2`}
-                  onChange={(e) => onchangeInputs(e, item?.dealerid)}
-                />
+                {item?.week2}
               </td>
               <td className="">
-                <input
-                  className="inp40"
-                  defaultValue={item?.week3}
-                  name={item?.dealerid + `_week3`}
-                  onChange={(e) => onchangeInputs(e, item?.dealerid)}
-                />
+                {item?.week3}
               </td>
               <td className="">
-                <input
-                  className="inp40"
-                  defaultValue={item?.week4}
-                  name={item?.dealerid + `_week4`}
-                  onChange={(e) => onchangeInputs(e, item?.dealerid)}
-                />
+                {item?.week4}
               </td>
             </tr>
           ))}
-
-          {/* <tr className=" h6 w3-small">
-            <td className="" colSpan={1} style={{ width: "15%" }}>
-              Dealer 1{" "}
-            </td>{" "}
-            <td className="" colSpan={1}>
-              23{" "}
-            </td>{" "}
-            <td className="" colSpan={1}>
-              34{" "}
-            </td>{" "}
-            <td className="" colSpan={1}>
-              60{" "}
-            </td>{" "}
-            <td className="" colSpan={1}>
-              13{" "}
-            </td>{" "}
-            <td className="">
-              <input className="inp40" value="10% " />{" "}
-            </td>{" "}
-            <td className="">
-              <input className="inp40" value="35% " />{" "}
-            </td>{" "}
-            <td className="">
-              <input className="inp40" value="65% " />{" "}
-            </td>{" "}
-            <td className="">
-              <input className="inp40" value="100% " />{" "}
-            </td>{" "}
-          </tr> */}
         </table>
       </div>
     </>

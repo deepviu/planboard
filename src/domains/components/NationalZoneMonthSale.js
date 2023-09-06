@@ -66,16 +66,16 @@ const NationalZoneMonthSale = ({ selectedZone }) => {
 
     // Add a new row for total CY_Value and YTD_Value
     const totalRow = (
-        <tr key="total">
+        <tr key="total" className="colrdrow">
             <td className="" colSpan={2}>Total</td>
             <td className="" >
-                {totalCYValue} <hr className="hr0" />
-                {totalYTDValue}
+                {totalCYValue.toFixed(2)} <hr className="hr0" />
+                {totalYTDValue.toFixed(2)}
                 <span className="w3-text-gray ">
                     ({((totalYTDValue / totalCYValue) * 100).toFixed(0)}%)
                 </span>
             </td> 
-            <td className="" colSpan={10}></td>
+            <td className="" colSpan={12}></td>
         </tr>
     );
 
