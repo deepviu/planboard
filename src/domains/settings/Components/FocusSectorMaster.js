@@ -11,7 +11,7 @@ const FocusSectorMaster = () => {
                 <form className="w3-container">
                     <div className="w3-row">
                         <div className="w3-col l4 m4 s4 ">
-                            <label htmlFor="selectionBox">Select an Option:</label>
+                            <label htmlFor="selectionBox">FY</label>
                             <select className="w3-select"
                             >
                                 <option value="january">2023</option>
@@ -20,7 +20,7 @@ const FocusSectorMaster = () => {
                             </select>
                         </div>
                         <div className="w3-col l4 m4 s4 ">
-                            <label htmlFor="selectionBox">Select an Option:</label>
+                            <label htmlFor="selectionBox">Month</label>
                             <select className="w3-select"
                             ><option value="january">January</option>
                                 <option value="february">February</option>
@@ -37,7 +37,7 @@ const FocusSectorMaster = () => {
                             </select>
                         </div>
                         <div className="w3-col l4 m4 s4 ">
-                            <label htmlFor="selectionBox">Select an Option:</label>
+                            <label htmlFor="selectionBox">Market Sector</label>
                             <select className="w3-select"
                             ><option value="january">First </option>
                                 <option value="february">First</option>

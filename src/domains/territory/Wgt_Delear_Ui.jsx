@@ -18,6 +18,7 @@ const Wgt_Delear_Ui = ({ data }) => {
       : currentDate.getMonth() + 1;
   const [currentMonth, setCurrentMonth] = useState(currentMonthCount);
   const [visibility, setVisibility] = useState(false);
+  const [marketSectorList, setMarketSectorList] = useState([])
 
   function getInput() {
     console.log("🚀 ~ file: Wgt_Delear_Ui.jsx:20 ~ getinputs:", getinputs);
@@ -57,10 +58,42 @@ const Wgt_Delear_Ui = ({ data }) => {
     fetchDealerMaster();
   }, [data]);
 
+
+  useEffect(() => {
+    const payload = {
+      Token: localStorage.getItem("access_token"),
+      TerritoryId: data,
+      DealerId: 0,
+    };
+    const fetchMarketSector = async () => {
+      try {
+        const response = await axiosInstance.post("api/Master/GetMarketSectorList", payload);
+
+        if (response?.status === 200) {
+          setMarketSectorList(response?.data?.Data);
+          console.log("=====api/Master/GetMarketSectorList==== 65", response);
+        }
+      } catch (error) {
+        // Handle errors
+        dispatch({ type: SHOW_TOAST, payload: error.message });
+      }
+    };
+    fetchMarketSector();
+  }, []);
+
+  
+  const getSectorDropDown = () => {
+    return marketSectorList.map((item) => (
+      <option key={item.marketsectorid} value={item.marketsectorid}>
+        {item.marketsectorname} ({item.marketsectorcode})
+      </option>
+    ));
+  };
+
   const popupCloseHandler = (e) => {
     console.log("---clonse", e)
     setVisibility(e);
- };
+  };
 
   console.log("filteredMonths", currentMonth);
   return (
@@ -828,54 +861,97 @@ const Wgt_Delear_Ui = ({ data }) => {
         })}
       </table>
 
+
+
       <CustomPopup
         onClose={popupCloseHandler}
         show={visibility}
-        title="Add month sale target"
-      >
-        <form className="w3-container">
-                    <div className="w3-row">
-                        <div className="w3-col l4 m4 s4 ">
-                            <label htmlFor="selectionBox">Select an Option:</label>
-                            <select className="w3-select"
-                            >
-                                <option value="january">2023</option>
-                                <option value="february">2024</option>
-                                <option value="march">2025</option>
-                            </select>
-                        </div>
-                        <div className="w3-col l4 m4 s4 ">
-                            <label htmlFor="selectionBox">Select an Option:</label>
-                            <select className="w3-select"
-                            ><option value="january">January</option>
-                                <option value="february">February</option>
-                                <option value="march">March</option>
-                                <option value="april">April</option>
-                                <option value="may">May</option>
-                                <option value="june">June</option>
-                                <option value="july">July</option>
-                                <option value="august">August</option>
-                                <option value="september">September</option>
-                                <option value="october">October</option>
-                                <option value="november">November</option>
-                                <option value="december">December</option>
-                            </select>
-                        </div>
-                        <div className="w3-col l4 m4 s4 ">
-                            <label htmlFor="selectionBox">Select an Option:</label>
-                            <select className="w3-select"
-                            ><option value="january">First </option>
-                                <option value="february">First</option>
-                                <option value="march">First</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="w3-clear w3-padding-16"> </div>
-                    <div className="w3-row">
-                        <div className="w3-col l4 m4 s4 ">
-                    <button type="submit" className="w3-button w3-blue">Submit</button>
-                    </div></div>
-                </form>
+        title="Mk Enterprises, Month : Aug"
+      > 
+       <span className="h6 w3-small" >(Dealer Month Sales Plan + Focus Sector Breakup )</span>
+       <hr />
+
+
+
+        <form className="w3-container"> 
+
+        <table className="w3-table table-bordered w3-small ">
+            <tr className="w3-gray"> 
+              <td colspan="30"> A :  Sales Plan Produced by Dealer Level Rules    </td> 
+               </tr>  
+            <tr className=""> 
+              <td style={{width:"90%"}}>  
+              Rule 1 : Active Dealer <br />
+              Rule 2 : Category based % impact  <br />
+              </td> 
+              <td style={{width:"10%"}}><input type="text" value=" 5  " disabled={true}  className="inp40" />
+              </td> 
+            </tr> 
+
+          </table> 
+
+
+          <table className="w3-table table-bordered w3-small ">
+          <tr className="w3-gray"> 
+              <td colspan="30"> B ( Focus Sector List for Month of Aug )  * Add values / volume  </td> 
+               </tr>  
+            <tr className="w3-yellow">
+              <th style={{width:"5%"}}>#</th>
+              <th style={{width:"5%"}}>Focus Product Sector </th> 
+              <th style={{width:"5%"}}>LLY</th>
+              <th style={{width:"5%"}}>LY</th>
+              <th style={{width:"5%"}}>YTD</th>
+              <th style={{width:"5%"}}> 6 Mo. Avg </th>  
+              <th style={{width:"5%"}}>LY (Aug) Vol.</th>
+              <th style={{width:"5%"}}>LY (Aug) Val.</th>
+              <th  style={{width:"10%"}}>Volume (Ltrs.) </th>
+              <th style={{width:"10%"}}>Value (Lacs)</th> 
+            </tr>
+            <tr className="">
+              <td>1</td>
+              <td>ENAMEL </td>
+              <td>23</td>
+              <td>56</td>
+              <td>4566</td>
+              <td>3,233</td>
+
+              <td>45345</td>
+              <td>45345</td>
+              <td><input type="text" value="12 " disabled={true}   className="inp40" /></td>
+              <td><input type="text" value="1 " disabled={true}  className="inp40" /></td> 
+            </tr> 
+
+             <tr className="">
+              <td>2</td>
+              <td>PRIMER </td>
+              <td>23</td>
+              <td>56</td>
+              <td>4566</td>
+              <td>3,233</td>
+
+              <td>45345</td>
+              <td>45345</td>
+              <td><input type="text" value="12 " disabled={true}   className="inp40" /></td>
+              <td><input type="text" value="1 " disabled={true}  className="inp40" /></td> 
+            </tr> 
+
+          </table>  
+
+            <table className="w3-table table-bordered w3-small ">
+            <tr className="w3-gray"> 
+              <td colspan="30"> Net  Sales Plan ( Aug ) Total Sale  A + B   </td> 
+               </tr>  
+            <tr className=""> 
+              <td style={{width:"80%"}}> ( This total will be updated to Dealers Sales Plan ( v1 ) and the list will will be added in transaction table as dealers breakup )  </td>
+              <td style={{width:"10%"}} align="right" > <button className="w3-button w3-indigo " >  Submit </button></td> 
+              <td style={{width:"10%"}}><input type="text" value=" 7  " disabled={true}  className="inp40" /></td> 
+            </tr> 
+
+          </table>  
+
+
+        </form>
+
       </CustomPopup>
     </>
   );
