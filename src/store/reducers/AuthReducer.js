@@ -1,9 +1,9 @@
-import { IS_AUTHENTICATED, SHOW_TOAST,AUTH_DATA } from '../constant/types';
+import { IS_AUTHENTICATED, SHOW_TOAST, AUTH_DATA } from "../constant/types";
 
 const initialState = {
   isAuthenticated: false,
-  ToastMsg: '',
-  AuthData:null
+  ToastMsg: "",
+  AuthData: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -19,7 +19,7 @@ const authReducer = (state = initialState, action) => {
         ToastMsg: action.payload,
       };
 
-      case AUTH_DATA:
+    case AUTH_DATA:
       return {
         ...state,
         AuthData: action.payload,

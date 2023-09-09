@@ -7,7 +7,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
  
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";  
+import { GoogleAuthProvider } from "firebase/auth";  
 
 const firebaseConfig = {
 apiKey: "AIzaSyA8PUeDx1ujEe61hhkWtBRiTlgRF4uzssI",

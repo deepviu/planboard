@@ -1,7 +1,7 @@
 const Dashboard = () => {
     return (
         <div className=" main ">
-           Dashboard
+           Welcome To Planboard
         </div>
     )
 }

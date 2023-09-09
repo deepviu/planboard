@@ -5,12 +5,18 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import Profile from "../images/profile-img.png";
 import Exit from "../images/exit.png";
+import { useSelector } from "react-redux";
 
 const Navbar = ({ isAuth }) => {
-  const displayName = localStorage.getItem("displayName");
-  const photoURL = localStorage.getItem("photoURL");
-  const authIs = localStorage.getItem("isAuth");
-  const email = localStorage.getItem("email");
+  console.log("🚀 ~ file: Navbar.jsx:11 ~ Navbar ~ isAuth:", isAuth)
+  const { AuthData } = useSelector((state) => state.auth);
+  console.log("🚀 ~ file: Navbar.jsx:12 ~ Navbar ~ AuthData:", AuthData)
+
+  // const employeeName = localStorage.getItem("TokenValid");
+  // console.log("🚀 ~ file: Navbar.jsx:11 ~ Navbar ~ employeeName:", employeeName)
+  // const employeeTpye = localStorage.getItem("EmployeeTpye");
+  // const authIs = localStorage.getItem("isAuth");
+  // const email = localStorage.getItem("email");
 
   const logout = () => {
     // window.open("http://localhost:5000/api/logout", "_self");
@@ -33,24 +39,37 @@ const Navbar = ({ isAuth }) => {
             {" "}
             <img src={Exit} className="exit_icon" />
           </button>
-          <button className=" w3-right w3-button w3-bar-item w3-hover-none">
+          {/* <button className=" w3-right w3-button w3-bar-item w3-hover-none">
             {" "}
             <i className="fa fa-bell"></i>
-          </button>
+          </button> */}
 
-          <button className=" w3-right w3-button w3-bar-item w3-hover-none">
-            {displayName}
+          {/* <button className=" w3-right w3-button w3-bar-item w3-hover-none">
+        
+          </button> */}
+          <button className=" w3-right w3-button w3-bar-item">
+            <img src={Profile} className="w3-circle avatar" />{" "}
+            {AuthData?.Data[0].EmployeeName} ({AuthData?.Data[0].EmployeeTpye}) -
+            (
+            {AuthData?.Data[0].EmployeeTpye === "HOD" ? (
+              <>{AuthData?.HOD.map((ele) => ele.HODName).join(",")}</>
+            ) : AuthData?.Data[0].EmployeeTpye === "ZM" ? (
+              <>{AuthData?.Zone.map((ele) => ele.ZoneName).join(",")}</>
+            ) : AuthData?.Data[0].EmployeeTpye === "DM" ? (
+              <>{AuthData?.Depot.map((ele) => ele.DepotName).join(",")}</>
+            ) : AuthData?.Data[0].EmployeeTpye === "AM" ? (
+              <>
+                {/* {AuthData?.Territory.map(ele => ele.TerritoryName).join(",")} */}
+              </>
+            ) : (
+              <></>
+            )}
+            ){/* <img src={photoURL} className="  w3-circle avatar" />  */}
           </button>
-          <Link className=" " to="profile">
-            <button className=" w3-right w3-button w3-bar-item">
-              <img src={Profile} className="  w3-circle avatar" />
-              {/* <img src={photoURL} className="  w3-circle avatar" />  */}
-            </button>
-          </Link>
         </div>
       ) : (
         <>
-          <Link className=" w3-right  w3-button link w3-bar-item " to="login">
+          {/* <Link className=" w3-right  w3-button link w3-bar-item " to="login">
             {" "}
             Login{" "}
           </Link>
@@ -60,7 +79,7 @@ const Navbar = ({ isAuth }) => {
           >
             {" "}
             Register{" "}
-          </Link>
+          </Link> */}
         </>
       )}
     </div>

@@ -38,19 +38,22 @@ import store from "./store";
 import { About } from "./pages";
 import { setAuthData } from "./store/actions/Auth";
 import { SHOW_TOAST } from "./store/constant/types";
+import Settings from "./domains/settings/Settings";
 
 function App() {
   const { AuthData } = useSelector((state) => state.auth);
+  console.log("🚀 ~ file: App.js:44 ~ App ~ AuthData:", AuthData);
 
   const [isAuth, setIsAuth] = useState(localStorage.getItem("access_token"));
   const rolId = parseInt(localStorage.getItem("roleId"));
   const dispatch = useDispatch();
-  useEffect(  () => {
+  const loggedIn = localStorage.getItem("Isloggedin");
+  useEffect(() => {
     if (AuthData == null) {
       const data = {
         TokenData: [
           {
-            Token: localStorage.getItem("access_token") ,
+            Token: localStorage.getItem("access_token"),
           },
         ],
       };
@@ -58,11 +61,15 @@ function App() {
         .post("api/UserMaster/UserAuth", data)
         .then((res) => {
           if (res?.status === 200) {
-            if(res?.data?.Status==true){
+            if (res?.data?.Status == true) {
+              console.log(
+                "🚀 ~ file: App.js:62 ~ .then ~ res?.data?.Status:",
+                res?.data?.Status
+              );
               console.log(res?.data);
-              dispatch(setAuthData(res?.data));              
+              dispatch(setAuthData(res?.data));
               localStorage.setItem("access_token", res.data.Data[0].TokenValid);
-            }           
+            }
           }
         })
         .catch((error) => {
@@ -72,14 +79,20 @@ function App() {
   }, [AuthData]);
 
   const PrivateRoute = ({ element, ...rest }) => {
-    return AuthData?.Status==true ? element : <Navigate to="/login" />;
+    return loggedIn == "true" ? element : <Navigate to="/login" />;
   };
   return (
     <>
       <BrowserRouter>
         <div>
-          <Navbar isAuth={AuthData?.Status==true?true:false}/>
-          <Sidebar rolId={AuthData?.Data?.length>0?AuthData?.Data[0]?.EmployeeTpye:true} />
+          <Navbar isAuth={loggedIn == "true" ? true : false} />
+          <Sidebar
+            rolId={
+              AuthData?.Data?.length > 0
+                ? AuthData?.Data[0]?.EmployeeTpye
+                : true
+            }
+          />
           <Routes>
             {/* <Route path="*" element={isAuth ? <Navigate to="/dashboard" /> : <Login />} />   */}
             <Route
@@ -103,7 +116,7 @@ function App() {
               element={isAuth ? <Forgotpassword /> : <Navigate to="/login" />}
             /> */}
 
-<Route
+            <Route
               path="/account"
               element={<PrivateRoute element={<Account />} />}
             />
@@ -137,17 +150,14 @@ function App() {
                 )
               }
             /> */}
-            <Route
-              path="/logs"
-              element={<PrivateRoute element={<Logs />} />}
-            />
+            <Route path="/logs" element={<PrivateRoute element={<Logs />} />} />
             {/* <Route
               path="/logs"
               element={
                 isAuth ? <Logs isAuth={isAuth} /> : <Navigate to="/login" />
               }
             /> */}
-<Route
+            <Route
               path="/verifyphone"
               element={<PrivateRoute element={<Verifyphone />} />}
             />
@@ -190,7 +200,6 @@ function App() {
               }
             /> */}
 
-
             <Route
               path="/dashboard"
               element={<PrivateRoute element={<Dashboard />} />}
@@ -201,11 +210,11 @@ function App() {
             />
             <Route path="/zone" element={<PrivateRoute element={<Zone />} />} />
             <Route
-              path="/depot"
+              path="/depot/:zoneId?/:depotId?"
               element={<PrivateRoute element={<Depot />} />}
             />
             <Route
-              path="/territory"
+              path="/territory/:zoneId?/:depotId?/:territoryId?"
               element={<PrivateRoute element={<Territory />} />}
             />
             <Route
@@ -216,7 +225,10 @@ function App() {
               path="/schedule"
               element={<PrivateRoute element={<Schedule />} />}
             />
-
+            <Route
+              path="/settings"
+              element={<PrivateRoute element={<Settings />} />}
+            />
             <Route
               path="/about"
               element={
